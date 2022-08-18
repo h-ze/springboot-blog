@@ -54,6 +54,7 @@ public class AdminUserController {
     @ApiImplicitParam(name = "username",value = "用户名",dataType = "String",paramType = "query")
     public ResponseResult addUser(@RequestParam("username") String username){
         logger.info(username);
+        System.out.println("===");
         User user = userService.getUser(username);
         if (user!=null){
             return ResponseResult.successResult(100001,"添加失败,用户已存在");
