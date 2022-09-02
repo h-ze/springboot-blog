@@ -8034,3 +8034,313 @@ org.springframework.web.bind.MethodArgumentNotValidException: Validation failed 
 2022-09-02 16:39:38.858 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - 参数名：group 参数值：RestfulApi
 2022-09-02 16:39:38.928 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - *******************业务请求结束**********************
 2022-09-02 16:40:00.004 [quartzScheduler_Worker-1] INFO  com.hz.blog.job.TestJob2 - 定时器测试2------->消息
+2022-09-02 16:40:38.718 [restartedMain] INFO  com.hz.blog.ServerApplication - Starting ServerApplication on PC-20211118FFAU with PID 19232 (E:\work\springboot-blog\blog\target\classes started by Administrator in E:\work\springboot-blog)
+2022-09-02 16:40:38.720 [restartedMain] INFO  com.hz.blog.ServerApplication - The following profiles are active: @profileActive@
+2022-09-02 16:40:38.743 [restartedMain] INFO  o.s.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in E:\Repository\com\sun\xml\bind\jaxb-impl\2.3.0\jaxb-impl-2.3.0.jar referenced one or more files that do not exist: file:/E:/Repository/com/sun/xml/bind/jaxb-impl/2.3.0/jaxb-core.jar
+2022-09-02 16:40:38.743 [restartedMain] INFO  o.s.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in E:\Repository\com\sun\xml\bind\jaxb-core\2.3.0\jaxb-core-2.3.0.jar referenced one or more files that do not exist: file:/E:/Repository/com/sun/xml/bind/jaxb-core/2.3.0/jaxb-api.jar
+2022-09-02 16:40:38.743 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-09-02 16:40:38.743 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-09-02 16:40:39.284 [restartedMain] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-09-02 16:40:39.284 [restartedMain] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-09-02 16:40:39.304 [restartedMain] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11ms. Found 0 Redis repository interfaces.
+2022-09-02 16:40:39.522 [restartedMain] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-09-02 16:40:39.523 [restartedMain] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2022-09-02 16:40:39.539 [restartedMain] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 16ms. Found 0 MongoDB repository interfaces.
+2022-09-02 16:40:39.541 [restartedMain] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-09-02 16:40:39.541 [restartedMain] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-09-02 16:40:39.549 [restartedMain] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7ms. Found 0 Redis repository interfaces.
+2022-09-02 16:40:39.724 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'shiroConfig' of type [com.hz.blog.config.shiro.ShiroConfig$$EnhancerBySpringCGLIB$$191fe1b8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-09-02 16:40:39.737 [restartedMain] INFO  com.hz.blog.config.shiro.ShiroConfig - getRealm
+2022-09-02 16:40:39.743 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'getRealm' of type [com.hz.blog.config.shiro.ShiroCustomerRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-09-02 16:40:39.745 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'sessionStorageEvaluator' of type [org.apache.shiro.web.mgt.DefaultWebSessionStorageEvaluator] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-09-02 16:40:39.901 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'redisSentinelManager' of type [org.crazycake.shiro.RedisSentinelManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-09-02 16:40:39.903 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'getSecurityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-09-02 16:40:39.904 [restartedMain] INFO  com.hz.blog.config.shiro.ShiroConfig - ==================
+2022-09-02 16:40:39.907 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'executorConfig' of type [com.hz.blog.config.ExecutorConfig$$EnhancerBySpringCGLIB$$69e38ff5] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-09-02 16:40:39.941 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-09-02 16:40:40.206 [restartedMain] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2022-09-02 16:40:40.206 [restartedMain] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1463 ms
+2022-09-02 16:40:40.326 [restartedMain] INFO  redis.clients.jedis.JedisSentinelPool - Trying to find master from available Sentinels...
+2022-09-02 16:40:40.360 [restartedMain] INFO  redis.clients.jedis.JedisSentinelPool - Redis master running at 124.223.191.89:6379, starting Sentinel listeners...
+2022-09-02 16:40:40.365 [restartedMain] INFO  redis.clients.jedis.JedisSentinelPool - Created JedisPool to master at 124.223.191.89:6379
+2022-09-02 16:40:40.941 [restartedMain] INFO  org.mongodb.driver.cluster - Cluster created with settings {hosts=[114.55.119.114:27117, 114.55.119.114:27217, 114.55.119.114:27317], mode=MULTIPLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=1000}
+2022-09-02 16:40:40.941 [restartedMain] INFO  org.mongodb.driver.cluster - Adding discovered server 114.55.119.114:27117 to client view of cluster
+2022-09-02 16:40:40.954 [restartedMain] INFO  org.mongodb.driver.cluster - Adding discovered server 114.55.119.114:27217 to client view of cluster
+2022-09-02 16:40:40.954 [restartedMain] INFO  org.mongodb.driver.cluster - Adding discovered server 114.55.119.114:27317 to client view of cluster
+2022-09-02 16:40:41.012 [cluster-ClusterId{value='6311c188fe4fc1509851ce11', description='null'}-114.55.119.114:27217] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:4, serverValue:2365955}] to 114.55.119.114:27217
+2022-09-02 16:40:41.017 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:5, serverValue:2381948}] to 114.55.119.114:27317
+2022-09-02 16:40:41.020 [cluster-ClusterId{value='6311c188fe4fc1509851ce11', description='null'}-114.55.119.114:27317] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:6, serverValue:2381949}] to 114.55.119.114:27317
+2022-09-02 16:40:41.021 [cluster-ClusterId{value='6311c188fe4fc1509851ce11', description='null'}-114.55.119.114:27117] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:2, serverValue:2368990}] to 114.55.119.114:27117
+2022-09-02 16:40:41.025 [cluster-ClusterId{value='6311c188fe4fc1509851ce11', description='null'}-114.55.119.114:27217] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=114.55.119.114:27217, type=REPLICA_SET_SECONDARY, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 4, 2]}, minWireVersion=0, maxWireVersion=5, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=null, roundTripTimeNanos=11904700, setName='ms', canonicalAddress=114.55.119.114:27217, hosts=[114.55.119.114:27217, 114.55.119.114:27117], passives=[], arbiters=[114.55.119.114:27317], primary='114.55.119.114:27117', tagSet=TagSet{[]}, electionId=null, setVersion=1, lastWriteDate=Fri Sep 02 16:40:37 CST 2022, lastUpdateTimeNanos=30770734883100}
+2022-09-02 16:40:41.025 [cluster-ClusterId{value='6311c188fe4fc1509851ce11', description='null'}-114.55.119.114:27217] INFO  org.mongodb.driver.cluster - Discovered cluster type of REPLICA_SET
+2022-09-02 16:40:41.036 [cluster-ClusterId{value='6311c188fe4fc1509851ce11', description='null'}-114.55.119.114:27317] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=114.55.119.114:27317, type=REPLICA_SET_ARBITER, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 4, 2]}, minWireVersion=0, maxWireVersion=5, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=null, roundTripTimeNanos=16059700, setName='ms', canonicalAddress=114.55.119.114:27317, hosts=[114.55.119.114:27217, 114.55.119.114:27117], passives=[], arbiters=[114.55.119.114:27317], primary='114.55.119.114:27117', tagSet=TagSet{[]}, electionId=null, setVersion=1, lastWriteDate=Fri Sep 02 16:40:37 CST 2022, lastUpdateTimeNanos=30770746878700}
+2022-09-02 16:40:41.037 [cluster-ClusterId{value='6311c188fe4fc1509851ce11', description='null'}-114.55.119.114:27117] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=114.55.119.114:27117, type=REPLICA_SET_PRIMARY, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 4, 2]}, minWireVersion=0, maxWireVersion=5, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=null, roundTripTimeNanos=16562800, setName='ms', canonicalAddress=114.55.119.114:27117, hosts=[114.55.119.114:27217, 114.55.119.114:27117], passives=[], arbiters=[114.55.119.114:27317], primary='114.55.119.114:27117', tagSet=TagSet{[]}, electionId=7fffffff0000000000000010, setVersion=1, lastWriteDate=Fri Sep 02 16:40:37 CST 2022, lastUpdateTimeNanos=30770748160400}
+2022-09-02 16:40:41.037 [cluster-ClusterId{value='6311c188fe4fc1509851ce11', description='null'}-114.55.119.114:27117] INFO  org.mongodb.driver.cluster - Setting max election id to 7fffffff0000000000000010 from replica set primary 114.55.119.114:27117
+2022-09-02 16:40:41.038 [cluster-ClusterId{value='6311c188fe4fc1509851ce11', description='null'}-114.55.119.114:27117] INFO  org.mongodb.driver.cluster - Setting max set version to 1 from replica set primary 114.55.119.114:27117
+2022-09-02 16:40:41.038 [cluster-ClusterId{value='6311c188fe4fc1509851ce11', description='null'}-114.55.119.114:27117] INFO  org.mongodb.driver.cluster - Discovered replica set primary 114.55.119.114:27117
+2022-09-02 16:40:41.073 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:7, serverValue:2381950}] to 114.55.119.114:27317
+2022-09-02 16:40:41.079 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:1, serverValue:2368989}] to 114.55.119.114:27117
+2022-09-02 16:40:41.079 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:3, serverValue:2365956}] to 114.55.119.114:27217
+2022-09-02 16:40:41.122 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:8, serverValue:2381951}] to 114.55.119.114:27317
+2022-09-02 16:40:41.173 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:10, serverValue:2365957}] to 114.55.119.114:27217
+2022-09-02 16:40:41.184 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:11, serverValue:2381952}] to 114.55.119.114:27317
+2022-09-02 16:40:41.206 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:9, serverValue:2368991}] to 114.55.119.114:27117
+2022-09-02 16:40:41.247 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:13, serverValue:2381953}] to 114.55.119.114:27317
+2022-09-02 16:40:41.271 [restartedMain] INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2022-09-02 16:40:41.276 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:12, serverValue:2365958}] to 114.55.119.114:27217
+2022-09-02 16:40:41.302 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:15, serverValue:2381954}] to 114.55.119.114:27317
+2022-09-02 16:40:41.304 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:14, serverValue:2368992}] to 114.55.119.114:27117
+2022-09-02 16:40:41.358 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:17, serverValue:2381955}] to 114.55.119.114:27317
+2022-09-02 16:40:41.378 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:16, serverValue:2365959}] to 114.55.119.114:27217
+2022-09-02 16:40:41.410 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:19, serverValue:2381956}] to 114.55.119.114:27317
+2022-09-02 16:40:41.424 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:18, serverValue:2368993}] to 114.55.119.114:27117
+2022-09-02 16:40:41.451 [restartedMain] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService
+2022-09-02 16:40:41.452 [restartedMain] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'threadPoolTaskExecutor'
+2022-09-02 16:40:41.460 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:20, serverValue:2365960}] to 114.55.119.114:27217
+2022-09-02 16:40:41.469 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:21, serverValue:2381957}] to 114.55.119.114:27317
+2022-09-02 16:40:41.528 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:22, serverValue:2368994}] to 114.55.119.114:27117
+2022-09-02 16:40:41.535 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:24, serverValue:2381958}] to 114.55.119.114:27317
+2022-09-02 16:40:41.554 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:23, serverValue:2365961}] to 114.55.119.114:27217
+2022-09-02 16:40:41.598 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:26, serverValue:2381959}] to 114.55.119.114:27317
+2022-09-02 16:40:41.645 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:27, serverValue:2365962}] to 114.55.119.114:27217
+2022-09-02 16:40:41.656 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:25, serverValue:2368995}] to 114.55.119.114:27117
+2022-09-02 16:40:41.661 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:28, serverValue:2381960}] to 114.55.119.114:27317
+2022-09-02 16:40:41.718 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:31, serverValue:2381961}] to 114.55.119.114:27317
+2022-09-02 16:40:41.755 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:29, serverValue:2365963}] to 114.55.119.114:27217
+2022-09-02 16:40:41.766 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:30, serverValue:2368996}] to 114.55.119.114:27117
+2022-09-02 16:40:41.775 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:32, serverValue:2381962}] to 114.55.119.114:27317
+2022-09-02 16:40:41.838 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:35, serverValue:2381963}] to 114.55.119.114:27317
+2022-09-02 16:40:41.851 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:33, serverValue:2365964}] to 114.55.119.114:27217
+2022-09-02 16:40:41.870 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:34, serverValue:2368997}] to 114.55.119.114:27117
+2022-09-02 16:40:41.892 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:36, serverValue:2381964}] to 114.55.119.114:27317
+2022-09-02 16:40:41.909 [restartedMain] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 2 endpoint(s) beneath base path '/actuator'
+2022-09-02 16:40:41.948 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:39, serverValue:2381965}] to 114.55.119.114:27317
+2022-09-02 16:40:41.961 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:37, serverValue:2365965}] to 114.55.119.114:27217
+2022-09-02 16:40:41.964 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:38, serverValue:2368998}] to 114.55.119.114:27117
+2022-09-02 16:40:41.967 [restartedMain] INFO  com.hz.blog.config.ExecutorConfig - start asyncServiceExecutor1662108041967
+2022-09-02 16:40:41.967 [restartedMain] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService
+2022-09-02 16:40:41.967 [restartedMain] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'asyncServiceExecutor'
+2022-09-02 16:40:41.970 [restartedMain] INFO  com.hz.blog.config.ExecutorConfig - start asyncServiceExecutortest1662108041970
+2022-09-02 16:40:41.970 [restartedMain] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService
+2022-09-02 16:40:41.970 [restartedMain] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'asyncServiceExecutor1'
+2022-09-02 16:40:42.008 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:40, serverValue:2381966}] to 114.55.119.114:27317
+2022-09-02 16:40:42.063 [restartedMain] INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler - Initializing ExecutorService 'defaultSockJsTaskScheduler'
+2022-09-02 16:40:42.070 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:42, serverValue:2368999}] to 114.55.119.114:27117
+2022-09-02 16:40:42.198 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:43, serverValue:2381967}] to 114.55.119.114:27317
+2022-09-02 16:40:42.198 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:41, serverValue:2365966}] to 114.55.119.114:27217
+2022-09-02 16:40:42.261 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:45, serverValue:2381968}] to 114.55.119.114:27317
+2022-09-02 16:40:42.285 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:44, serverValue:2369000}] to 114.55.119.114:27117
+2022-09-02 16:40:42.288 [restartedMain] INFO  com.hz.blog.config.WebMvcConfig - 45
+2022-09-02 16:40:42.288 [restartedMain] INFO  com.hz.blog.config.WebMvcConfig - 60
+2022-09-02 16:40:42.300 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:46, serverValue:2365967}] to 114.55.119.114:27217
+2022-09-02 16:40:42.389 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:47, serverValue:2369001}] to 114.55.119.114:27117
+2022-09-02 16:40:42.409 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:48, serverValue:2365968}] to 114.55.119.114:27217
+2022-09-02 16:40:42.472 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:49, serverValue:2369002}] to 114.55.119.114:27117
+2022-09-02 16:40:42.516 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:50, serverValue:2365969}] to 114.55.119.114:27217
+2022-09-02 16:40:42.566 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:51, serverValue:2369003}] to 114.55.119.114:27117
+2022-09-02 16:40:42.611 [restartedMain] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+2022-09-02 16:40:42.617 [restartedMain] INFO  org.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2022-09-02 16:40:42.617 [restartedMain] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+2022-09-02 16:40:42.617 [restartedMain] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+2022-09-02 16:40:42.617 [restartedMain] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2022-09-02 16:40:42.617 [restartedMain] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2022-09-02 16:40:42.618 [restartedMain] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+2022-09-02 16:40:42.618 [restartedMain] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@34698da5
+2022-09-02 16:40:42.646 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:52, serverValue:2365970}] to 114.55.119.114:27217
+2022-09-02 16:40:42.663 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:53, serverValue:2369004}] to 114.55.119.114:27117
+2022-09-02 16:40:42.742 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:54, serverValue:2365971}] to 114.55.119.114:27217
+2022-09-02 16:40:42.785 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:55, serverValue:2369005}] to 114.55.119.114:27117
+2022-09-02 16:40:42.869 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:56, serverValue:2365972}] to 114.55.119.114:27217
+2022-09-02 16:40:42.878 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:57, serverValue:2369006}] to 114.55.119.114:27117
+2022-09-02 16:40:42.967 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:58, serverValue:2365973}] to 114.55.119.114:27217
+2022-09-02 16:40:42.968 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:59, serverValue:2369007}] to 114.55.119.114:27117
+2022-09-02 16:40:43.029 [restartedMain] INFO  o.s.a.rabbit.connection.CachingConnectionFactory - Attempting to connect to: [8.142.46.67:5672]
+2022-09-02 16:40:43.065 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:61, serverValue:2369008}] to 114.55.119.114:27117
+2022-09-02 16:40:43.075 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:60, serverValue:2365974}] to 114.55.119.114:27217
+2022-09-02 16:40:43.160 [restartedMain] INFO  o.s.a.rabbit.connection.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#7f179e6e:0/SimpleConnection@7a3e5c2e [delegate=amqp://hz@8.142.46.67:5672/, localPort= 3142]
+2022-09-02 16:40:43.165 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:62, serverValue:2369009}] to 114.55.119.114:27117
+2022-09-02 16:40:43.176 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:63, serverValue:2365975}] to 114.55.119.114:27217
+2022-09-02 16:40:44.031 [restartedMain] INFO  o.s.scheduling.quartz.SchedulerFactoryBean - Starting Quartz Scheduler now
+2022-09-02 16:40:44.031 [restartedMain] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2022-09-02 16:40:44.048 [restartedMain] INFO  io.undertow - starting server: Undertow - 2.0.29.Final
+2022-09-02 16:40:44.052 [restartedMain] INFO  org.xnio - XNIO version 3.3.8.Final
+2022-09-02 16:40:44.057 [restartedMain] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.3.8.Final
+2022-09-02 16:40:44.092 [restartedMain] INFO  o.s.b.w.embedded.undertow.UndertowServletWebServer - Undertow started on port(s) 6009 (http) with context path ''
+2022-09-02 16:40:44.094 [restartedMain] INFO  com.hz.blog.ServerApplication - Started ServerApplication in 5.689 seconds (JVM running for 6.112)
+2022-09-02 16:40:44.591 [RMI TCP Connection(2)-10.108.8.38] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-09-02 16:40:44.592 [RMI TCP Connection(2)-10.108.8.38] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2022-09-02 16:40:44.598 [RMI TCP Connection(2)-10.108.8.38] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 6 ms
+2022-09-02 16:40:44.667 [RMI TCP Connection(3)-10.108.8.38] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2022-09-02 16:40:51.566 [XNIO-1 task-1] INFO  o.a.s.session.mgt.AbstractValidatingSessionManager - Enabling session validation scheduler...
+2022-09-02 16:40:51.566 [XNIO-1 task-1] INFO  com.hz.blog.config.shiro.CustomSessionManager - sessionId:null
+2022-09-02 16:40:51.567 [XNIO-1 task-1] INFO  redis.clients.jedis.JedisSentinelPool - Trying to find master from available Sentinels...
+2022-09-02 16:40:51.594 [XNIO-1 task-1] INFO  redis.clients.jedis.JedisSentinelPool - Redis master running at 124.223.191.89:6379, starting Sentinel listeners...
+2022-09-02 16:40:51.595 [XNIO-1 task-1] INFO  redis.clients.jedis.JedisSentinelPool - Created JedisPool to master at 124.223.191.89:6379
+2022-09-02 16:40:51.641 [XNIO-1 task-1] INFO  com.hz.blog.interceptors.LogInterceptor - *******************业务请求开始**********************
+2022-09-02 16:40:51.648 [XNIO-1 task-1] INFO  com.hz.blog.interceptors.LogInterceptor - User-Agent信息：WINDOWS_10-FIREFOX10
+2022-09-02 16:40:51.648 [XNIO-1 task-1] INFO  com.hz.blog.interceptors.LogInterceptor - 请求操作系统：Windows 10
+2022-09-02 16:40:51.648 [XNIO-1 task-1] INFO  com.hz.blog.interceptors.LogInterceptor - 请求浏览器：Firefox 10
+2022-09-02 16:40:51.650 [XNIO-1 task-1] INFO  com.hz.blog.interceptors.LogInterceptor - 请求路径URL：/doc.html
+2022-09-02 16:40:51.650 [XNIO-1 task-1] INFO  com.hz.blog.interceptors.LogInterceptor - 请求方式:GET
+2022-09-02 16:40:51.650 [XNIO-1 task-1] INFO  com.hz.blog.interceptors.LogInterceptor - 请求客户端地址：127.0.0.1
+2022-09-02 16:40:51.660 [XNIO-1 task-1] INFO  com.hz.blog.interceptors.LogInterceptor - *******************业务请求结束**********************
+2022-09-02 16:40:51.779 [XNIO-1 task-2] INFO  com.hz.blog.config.shiro.CustomSessionManager - sessionId:null
+2022-09-02 16:40:51.792 [XNIO-1 task-2] INFO  com.hz.blog.config.shiro.JWTFilter - 进入jwtFilter
+2022-09-02 16:40:51.792 [XNIO-1 task-2] INFO  com.hz.blog.config.shiro.JWTFilter - token为空
+2022-09-02 16:40:51.792 [XNIO-1 task-2] INFO  com.hz.blog.config.shiro.JWTFilter - 抛异常:参数无效,请输入用户token
+2022-09-02 16:40:51.799 [XNIO-1 task-3] INFO  com.hz.blog.config.shiro.CustomSessionManager - sessionId:null
+2022-09-02 16:40:51.812 [XNIO-1 task-3] INFO  com.hz.blog.interceptors.LogInterceptor - *******************业务请求开始**********************
+2022-09-02 16:40:51.812 [XNIO-1 task-3] INFO  com.hz.blog.interceptors.LogInterceptor - User-Agent信息：WINDOWS_10-FIREFOX10
+2022-09-02 16:40:51.812 [XNIO-1 task-3] INFO  com.hz.blog.interceptors.LogInterceptor - 请求操作系统：Windows 10
+2022-09-02 16:40:51.812 [XNIO-1 task-3] INFO  com.hz.blog.interceptors.LogInterceptor - 请求浏览器：Firefox 10
+2022-09-02 16:40:51.812 [XNIO-1 task-3] INFO  com.hz.blog.interceptors.LogInterceptor - 请求路径URL：/swagger-resources
+2022-09-02 16:40:51.812 [XNIO-1 task-3] INFO  com.hz.blog.interceptors.LogInterceptor - 请求方式:GET
+2022-09-02 16:40:51.812 [XNIO-1 task-3] INFO  com.hz.blog.interceptors.LogInterceptor - 请求客户端地址：127.0.0.1
+2022-09-02 16:40:51.827 [XNIO-1 task-3] INFO  com.hz.blog.interceptors.LogInterceptor - *******************业务请求结束**********************
+2022-09-02 16:40:51.831 [XNIO-1 task-4] INFO  com.hz.blog.config.shiro.CustomSessionManager - sessionId:null
+2022-09-02 16:40:51.844 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - *******************业务请求开始**********************
+2022-09-02 16:40:51.844 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - User-Agent信息：WINDOWS_10-FIREFOX10
+2022-09-02 16:40:51.844 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - 请求操作系统：Windows 10
+2022-09-02 16:40:51.844 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - 请求浏览器：Firefox 10
+2022-09-02 16:40:51.844 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - 请求路径URL：/v2/api-docs
+2022-09-02 16:40:51.844 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - 请求方式:GET
+2022-09-02 16:40:51.844 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - 请求客户端地址：127.0.0.1
+2022-09-02 16:40:51.844 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - 当前请求参数如下：
+2022-09-02 16:40:51.844 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - 参数名：group 参数值：RestfulApi
+2022-09-02 16:40:51.915 [XNIO-1 task-4] INFO  com.hz.blog.interceptors.LogInterceptor - *******************业务请求结束**********************
+2022-09-02 16:40:57.040 [XNIO-1 task-5] INFO  com.hz.blog.config.shiro.CustomSessionManager - sessionId:null
+2022-09-02 16:40:57.052 [XNIO-1 task-5] INFO  com.hz.blog.interceptors.LogInterceptor - *******************业务请求开始**********************
+2022-09-02 16:40:57.053 [XNIO-1 task-5] INFO  com.hz.blog.interceptors.LogInterceptor - User-Agent信息：WINDOWS_10-FIREFOX10
+2022-09-02 16:40:57.053 [XNIO-1 task-5] INFO  com.hz.blog.interceptors.LogInterceptor - 请求操作系统：Windows 10
+2022-09-02 16:40:57.053 [XNIO-1 task-5] INFO  com.hz.blog.interceptors.LogInterceptor - 请求浏览器：Firefox 10
+2022-09-02 16:40:57.053 [XNIO-1 task-5] INFO  com.hz.blog.interceptors.LogInterceptor - 请求路径URL：/tagController/addTag
+2022-09-02 16:40:57.053 [XNIO-1 task-5] INFO  com.hz.blog.interceptors.LogInterceptor - 请求方式:POST
+2022-09-02 16:40:57.053 [XNIO-1 task-5] INFO  com.hz.blog.interceptors.LogInterceptor - 请求客户端地址：127.0.0.1
+2022-09-02 16:40:57.080 [XNIO-1 task-5] INFO  com.hz.blog.interceptors.LogInterceptor - *******************业务请求结束**********************
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:1, serverValue:2368989}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:9, serverValue:2368991}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:14, serverValue:2368992}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:18, serverValue:2368993}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:22, serverValue:2368994}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:25, serverValue:2368995}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:30, serverValue:2368996}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:34, serverValue:2368997}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:38, serverValue:2368998}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:42, serverValue:2368999}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:44, serverValue:2369000}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:47, serverValue:2369001}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:49, serverValue:2369002}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:51, serverValue:2369003}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.950 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:53, serverValue:2369004}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.951 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:55, serverValue:2369005}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.951 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:57, serverValue:2369006}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.951 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:59, serverValue:2369007}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.951 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:61, serverValue:2369008}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.951 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:62, serverValue:2369009}] to 114.55.119.114:27117 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:5, serverValue:2381948}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:3, serverValue:2365956}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:7, serverValue:2381950}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:10, serverValue:2365957}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:8, serverValue:2381951}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:12, serverValue:2365958}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:11, serverValue:2381952}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:16, serverValue:2365959}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:13, serverValue:2381953}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:15, serverValue:2381954}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:20, serverValue:2365960}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:17, serverValue:2381955}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:23, serverValue:2365961}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:19, serverValue:2381956}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:27, serverValue:2365962}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:21, serverValue:2381957}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:24, serverValue:2381958}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:29, serverValue:2365963}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:26, serverValue:2381959}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:28, serverValue:2381960}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:33, serverValue:2365964}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:31, serverValue:2381961}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:37, serverValue:2365965}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:32, serverValue:2381962}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:41, serverValue:2365966}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:35, serverValue:2381963}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:46, serverValue:2365967}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:36, serverValue:2381964}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:48, serverValue:2365968}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:39, serverValue:2381965}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:50, serverValue:2365969}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:40, serverValue:2381966}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:52, serverValue:2365970}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:43, serverValue:2381967}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:54, serverValue:2365971}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:45, serverValue:2381968}] to 114.55.119.114:27317 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.955 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:56, serverValue:2365972}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.956 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:58, serverValue:2365973}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.956 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:60, serverValue:2365974}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:40.956 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:63, serverValue:2365975}] to 114.55.119.114:27217 because it is past its maximum allowed idle time.
+2022-09-02 16:42:41.023 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:65, serverValue:2381969}] to 114.55.119.114:27317
+2022-09-02 16:42:41.051 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:64, serverValue:2369010}] to 114.55.119.114:27117
+2022-09-02 16:42:41.071 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:66, serverValue:2365976}] to 114.55.119.114:27217
+2022-09-02 16:42:41.088 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:67, serverValue:2381970}] to 114.55.119.114:27317
+2022-09-02 16:42:41.154 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:70, serverValue:2381971}] to 114.55.119.114:27317
+2022-09-02 16:42:41.160 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:68, serverValue:2369011}] to 114.55.119.114:27117
+2022-09-02 16:42:41.184 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:69, serverValue:2365977}] to 114.55.119.114:27217
+2022-09-02 16:42:41.213 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:71, serverValue:2381972}] to 114.55.119.114:27317
+2022-09-02 16:42:41.250 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:72, serverValue:2369012}] to 114.55.119.114:27117
+2022-09-02 16:42:41.268 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:74, serverValue:2381973}] to 114.55.119.114:27317
+2022-09-02 16:42:41.282 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:73, serverValue:2365978}] to 114.55.119.114:27217
+2022-09-02 16:42:41.331 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:76, serverValue:2381974}] to 114.55.119.114:27317
+2022-09-02 16:42:41.364 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:75, serverValue:2369013}] to 114.55.119.114:27117
+2022-09-02 16:42:41.369 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:77, serverValue:2365979}] to 114.55.119.114:27217
+2022-09-02 16:42:41.375 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:78, serverValue:2381975}] to 114.55.119.114:27317
+2022-09-02 16:42:41.435 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:81, serverValue:2381976}] to 114.55.119.114:27317
+2022-09-02 16:42:41.469 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:80, serverValue:2365980}] to 114.55.119.114:27217
+2022-09-02 16:42:41.474 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:79, serverValue:2369014}] to 114.55.119.114:27117
+2022-09-02 16:42:41.495 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:82, serverValue:2381977}] to 114.55.119.114:27317
+2022-09-02 16:42:41.541 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:85, serverValue:2381978}] to 114.55.119.114:27317
+2022-09-02 16:42:41.569 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:83, serverValue:2365981}] to 114.55.119.114:27217
+2022-09-02 16:42:41.574 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:84, serverValue:2369015}] to 114.55.119.114:27117
+2022-09-02 16:42:41.599 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:86, serverValue:2381979}] to 114.55.119.114:27317
+2022-09-02 16:42:41.659 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:87, serverValue:2365982}] to 114.55.119.114:27217
+2022-09-02 16:42:41.667 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:89, serverValue:2381980}] to 114.55.119.114:27317
+2022-09-02 16:42:41.694 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:88, serverValue:2369016}] to 114.55.119.114:27117
+2022-09-02 16:42:41.719 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:91, serverValue:2381981}] to 114.55.119.114:27317
+2022-09-02 16:42:41.758 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:90, serverValue:2365983}] to 114.55.119.114:27217
+2022-09-02 16:42:41.777 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:93, serverValue:2381982}] to 114.55.119.114:27317
+2022-09-02 16:42:41.790 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:92, serverValue:2369017}] to 114.55.119.114:27117
+2022-09-02 16:42:41.829 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:95, serverValue:2381983}] to 114.55.119.114:27317
+2022-09-02 16:42:41.853 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:94, serverValue:2365984}] to 114.55.119.114:27217
+2022-09-02 16:42:41.884 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:96, serverValue:2369018}] to 114.55.119.114:27117
+2022-09-02 16:42:41.902 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:97, serverValue:2381984}] to 114.55.119.114:27317
+2022-09-02 16:42:41.949 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:98, serverValue:2365985}] to 114.55.119.114:27217
+2022-09-02 16:42:41.958 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:100, serverValue:2381985}] to 114.55.119.114:27317
+2022-09-02 16:42:41.990 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:99, serverValue:2369019}] to 114.55.119.114:27117
+2022-09-02 16:42:42.018 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:102, serverValue:2381986}] to 114.55.119.114:27317
+2022-09-02 16:42:42.064 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:101, serverValue:2365986}] to 114.55.119.114:27217
+2022-09-02 16:42:42.083 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:104, serverValue:2381987}] to 114.55.119.114:27317
+2022-09-02 16:42:42.102 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:103, serverValue:2369020}] to 114.55.119.114:27117
+2022-09-02 16:42:42.135 [MaintenanceTimer-3-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:106, serverValue:2381988}] to 114.55.119.114:27317
+2022-09-02 16:42:42.151 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:105, serverValue:2365987}] to 114.55.119.114:27217
+2022-09-02 16:42:42.205 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:107, serverValue:2369021}] to 114.55.119.114:27117
+2022-09-02 16:42:42.247 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:108, serverValue:2365988}] to 114.55.119.114:27217
+2022-09-02 16:42:42.308 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:109, serverValue:2369022}] to 114.55.119.114:27117
+2022-09-02 16:42:42.358 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:110, serverValue:2365989}] to 114.55.119.114:27217
+2022-09-02 16:42:42.392 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:111, serverValue:2369023}] to 114.55.119.114:27117
+2022-09-02 16:42:42.440 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:112, serverValue:2365990}] to 114.55.119.114:27217
+2022-09-02 16:42:42.498 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:113, serverValue:2369024}] to 114.55.119.114:27117
+2022-09-02 16:42:42.555 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:114, serverValue:2365991}] to 114.55.119.114:27217
+2022-09-02 16:42:42.594 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:115, serverValue:2369025}] to 114.55.119.114:27117
+2022-09-02 16:42:42.658 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:116, serverValue:2365992}] to 114.55.119.114:27217
+2022-09-02 16:42:42.706 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:117, serverValue:2369026}] to 114.55.119.114:27117
+2022-09-02 16:42:42.771 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:118, serverValue:2365993}] to 114.55.119.114:27217
+2022-09-02 16:42:42.817 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:119, serverValue:2369027}] to 114.55.119.114:27117
+2022-09-02 16:42:42.868 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:120, serverValue:2365994}] to 114.55.119.114:27217
+2022-09-02 16:42:42.920 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:121, serverValue:2369028}] to 114.55.119.114:27117
+2022-09-02 16:42:42.972 [MaintenanceTimer-2-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:122, serverValue:2365995}] to 114.55.119.114:27217
+2022-09-02 16:42:43.035 [MaintenanceTimer-1-thread-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:123, serverValue:2369029}] to 114.55.119.114:27117
