@@ -19,7 +19,7 @@ public class JobConfig {
                 .storeDurably().build();
     }
 
-    @Bean
+    //@Bean
     public Trigger uploadTaskTrigger() {
         CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule("*/1 * * * * ?");
         return TriggerBuilder.newTrigger().forJob(examCountJob().getKey())

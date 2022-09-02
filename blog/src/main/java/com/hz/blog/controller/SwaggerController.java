@@ -28,7 +28,7 @@ public class SwaggerController {
             @ApiImplicitParam(name = "address", value = "用户地址", defaultValue = "深圳", required = true),
     }
     )*/
-    public String addUser( String username, @RequestParam(required = true) String address) {
+    public String addUser( String username, @RequestParam() String address) {
         System.out.println(username);
         User user = new User();
         user.setName("测试1");

@@ -1,4 +1,4 @@
-package com.hz.blog.controller;
+package com.hz.blog.controller.blog;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hz.blog.constant.CommonConstant;
@@ -124,7 +124,7 @@ public class UserController {
             @ApiImplicitParam(name = "password",dataType = "String",value = "用户密码", required = true, paramType = "form"),
             @ApiImplicitParam(name = "type",dataType = "String",value = "用户类型",required = true,paramType = "form")
     })
-    @PostMapping(value = "/user")
+    @PostMapping(value = "/user",consumes = "application/x-www-form-urlencoded")
     @ResponseBody
     public ConvertResult registerUser(String username , @RequestParam("password") String password, @RequestParam("type") Integer type){
 

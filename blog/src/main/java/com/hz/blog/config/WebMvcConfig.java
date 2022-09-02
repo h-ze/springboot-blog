@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.hz.blog.interceptors.FangshuaInterceptor;
 import com.hz.blog.interceptors.LogInterceptor;
+import com.hz.blog.interceptors.SubmitInterceptorConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -53,6 +54,9 @@ public class WebMvcConfig  implements WebMvcConfigurer/*extends WebMvcConfigurat
     @Autowired
     private LogInterceptor logInterceptor;
 
+    @Autowired
+    private SubmitInterceptorConfig submitInterceptorConfig;
+
 
     @Bean
     LogInterceptor getLogInterceptor() {
@@ -76,6 +80,8 @@ public class WebMvcConfig  implements WebMvcConfigurer/*extends WebMvcConfigurat
         //日志拦截器
         registry.addInterceptor(logInterceptor).addPathPatterns("/**").excludePathPatterns("/static/**","/favicon.ico");
         registry.addInterceptor(getFangshuaInterceptor()).addPathPatterns("/**");
+
+        registry.addInterceptor(submitInterceptorConfig).addPathPatterns("/**").excludePathPatterns("/static/**","/favicon.ico");
     }
 
     /**
@@ -83,6 +89,12 @@ public class WebMvcConfig  implements WebMvcConfigurer/*extends WebMvcConfigurat
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+        registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
+        // 解决 SWAGGER 404报错
+        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+
 //        registry.addResourceHandler("swagger-ui.html")
 //                .addResourceLocations("classpath:/META-INF/resources/");
 //
@@ -144,7 +156,7 @@ public class WebMvcConfig  implements WebMvcConfigurer/*extends WebMvcConfigurat
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        //registry.addViewController("/").setViewName("login");
+        registry.addViewController("/").setViewName("login");
     }
 
 }

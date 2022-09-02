@@ -7,9 +7,12 @@ import com.hz.blog.entity.UserRoles;
 import com.hz.blog.annotation.BaseService;
 import com.hz.blog.dao.EmailDao;
 import com.hz.blog.dao.UserDAO;
+import com.hz.blog.service.EmailService;
 import com.hz.blog.service.RedisService;
 import com.hz.blog.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +32,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
 
+    /*@Autowired
+    private EmailDao emailDao;*/
+
     @Autowired
-    private EmailDao emailDao;
+    private EmailService emailService;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -44,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Override
     //@Async("asyncServiceExecutor")
     public int save(User user, UserRoles userRoles) {
-        //log.info("异步");
+        log.info("异步");
         //user.setId(UUID.randomUUID().toString().replace("-",""));
         user.setId(0);
         if (userRoles!=null){
@@ -54,7 +60,13 @@ public class UserServiceImpl implements UserService {
             email.setEmailId(0);
             email.setEmail(user.getName());
             email.setStatus(2);
-            int i = emailDao.addEmailMessage(email);
+            int i = emailService.addEmailMessage(email);
+
+
+/*            CorrelationData correlationData = new CorrelationData();
+            correlationData.setId(String.valueOf(email.getEmailId()));
+            Message message = new Message(email.toString().getBytes(),new MessageProperties());
+            correlationData.setReturnedMessage(message);*/
 
             rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME, MailConstants.MAIL_QUEUE_NAME,email, new CorrelationData(String.valueOf(email.getEmailId())));
 

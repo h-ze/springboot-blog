@@ -18,6 +18,7 @@ import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.MessagingException;
 import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 //利用rabbitmq自动发送邮箱激活链接 自动发送一次
@@ -52,6 +54,8 @@ public class MailReceiver {
             )
     public void handler(Message message, Channel channel) throws IOException {
 
+        log.info("接收MAIL_QUEUE_NAME服务：{}",message);
+
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
 
         try {
@@ -60,7 +64,7 @@ public class MailReceiver {
             Email email = mapper.readValue(message.getBody(), Email.class);
             log.info("收到邮件消息------------------{}", email);
 
-
+            sendEmail(email);
 //            ObjectMapper mapper = new ObjectMapper();
 //            log.info("message: ={}",message);
 //            log.info("channel: ={}",channel);
@@ -123,10 +127,17 @@ public class MailReceiver {
         channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
     }
 
+
+    /**
+     * 发送邮件
+     * @param email
+     * @throws MessagingException
+     * @throws UnsupportedEncodingException
+     */
     public void sendEmail(Email email) throws MessagingException, UnsupportedEncodingException {
         log.info("发送邮件");
         //构造SMTP邮件服务器的基本环境
-       /* Properties properties = new Properties();
+        Properties properties = new Properties();
         properties.setProperty("mail.host", "smtp.qq.com");
         properties.setProperty("mail.transport.protocol", "smtp");
         properties.setProperty("mail.smtp.auth", "true");
@@ -147,9 +158,9 @@ public class MailReceiver {
         MimeMessage mimeMessage = saveMessage(session,"1102211390@qq.com","1554752374@qq.com",null,"邮件主题",email,fileList,picList);
         //发送邮件
         Transport transport = session.getTransport();
-        transport.connect("smtp.qq.com", "1102211390@qq.com", *//*"iskpdrftnlgohbih",*//*"kuwvhzyxkknujigi");
+        transport.connect("smtp.qq.com", 25, "iskpdrftnlgohbih","kuwvhzyxkknujigi");
         transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());//发送邮件，第二个参数为收件人
-        transport.close();*/
+        transport.close();
     }
 
     /**

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.blog.dao.TagDao">
+
+    <insert id="addTag" parameterType="com.hz.blog.entity.Tag">
+        insert into blog_tag values(null ,#{name},#{introduction},#{image})
+    </insert>
+
+    <update id="updateTag" parameterType="com.hz.blog.entity.Tag">
+        update blog_tag set name = #{name},introduction = #{introduction},image = #{image} where id=#{id}
+    </update>
+
+    <delete id="deleteTag" parameterType="Integer">
+        delete from blog_tag where id = #{id}
+    </delete>
+
+    <select id="getTagByName" parameterType="String" resultType="com.hz.blog.entity.Tag">
+        select id,name,introduction,image from blog_tag where name =#{name}
+    </select>
+
+    <select id="getTagById" parameterType="Integer" resultType="com.hz.blog.entity.Tag">
+        select id,name,introduction,image from blog_tag where id =#{id}
+    </select>
+
+    <select id="getTags" parameterType="Integer" resultType="com.hz.blog.entity.Tag">
+        select id,name,introduction,image from blog_tag
+    </select>
+
+</mapper>

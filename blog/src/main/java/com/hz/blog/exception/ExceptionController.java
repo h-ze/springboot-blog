@@ -2,10 +2,12 @@ package com.hz.blog.exception;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.hz.blog.entity.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -28,14 +30,13 @@ public class ExceptionController {
 
 
     //@ExceptionHandler
-    public JSONObject handleException(Exception e){
-        JSONObject jsonObject = new JSONObject(true);
-        jsonObject.put("code","500");
-        jsonObject.put("msg","发生了未知的错误");
-        jsonObject.put("message",e.getMessage());
-        //e.printStackTrace();
-        return jsonObject;
-    }
+//    public JSONObject handleException(Exception e){
+//        JSONObject jsonObject = new JSONObject(true);
+//        jsonObject.put("code","500");
+//        jsonObject.put("msg","发生了未知的错误");
+//        jsonObject.put("message",e.getMessage());
+//        return jsonObject;
+//    }
 
     @ExceptionHandler
     public JSONObject MissingServletRequestParameterException(MissingServletRequestParameterException e){
@@ -116,6 +117,36 @@ public class ExceptionController {
         jsonObject.put("msg","参数缺失,类型错误");
         jsonObject.put("data",list);
         return jsonObject;
+    }
+
+    /**
+     * 处理自定义异常
+     */
+    @ExceptionHandler(RRException.class)
+    public R handleRRException(RRException e){
+        R r = new R();
+        r.put("code", e.getCode());
+        r.put("msg", e.getMessage());
+
+        return r;
+    }
+
+    @ExceptionHandler(DuplicateKeyException.class)
+    public R handleDuplicateKeyException(DuplicateKeyException e){
+        log.error(e.getMessage(), e);
+        return R.error("数据库中已存在该记录");
+    }
+
+	/*@ExceptionHandler(AuthorizationException.class)
+	public R handleAuthorizationException(AuthorizationException e){
+		logger.error(e.getMessage(), e);
+		return R.error("没有权限，请联系管理员授权");
+	}*/
+
+    @ExceptionHandler(Exception.class)
+    public R handleException(Exception e){
+        log.error(e.getMessage(), e);
+        return R.error();
     }
 
 }

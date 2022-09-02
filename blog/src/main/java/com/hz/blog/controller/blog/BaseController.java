@@ -1,4 +1,4 @@
-package com.hz.blog.controller;
+package com.hz.blog.controller.blog;
 
 
 import com.github.pagehelper.PageInfo;

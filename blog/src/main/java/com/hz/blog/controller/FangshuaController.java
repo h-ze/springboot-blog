@@ -1,11 +1,15 @@
 package com.hz.blog.controller;
 
+import com.hz.blog.annotation.RepeatSubmit;
 import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.annotation.AccessLimit;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,6 +32,23 @@ public class FangshuaController {
     @AccessLimit(seconds = 5, maxCount = 5, needLogin = false)
     @GetMapping("/dontfangshua")
     public ResponseResult dontfangshua() {
+        //return new ResponseResult<>(100000, "请求成功", "请求成功");
+        return ResponseResult.successResult(100000,"请求成功");
+
+    }
+
+
+    @ApiOperation(value ="参数相同多次提交",notes="测试参数相同多次提交")
+    @RepeatSubmit()
+    @GetMapping("/paramSame")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "docId",value = "测试Id",paramType = "query",dataType = "String",required = true),
+            @ApiImplicitParam(name = "encryptConfig",value = "加密策略",paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "docName",value = "文档名称",paramType = "query",dataType = "String")
+    })
+    public ResponseResult paramSame(@RequestParam("docId") String docId,
+                                    @RequestParam("encryptConfig")String encryptConfig,
+                                    @RequestParam("docName")String docName) {
         //return new ResponseResult<>(100000, "请求成功", "请求成功");
         return ResponseResult.successResult(100000,"请求成功");
 

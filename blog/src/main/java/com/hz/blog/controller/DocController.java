@@ -3,6 +3,7 @@ package com.hz.blog.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.hz.blog.annotation.SysLog;
+import com.hz.blog.controller.blog.BaseController;
 import com.hz.blog.entity.*;
 import com.hz.blog.exception.RRException;
 import com.hz.blog.service.AsyncService;

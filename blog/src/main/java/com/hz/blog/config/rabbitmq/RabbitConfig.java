@@ -190,7 +190,7 @@ public class RabbitConfig {
 
 
 
-    //死信队里s
+    //死信队列
 
     @Bean("deadLetterExchange")
     public Exchange deadLetterExchange() {

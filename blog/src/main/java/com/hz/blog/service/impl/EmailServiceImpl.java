@@ -33,4 +33,9 @@ public class EmailServiceImpl implements EmailService {
     public Email getEmail(String email) {
         return emailDao.getEmail(email);
     }
+
+    @Override
+    public int addEmailMessage(Email email) {
+        return emailDao.addEmailMessage(email);
+    }
 }

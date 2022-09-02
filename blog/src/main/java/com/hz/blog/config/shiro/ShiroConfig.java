@@ -128,6 +128,10 @@ public class ShiroConfig {
 
         filterChainDefinitionMap.put("/templates/login.ftl","anon");
 
+        filterChainDefinitionMap.put("/bookController/**","anon");
+
+        filterChainDefinitionMap.put("/tagController/**","anon");
+
 
         //拦截器需要放在最后 否则以上的放行可能会不生效
 
