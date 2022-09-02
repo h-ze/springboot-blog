@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 
 
-@Api("博客接口")
+@Api(tags = "博客接口")
 @RestController
 @RequestMapping("postController")
 public class PostController extends BaseController{
