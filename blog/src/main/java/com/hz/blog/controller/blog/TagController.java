@@ -25,19 +25,21 @@ public class TagController extends BaseController{
     @Autowired
     private TagService tagService;
 
-
-    @GetMapping("getTags")
     @ApiOperation(value ="获取所有的标签",notes="获取所有的标签")
+    @GetMapping("getTags")
     public ResponseResult getTags(){
 
         List<Tag> tags = tagService.getTags();
         return ResponseResult.successResult(100000,tags);
     }
 
-
-    @DeleteMapping("deleteTag")
     @ApiOperation(value ="删除指定标签",notes="删除指定标签")
+    @DeleteMapping("deleteTag")
     public ResponseResult deleteTag(Integer id){
+        Tag tagById = tagService.getTagById(id);
+        if (tagById ==null){
+            return ResponseResult.successResult(100004,"标签不存在",new Tag());
+        }
         int i = tagService.deleteTag(id);
         if (i>0){
             return ResponseResult.successResult(100000,"成功");
@@ -46,16 +48,18 @@ public class TagController extends BaseController{
 
     }
 
-    @PostMapping("addTag")
+
     @ApiOperation(value ="插入标签",notes="插入标签")
+    @PostMapping("addTag")
     public ResponseResult addTag(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) @Validated TagVo tagVo){
 
-        Tag tag = TagMapper.INSTANCE.toDTO(tagVo);
+        //Tag tag = TagMapper.INSTANCE.toDTO(tagVo);
+        Tag tag = new Tag(0,tagVo.getName(),tagVo.getIntroduction(),tagVo.getImage());
 
         String name = tag.getName();
         Tag tagByName = tagService.getTagByName(name);
         if (tagByName!=null){
-            return ResponseResult.successResult(100000,"标签已存在",tagByName);
+            return ResponseResult.successResult(100003,"标签已存在",tagByName);
         }
 
         int i = tagService.addTag(tag);
@@ -65,8 +69,8 @@ public class TagController extends BaseController{
         return ResponseResult.successResult(100001,"插入失败",tag);
     }
 
-    @PutMapping("updateTag")
     @ApiOperation(value ="修改标签",notes="修改标签")
+    @PutMapping("updateTag")
     public ResponseResult updateTag(Tag tag){
         int i = tagService.updateTag(tag);
         if (i>0){
