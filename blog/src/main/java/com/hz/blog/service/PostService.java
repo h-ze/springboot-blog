@@ -18,4 +18,6 @@ public interface PostService {
     Post getPostByName(String name);
 
     List<Post> getPostListByAuthor(BigInteger authorId);
+
+    List<Post> getPost();
 }

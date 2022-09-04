@@ -20,31 +20,36 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public int addPost(Post post) {
-        return 0;
+        return postDao.addPost(post);
     }
 
     @Override
     public int updatePost(Post post) {
-        return 0;
+        return postDao.updatePost(post);
     }
 
     @Override
     public int deletePost(BigInteger id) {
-        return 0;
+        return postDao.deletePost(id);
     }
 
     @Override
     public Post getPostById(BigInteger id) {
-        return null;
+        return postDao.getPostById(id);
     }
 
     @Override
     public Post getPostByName(String name) {
-        return null;
+        return postDao.getPostByName(name);
     }
 
     @Override
     public List<Post> getPostListByAuthor(BigInteger authorId) {
-        return null;
+        return postDao.getPostListByAuthor(authorId);
+    }
+
+    @Override
+    public List<Post> getPost() {
+        return postDao.getPost();
     }
 }

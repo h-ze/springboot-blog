@@ -132,6 +132,8 @@ public class ShiroConfig {
 
         filterChainDefinitionMap.put("/tagController/**","anon");
 
+        filterChainDefinitionMap.put("/postController/**","anon");
+
 
         //拦截器需要放在最后 否则以上的放行可能会不生效
 

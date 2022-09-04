@@ -47,6 +47,22 @@ public class BaseController {
 
 
     /**
+     * 只有紧跟着PageHelper.startPage(pageNum,pageSize)的sql语句才被pagehelper起作用
+     * @param page
+     * @param per_page
+     */
+    protected void startPage(int page,int per_page){
+        PageRequest pageRequest = new PageRequest();
+        pageRequest.setPageNum(page);
+        pageRequest.setPageSize(per_page);
+        PageUtils.startPage(pageRequest);
+    }
+
+    protected PageInfo<?> getPageList(List<?> list){
+        return new PageInfo<>(list);
+    }
+
+    /**
      *
      * @param pageInfo
      * @return

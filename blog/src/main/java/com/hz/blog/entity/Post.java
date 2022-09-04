@@ -1,12 +1,13 @@
 package com.hz.blog.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.joda.time.DateTime;
 import org.springframework.context.annotation.Configuration;
 
 import java.math.BigInteger;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor                 //无参构造
@@ -25,7 +26,8 @@ public class Post {
     private Integer comments;
 
     //创建时间
-    private DateTime created;
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    private Date created;
 
     //喜爱数
     private Integer favors;

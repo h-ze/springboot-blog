@@ -20,7 +20,7 @@ public class PageUtils {
         pageResult.setPageSize(pageInfo.getPageSize());
         pageResult.setTotalSize(pageInfo.getTotal());
         pageResult.setTotalPages(pageInfo.getPages());
-        pageResult.setContent(pageInfo.getList());
+        pageResult.setData(pageInfo.getList());
         pageResult.setCurrentSize(pageInfo.getList().size());
         return pageResult;
     }
@@ -32,6 +32,13 @@ public class PageUtils {
         PageHelper.startPage(pageNum, pageSize);
         //List<Document> docsPage = docDao.getDocsPage(userId);
         return new PageInfo<>(list);
+    }
+
+    public static void startPage(PageRequest pageRequest) {
+        int pageNum = pageRequest.getPageNum();
+        int pageSize = pageRequest.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+        //List<Document> docsPage = docDao.getDocsPage(userId);
     }
 
     /**

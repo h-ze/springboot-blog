@@ -2,28 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hz.blog.dao.PostDao">
 
-    <insert id="addTag" parameterType="com.hz.blog.entity.Post">
-        insert into blog_tag values(null ,#{name},#{introduction},#{image})
+    <select id="getPost" resultType="com.hz.blog.entity.Post">
+        select id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+               thumbnail,title,views,weight from blog_post
+    </select>
+
+    <select id="getPostById" resultType="com.hz.blog.entity.Post">
+        select id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+               thumbnail,title,views,weight from blog_post where id=#{id}
+    </select>
+
+    <select id="getPostByName" resultType="com.hz.blog.entity.Post">
+        select id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+               thumbnail,title,views,weight from blog_post where title=#{name}
+    </select>
+
+    <select id="getPostListByAuthor" resultType="com.hz.blog.entity.Post">
+        select id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+               thumbnail,title,views,weight from blog_post where author_id=#{authorId}
+    </select>
+
+
+
+
+    <insert id="addPost" parameterType="com.hz.blog.entity.Post">
+        insert into blog_post values(null,#{authorId},#{channelId},#{comments},#{created},#{favors},
+                                     #{featured},
+                                     #{status},#{summary},#{tags},
+                                     #{thumbnail},#{title},#{views},
+                                     #{weight})
     </insert>
 
-    <update id="updateTag" parameterType="com.hz.blog.entity.Post">
-        update blog_tag set name = #{name},introduction = #{introduction},image = #{image} where id=#{id}
+    <update id="updatePost">
+        update blog_post set comments =#{comments}, favors=#{favors}, featured =#{featured},
+                             status=#{status},summary =#{summary},tags =#{tags},thumbnail =#{thumbnail},
+                             title =#{title}, views =#{views},weight =#{weight}
+        where id =#{id}
     </update>
 
-    <delete id="deleteTag" parameterType="Integer">
-        delete from blog_tag where id = #{id}
+    <delete id="deletePost" parameterType="BigInteger">
+        delete from blog_post where id=#{id}
     </delete>
 
-    <select id="getTagByName" parameterType="String" resultType="com.hz.blog.entity.Post">
-        select id,name,introduction,image from blog_tag where name =#{name}
-    </select>
 
-    <select id="getTagById" parameterType="Integer" resultType="com.hz.blog.entity.Post">
-        select id,name,introduction,image from blog_tag where id =#{id}
-    </select>
-
-    <select id="getTags" parameterType="Integer" resultType="com.hz.blog.entity.Post">
-        select id,name,introduction,image from blog_tag
-    </select>
 
 </mapper>

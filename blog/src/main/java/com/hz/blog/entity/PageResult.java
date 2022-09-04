@@ -52,11 +52,11 @@ public class PageResult {
     public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
     }
-    public List<?> getContent() {
+    public List<?> getData() {
         return list;
     }
-    public void setContent(List<?> content) {
-        this.list = content;
+    public void setData(List<?> data) {
+        this.list = data;
     }
 
     public int getCurrentSize() {

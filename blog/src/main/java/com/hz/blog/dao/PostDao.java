@@ -9,15 +9,17 @@ import java.util.List;
 @Mapper
 public interface PostDao {
 
-    int addPost();
+    int addPost(Post post);
 
-    int updatePost();
+    int updatePost(Post post);
 
-    int deletePost();
+    int deletePost(BigInteger id);
 
     Post getPostById(BigInteger id);
 
     Post getPostByName(String name);
 
     List<Post> getPostListByAuthor(BigInteger authorId);
+
+    List<Post> getPost();
 }
