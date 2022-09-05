@@ -478,6 +478,14 @@
             <version>${org.mapstruct.version}</version>
         </dependency>
 
+
+        <!-- 使用dozer 进行entity和dto、vo 实体类、集合之间的转换 -->
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>5.5.1</version>
+        </dependency>
+
     </dependencies>
 
 

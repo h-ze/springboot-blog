@@ -1,4 +1,4 @@
-package com.hz.blog.entity;
+package com.hz.blog.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor                 //无参构造
 @AllArgsConstructor                //有参构造
 @Configuration
-public class Post {
+public class PostVo {
 
     private BigInteger id;
 
@@ -57,4 +57,6 @@ public class Post {
 
     //权重
     private Integer weight;
+
+    private BigInteger tagId;
 }

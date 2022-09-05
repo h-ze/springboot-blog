@@ -281,6 +281,13 @@ swagger:
   licenseUrl: https://www.baidu.com
 
 
+com:
+  hz:
+    blog:
+      snowflake:
+        machine-id: 1
+        data-center-id: 1
+
 
 
 

@@ -2,6 +2,7 @@ package com.hz.blog.dao;
 
 import com.hz.blog.entity.Post;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -22,4 +23,6 @@ public interface PostDao {
     List<Post> getPostListByAuthor(BigInteger authorId);
 
     List<Post> getPost();
+
+    List<Post> getPostListByOther(@Param("authorId") BigInteger authorId, @Param("status") Integer status, @Param("title")String title);
 }

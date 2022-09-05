@@ -3,30 +3,46 @@
 <mapper namespace="com.hz.blog.dao.PostDao">
 
     <select id="getPost" resultType="com.hz.blog.entity.Post">
-        select id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+        select id,post_id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
                thumbnail,title,views,weight from blog_post
     </select>
 
     <select id="getPostById" resultType="com.hz.blog.entity.Post">
-        select id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+        select id,post_id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
                thumbnail,title,views,weight from blog_post where id=#{id}
     </select>
 
     <select id="getPostByName" resultType="com.hz.blog.entity.Post">
-        select id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+        select id,post_id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
                thumbnail,title,views,weight from blog_post where title=#{name}
     </select>
 
     <select id="getPostListByAuthor" resultType="com.hz.blog.entity.Post">
-        select id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+        select id,post_id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
                thumbnail,title,views,weight from blog_post where author_id=#{authorId}
     </select>
 
 
+    <select id="getPostListByOther" resultType="com.hz.blog.entity.Post">
+        select id,post_id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+               thumbnail,title,views,weight from blog_post
+        <where>
+            <if test=" authorId != '' and authorId !=null ">
+                author_id=#{authorId}
+            </if>
 
+            <if test=" status != '' and status !=null">
+                status =#{status}
+            </if>
+
+            <if test=" title != '' and title !=null ">
+                title =#{title}
+            </if>
+        </where>
+    </select>
 
     <insert id="addPost" parameterType="com.hz.blog.entity.Post">
-        insert into blog_post values(null,#{authorId},#{channelId},#{comments},#{created},#{favors},
+        insert into blog_post values(null,#{postId},#{authorId},#{channelId},#{comments},#{created},#{favors},
                                      #{featured},
                                      #{status},#{summary},#{tags},
                                      #{thumbnail},#{title},#{views},
@@ -41,7 +57,7 @@
     </update>
 
     <delete id="deletePost" parameterType="BigInteger">
-        delete from blog_post where id=#{id}
+        delete from blog_post where post_id=#{postId}
     </delete>
 
 

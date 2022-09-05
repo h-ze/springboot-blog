@@ -8,7 +8,9 @@ import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
 import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.service.PostService;
+import com.hz.blog.utils.EntityConvertDtoAndVOUtils;
 import com.hz.blog.utils.PageUtils;
+import com.hz.blog.vo.PostVo;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +30,16 @@ public class PostController extends BaseController{
 
     @ApiOperation(value ="添加博客",notes="添加博客")
     @PostMapping("addPost")
-    public ResponseResult addPost(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) Post post){
-        post.setCreated(new Date());
-        logger.info("date:{}",post.getCreated());
-        int i = postService.addPost(post);
+    public ResponseResult addPost(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) PostVo postVo){
+
+        //Post post = new Post();
+
+        //logger.info("date:{}",post.getCreated());
+        int i = postService.addPost(postVo);
         if (i>0){
-            return ResponseResult.successResult(100000,"插入成功",post);
+            return ResponseResult.successResult(100000,"插入成功",postVo);
         }
-        return ResponseResult.successResult(100001,"插入失败",post);
+        return ResponseResult.successResult(100001,"插入失败",postVo);
     }
 
     @ApiOperation(value ="修改博客",notes="修改博客")
@@ -90,6 +94,25 @@ public class PostController extends BaseController{
                                         @RequestParam("page")Integer page) {
         startPage(page,per_page);
         List<Post> post = postService.getPost();
+        PageInfo<?> pageList = getPageList(post);
+        //PageResult docsPage = docService.getDocsPage(pageRequest,userId);
+        PageResult postsPage = getPageResult(pageList);
+        return ResponseResult.successResult(100000,postsPage);
+
+    }
+
+
+    @ApiOperation(value = "根据需求获取博客列表",notes = "根据需求获取博客列表")
+    @GetMapping("getPostListByOther")
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",value = "页数",paramType = "query",dataType = "int",required = true),
+            @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
+    })
+    public ResponseResult getPostListByOther(@RequestParam("per_page")Integer per_page,
+                                   @RequestParam("page")Integer page,BigInteger authorId,Integer status,String title) {
+        startPage(page,per_page);
+        List<Post> post = postService.getPostListByOther(authorId,status,title);
         PageInfo<?> pageList = getPageList(post);
         //PageResult docsPage = docService.getDocsPage(pageRequest,userId);
         PageResult postsPage = getPageResult(pageList);
