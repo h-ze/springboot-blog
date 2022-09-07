@@ -1,5 +1,7 @@
 package com.hz.blog.dao;
 
+import com.hz.blog.annotation.StartPage;
+import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,7 +24,9 @@ public interface PostDao {
 
     List<Post> getPostListByAuthor(BigInteger authorId);
 
-    List<Post> getPost();
+    @StartPage
+    List<Post> getPost(PageResult pageResult);
 
-    List<Post> getPostListByOther(@Param("authorId") BigInteger authorId, @Param("status") Integer status, @Param("title")String title);
+    @StartPage
+    List<Post> getPostListByOther(PageResult pageResult,@Param("authorId") BigInteger authorId, @Param("postId") BigInteger postId,@Param("status") Integer status, @Param("title")String title);
 }

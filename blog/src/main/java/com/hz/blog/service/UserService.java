@@ -4,6 +4,8 @@ package com.hz.blog.service;
 
 import com.hz.blog.entity.User;
 import com.hz.blog.entity.UserRoles;
+import com.hz.blog.entity.UserWithInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -29,4 +31,6 @@ public interface UserService {
     int updateUserPassword(User user);
 
     String createQrImg();
+
+    UserWithInfo getUserWithInfo(@Param("userId") String userId, @Param("username")String username);
 }

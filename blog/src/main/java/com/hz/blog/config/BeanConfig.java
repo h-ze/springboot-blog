@@ -1,5 +1,7 @@
 package com.hz.blog.config;
 
+import com.alibaba.fastjson.JSONObject;
+import com.hz.blog.entity.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -40,5 +42,12 @@ public class BeanConfig {
     RestTemplate restTemplate () {
         return new RestTemplate();
     }
+
+
+    @Bean
+    public Config getConfig(){
+        return new Config(new JSONObject());
+    }
+
 
 }

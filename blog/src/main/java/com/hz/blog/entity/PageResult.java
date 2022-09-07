@@ -4,7 +4,7 @@ import java.util.List;
 /**
  * 分页返回结果
  */
-public class PageResult {
+public class PageResult<T> {
     /**
      * 当前页码
      */
@@ -24,7 +24,7 @@ public class PageResult {
     /**
      * 数据模型
      */
-    private List<?> list;
+    private List<T> list;
 
     private int currentSize;
 
@@ -52,10 +52,10 @@ public class PageResult {
     public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
     }
-    public List<?> getData() {
+    public List<T> getData() {
         return list;
     }
-    public void setData(List<?> data) {
+    public void setData(List<T> data) {
         this.list = data;
     }
 
@@ -65,5 +65,23 @@ public class PageResult {
 
     public void setCurrentSize(int currentSize) {
         this.currentSize = currentSize;
+    }
+
+    /**
+     * @param obj 继承了PageFilter类的子类
+     * @param response 从数据库查询出来的参数
+     * @return
+     */
+    public PageResult<T> getPageFilter(PageResult obj,List<T> response) {
+        PageResult<T> pages = new PageResult();
+        pages.setPageNum(obj.getPageNum());
+        pages.setPageSize(obj.getPageSize());
+        pages.setTotalSize(obj.getTotalSize());
+        pages.setTotalPages(obj.getTotalPages());
+        pages.setData(response);
+        pages.setCurrentSize(response.size());
+        //pageResult.setData(page.getList());
+        //pageResult.setCurrentSize(page.getList().size());
+        return pages;
     }
 }

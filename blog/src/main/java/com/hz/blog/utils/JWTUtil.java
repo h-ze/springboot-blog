@@ -26,18 +26,17 @@ public class JWTUtil {
     }
 
 
-    public String createJWT(String id, String subject,String userId/*,String password*/, String roles) {
+    public String createJWT(String id, String username,String userId,String fullName/*,String password*/, String roles) {
         long nowMillis = System.currentTimeMillis();
 
         //需要添加userId 查找用户时应该使用id进行查询
         JwtBuilder builder= Jwts.builder().setId(id)
-                .setSubject(subject)
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256,"itcast")
                 .setExpiration(new Date(nowMillis+1000*60 *60*24))
                 .claim("userId",userId)
-                //.claim("username",username)
-                //.claim("password",password)
+                .claim("fullName",fullName)
                 .claim("roles",roles)
                 ;
         return builder.compact();

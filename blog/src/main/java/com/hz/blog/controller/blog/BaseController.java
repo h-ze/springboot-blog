@@ -15,7 +15,7 @@ import javax.xml.crypto.Data;
 import java.beans.PropertyEditorSupport;
 import java.util.List;
 
-public class BaseController {
+public class BaseController<T> {
     protected final Logger logger =LoggerFactory.getLogger(this.getClass());
 
     @InitBinder
@@ -56,6 +56,13 @@ public class BaseController {
         pageRequest.setPageNum(page);
         pageRequest.setPageSize(per_page);
         PageUtils.startPage(pageRequest);
+    }
+
+    protected PageResult initPage(int page,int per_page){
+        PageResult<Class> pageResult = new PageResult();
+        pageResult.setPageNum(page);
+        pageResult.setPageSize(per_page);
+        return pageResult;
     }
 
     protected PageInfo<?> getPageList(List<?> list){

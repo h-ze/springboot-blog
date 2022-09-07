@@ -1,5 +1,6 @@
 package com.hz.blog.service.impl;
 
+import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.PostTag;
 import com.hz.blog.service.PostService;
 import com.hz.blog.dao.PostDao;
@@ -8,6 +9,7 @@ import com.hz.blog.service.PostTagService;
 import com.hz.blog.utils.EntityConvertDtoAndVOUtils;
 import com.hz.blog.utils.SnowflakeManager;
 import com.hz.blog.vo.PostVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,8 @@ import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+
+@Slf4j
 public class PostServiceImpl implements PostService {
 
     @Autowired
@@ -76,12 +80,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getPost() {
-        return postDao.getPost();
+    public PageResult getPost(PageResult pageResult) {
+        List<Post> post = postDao.getPost(pageResult);
+        return pageResult.getPageFilter(pageResult,post);
     }
 
     @Override
-    public List<Post> getPostListByOther(BigInteger authorId, Integer status, String title) {
-        return postDao.getPostListByOther(authorId, status, title);
+    public PageResult<Post> getPostListByOther(PageResult pageResult,BigInteger authorId,BigInteger postId,Integer status,String title) {
+        List<Post> postListByOther = postDao.getPostListByOther(pageResult, authorId, postId, status, title);
+        log.info("post:{}",postListByOther);
+        return pageResult.getPageFilter(pageResult,postListByOther);
+
     }
 }

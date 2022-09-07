@@ -1,9 +1,6 @@
 package com.hz.blog.service.impl;
 
-import com.hz.blog.entity.Email;
-import com.hz.blog.entity.MailConstants;
-import com.hz.blog.entity.User;
-import com.hz.blog.entity.UserRoles;
+import com.hz.blog.entity.*;
 import com.hz.blog.annotation.BaseService;
 import com.hz.blog.dao.EmailDao;
 import com.hz.blog.dao.UserDAO;
@@ -154,6 +151,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public String createQrImg() {
         return UUID.randomUUID().toString().replace("-","").trim();
+    }
+
+    @Override
+    public UserWithInfo getUserWithInfo(String userId,String username) {
+        UserWithInfo userWithInfo = userDAO.getUserWithInfo(userId,username);
+        return userWithInfo;
     }
 
 }

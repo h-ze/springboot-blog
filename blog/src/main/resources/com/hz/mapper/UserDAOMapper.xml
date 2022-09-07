@@ -62,4 +62,17 @@
     <update id="updateUser" parameterType="com.hz.blog.entity.User">
         UPDATE user SET password =#{password} WHERE userId =#{userId}
     </update>
+
+    <select id="getUserWithInfo" resultType="com.hz.blog.entity.UserWithInfo">
+        SELECT u.name,u.age,u.bir,u.userId,u.password,u.salt,u.status,u.id,ur.email,ur.full_name FROM user u LEFT JOIN user_info ur ON u.userId =ur.userId
+        <where>
+            <if test="userId != '' and userId!= null">
+                u.userId= #{userId}
+            </if>
+
+            <if test="username != '' and username!= null">
+                and u.name= #{username}
+            </if>
+        </where>
+    </select>
 </mapper>

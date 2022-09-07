@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.blog.dao.CommentsDao">
+
+    <insert id="addComments" parameterType="com.hz.blog.entity.Comments">
+        insert into post_comments values (null,#{commentsId},#{postId},#{content},#{status},
+                                          #{created},#{ip},#{replyId},#{name},#{email})
+    </insert>
+
+    <select id="getComments" resultType="com.hz.blog.entity.Comments">
+        select id,comments_id,post_id,content,status,created,ip,reply_id,name,email from post_comments
+            where post_id =#{postId}
+    </select>
+
+    <delete id="deleteComments">
+        delete from post_comments where comments_id =#{commentsId}
+    </delete>
+
+
+
+</mapper>

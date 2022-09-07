@@ -187,7 +187,7 @@ public class UserController {
     public ResponseResult login(@RequestParam("username") String username , @RequestParam("password")String password){
         log.info(username);
         log.info(password);
-        User user = userService.getUser(username);
+        UserWithInfo user = userService.getUserWithInfo(null,username);
         if (user!=null){
             if (redisUtils.hasKey(user.getUserId())){
                 String s = (String) redisUtils.get(user.getUserId());
@@ -202,7 +202,7 @@ public class UserController {
             String sha = SaltUtil.shiroSha(password ,user.getSalt());
             if (sha.equals(user.getPassword())){
                 String token = jwtUtil.createJWT(user.getId().toString(),
-                        user.getName(),user.getUserId(), user.getSalt());
+                        user.getName(),user.getUserId(),user.getFullName(), user.getSalt());
                 log.info(token);
                 //将登录的token存储到redis中
                 JSONObject jsonObject = new JSONObject();
@@ -469,6 +469,35 @@ public class UserController {
         //log.info("phone_number:"+phone_number);
         User user = userService.getUser(email);
         log.info("用户为: {}"+user);
+        return ResponseResult.successResult(100000,user);
+    }
+
+
+    /**
+     * 获取完整用户信息
+     * @param id 邮箱
+     * @return ConvertResult对象
+     */
+    @ApiOperation(value ="获取用户完整信息",notes="获取用户完整信息")
+    @GetMapping(value = "/getUserWithInfo"/*,consumes = "application/x-www-form-urlencoded"*/)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",paramType = "query",dataType = "String",required = true),
+            //@ApiImplicitParam(name = "phone_number",value = "手机号",paramType = "query",dataType = "String",required = true)
+    })
+    @ResponseBody
+    public ResponseResult<String> getUserWithInfo(@RequestParam("id") String id/*,@RequestParam("phone_number") String phone_number*/){
+        log.info("email:"+ id);
+
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        Claims claims = jwtUtil.parseJWT(principal);
+        String userId = String.valueOf(claims.get("userId"));
+        String fullName = String.valueOf(claims.get("fullName"));
+        log.info("userId:{}",userId);
+        log.info("fullName:{}",fullName);
+
+        //log.info("phone_number:"+phone_number);
+        UserWithInfo user = userService.getUserWithInfo(id,null);
+        log.info("用户为:"+user);
         return ResponseResult.successResult(100000,user);
     }
 

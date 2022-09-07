@@ -1,10 +1,15 @@
 package com.hz.blog.interceptors;
 
+import com.alibaba.fastjson.JSONObject;
+import com.hz.blog.entity.Config;
+import com.hz.blog.utils.SpringContextUtils;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NamedThreadLocal;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -13,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Iterator;
 import java.util.Map;
 
-//@Component
+@Component
 public class LogInterceptor extends HandlerInterceptorAdapter {
 
     private Logger logger = LoggerFactory.getLogger(LogInterceptor.class);
@@ -22,6 +27,9 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     private final static String UNKOWN_IP ="unknown";
 
     private final static Integer SLOW_REQUEST_TIME = 500;
+
+    //@Autowired
+    //private Config config;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -44,6 +52,19 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
             logger.info("请求路径URL：" + uri);
             logger.info("请求方式:" + method);
             logger.info("请求客户端地址：" + remoteAddr);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("browser",browser);
+            jsonObject.put("uri",uri);
+            jsonObject.put("method",method);
+            jsonObject.put("remoteAddr",remoteAddr);
+            request.setAttribute("requestBody",jsonObject);
+
+            Config config = SpringContextUtils.getBean(Config.class);
+            //JSONObject jsonObject1 = new JSONObject();
+            //jsonObject1.put("requestBody",jsonObject);
+            //config.setJsonObject(jsonObject1);
+            config.getJsonObject().put("requestBody",jsonObject);
             Map<String, String[]> params = request.getParameterMap();
             if (!params.isEmpty()) {
                 logger.info("当前请求参数如下：");

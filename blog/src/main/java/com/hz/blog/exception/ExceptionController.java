@@ -13,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartException;
@@ -142,6 +143,17 @@ public class ExceptionController {
 		logger.error(e.getMessage(), e);
 		return R.error("没有权限，请联系管理员授权");
 	}*/
+
+
+
+    @ExceptionHandler(ParamRRException.class)
+    public JSONObject handleException(ParamRRException e){
+        JSONObject jsonObject = new JSONObject(true);
+        jsonObject.put("code","999999");
+        jsonObject.put("msg","格式错误,参数不能为空");
+        jsonObject.put("data",e.getMsg());
+        return jsonObject;
+    }
 
     @ExceptionHandler(Exception.class)
     public R handleException(Exception e){

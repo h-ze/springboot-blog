@@ -55,7 +55,7 @@
             过高会造成访问地址404 当前项目swagger不可以和knife4j一块使用 因为swagger版本与knife4j版本不一致
             swagger与knife4j共用一个配置类
         -->
-<!--        <dependency>
+        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>2.9.2</version>
@@ -65,14 +65,14 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
-        </dependency>-->
+        </dependency>
 
         <!-- knife4j -->
-        <dependency>
+<!--        <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>3.0.3</version>
-        </dependency>
+        </dependency>-->
 
 
         <dependency>

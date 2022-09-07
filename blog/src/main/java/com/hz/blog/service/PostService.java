@@ -1,5 +1,7 @@
 package com.hz.blog.service;
 
+import com.hz.blog.annotation.StartPage;
+import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
 import com.hz.blog.vo.PostVo;
 
@@ -20,7 +22,8 @@ public interface PostService {
 
     List<Post> getPostListByAuthor(BigInteger authorId);
 
-    List<Post> getPost();
+    PageResult<Post> getPost(PageResult pageResult);
 
-    List<Post> getPostListByOther(BigInteger authorId,Integer status,String title);
+
+    PageResult<Post> getPostListByOther(PageResult pageResult,BigInteger authorId,BigInteger postId,Integer status,String title);
 }
