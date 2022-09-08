@@ -11,7 +11,7 @@ public interface CommentService {
 
     int addComments(Comments comments);
 
-    int deleteComments(BigInteger commentsId);
+    int deleteComments(Long commentsId);
 
-    PageResult<Comments> getComments(PageResult<Comments> pageResult,BigInteger postId);
+    PageResult<Comments> getComments(PageResult<Comments> pageResult,Long postId,Long commentsId);
 }

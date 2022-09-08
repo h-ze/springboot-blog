@@ -45,9 +45,6 @@ public class CommentController extends BaseController{
     @Autowired
     private Config config;
 
-
-
-
     @PostMapping("addComments")
     @ApiOperation(value = "添加评论",notes = "添加评论")
     @ApiImplicitParams({
@@ -59,12 +56,12 @@ public class CommentController extends BaseController{
     public ResponseResult addComments(HttpServletRequest request, @ParamCheck BigInteger post_id, @ParamCheck BigInteger replyId,@ParamCheck String content){
 
 
-        /*String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = String.valueOf(claims.get("userId"));
         String fullName = String.valueOf(claims.get("fullName"));
         log.info("userId:{}",userId);
-        log.info("fullName:{}",fullName);*/
+        log.info("fullName:{}",fullName);
         Object requestBody = request.getAttribute("requestBody");
         log.info("requestBody:{}",requestBody);
 
@@ -85,15 +82,14 @@ public class CommentController extends BaseController{
 
     }
 
-
     @DeleteMapping("deleteComments")
     @ApiOperation(value = "删除评论",notes = "删除评论")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "commentsId",value = "评论的id",paramType = "query",dataType = "Long",required = true)
     })
-    public ResponseResult deleteComments(BigInteger commentsId){
+    public ResponseResult deleteComments(Long commentsId){
 
-        PageResult<Comments> commentsList = commentService.getComments(initPage(1, 1), commentsId);
+        PageResult<Comments> commentsList = commentService.getComments(initPage(1, 1),null, commentsId);
         Comments comments = commentsList.getData().get(0);
         if (comments ==null){
             return ResponseResult.successResult(100003,"评论不存在");
@@ -103,6 +99,21 @@ public class CommentController extends BaseController{
             return ResponseResult.successResult(100000,"删除成功");
         }
         return ResponseResult.successResult(100001,"删除失败");
+
+    }
+
+    @GetMapping("getComments")
+    @ApiOperation(value = "查询评论",notes = "查询评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "commentsId",value = "评论的id",paramType = "query",dataType = "Long",required = true),
+            @ApiImplicitParam(name = "page",value = "页数",paramType = "query",dataType = "int",required = true),
+            @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
+    })
+    public ResponseResult getComments(@ParamCheck Long post_id,Long commentsId,@RequestParam("per_page")Integer per_page,
+                                      @RequestParam("page")Integer page){
+
+        PageResult<Comments> commentsList = commentService.getComments(initPage(page, per_page),post_id, commentsId);
+        return ResponseResult.successResult(100000,commentsList);
 
     }
 

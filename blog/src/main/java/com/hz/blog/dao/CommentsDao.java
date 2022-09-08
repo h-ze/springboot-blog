@@ -11,7 +11,7 @@ import java.util.List;
 public interface CommentsDao {
     int addComments(Comments comments);
 
-    int deleteComments(BigInteger commentsId);
+    int deleteComments(Long commentsId);
 
-    List<Comments> getComments(BigInteger postId);
+    List<Comments> getComments(@Param("postId") Long postId,@Param("commentsId")Long commentsId);
 }

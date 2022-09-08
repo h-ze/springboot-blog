@@ -22,7 +22,7 @@ import java.util.Map;
 public class LogInterceptor extends HandlerInterceptorAdapter {
 
     private Logger logger = LoggerFactory.getLogger(LogInterceptor.class);
-    private NamedThreadLocal<Long> startTimeThreadLocal = new NamedThreadLocal<Long>("StopWatch-startTimed");
+    private NamedThreadLocal<Long> startTimeThreadLocal = new NamedThreadLocal<>("StopWatch-startTimed");
 
     private final static String UNKOWN_IP ="unknown";
 
@@ -32,7 +32,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     //private Config config;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         logger.info("*******************业务请求开始**********************");
         try {
             long timed = System.currentTimeMillis();

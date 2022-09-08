@@ -25,13 +25,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public int deleteComments(BigInteger commentsId) {
+    public int deleteComments(Long commentsId) {
         return commentsDao.deleteComments(commentsId);
     }
 
     @Override
-    public PageResult<Comments> getComments(PageResult<Comments> pageResult, BigInteger postId) {
-        List<Comments> comments = commentsDao.getComments(postId);
+    public PageResult<Comments> getComments(PageResult<Comments> pageResult,Long postId,Long commentsId) {
+        List<Comments> comments = commentsDao.getComments(postId,commentsId);
         return pageResult.getPageFilter(pageResult,comments);
     }
 }

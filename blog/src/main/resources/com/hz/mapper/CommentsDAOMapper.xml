@@ -9,7 +9,15 @@
 
     <select id="getComments" resultType="com.hz.blog.entity.Comments">
         select id,comments_id,post_id,content,status,created,ip,reply_id,name,email from post_comments
-            where post_id =#{postId}
+            <where>
+                <if test="postId !=null and postId != ''">
+                    post_id =#{postId}
+                </if>
+
+                <if test="commentsId !=null and commentsId != ''">
+                    and comments_id =#{commentsId}
+                </if>
+            </where>
     </select>
 
     <delete id="deleteComments">
