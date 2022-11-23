@@ -501,4 +501,25 @@ public class UserController {
         return ResponseResult.successResult(100000,user);
     }
 
+
+    @ApiOperation(value ="修改用户为超级管理员",notes="修改用户为超级管理员")
+    @PostMapping(value = "/changeSuperAdmin",consumes = "application/x-www-form-urlencoded")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username",dataType = "String",value = "用户名",required = true, paramType = "form"),
+    })
+    @ResponseBody
+    public ResponseResult changeSuperAdmin(String username){
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        Claims claims = jwtUtil.parseJWT(principal);
+        String userId = String.valueOf(claims.get("userId"));
+        String fullName = String.valueOf(claims.get("fullName"));
+        User user = userService.getUser(username);
+        if (user ==null){
+            return ResponseResult.successResult(100000,"当前用户为空");
+        }else {
+            userService.changeUserRoles(user);
+        }
+        return ResponseResult.successResult(100000,"当前用户为空");
+    }
+
 }

@@ -58,10 +58,10 @@ public class WebMvcConfig  implements WebMvcConfigurer/*extends WebMvcConfigurat
     private SubmitInterceptorConfig submitInterceptorConfig;
 
 
-    @Bean
-    LogInterceptor getLogInterceptor() {
-        return new LogInterceptor();
-    }
+    //@Bean
+//    LogInterceptor getLogInterceptor() {
+//        return new LogInterceptor();
+//    }
 
 
     @Bean

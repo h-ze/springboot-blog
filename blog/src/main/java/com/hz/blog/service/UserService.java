@@ -33,4 +33,6 @@ public interface UserService {
     String createQrImg();
 
     UserWithInfo getUserWithInfo(@Param("userId") String userId, @Param("username")String username);
+
+    int changeUserRoles(User user);
 }

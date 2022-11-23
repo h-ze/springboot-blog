@@ -159,4 +159,12 @@ public class UserServiceImpl implements UserService {
         return userWithInfo;
     }
 
+    @Override
+    public int changeUserRoles(User user) {
+        List<Role> roles = user.getRoles();
+        System.out.println(roles);
+        //userDAO.addUserRoles()
+        return 0;
+    }
+
 }

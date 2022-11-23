@@ -31,4 +31,6 @@ public class TagVo implements Serializable {
     private String introduction;
 
     private String image;
+
+    private String tagId;
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.hz.blog.dao.TagDao">
 
     <insert id="addTag" parameterType="com.hz.blog.entity.Tag">
-        insert into blog_tag values(null ,#{name},#{introduction},#{image})
+        insert into blog_tag values(null ,#{name},#{introduction},#{image},#{tagId})
     </insert>
 
     <update id="updateTag" parameterType="com.hz.blog.entity.Tag">
@@ -23,7 +23,7 @@
     </select>
 
     <select id="getTags" parameterType="Integer" resultType="com.hz.blog.entity.Tag">
-        select id,name,introduction,image from blog_tag
+        select id,name,introduction,image,tagid from blog_tag
     </select>
 
 </mapper>

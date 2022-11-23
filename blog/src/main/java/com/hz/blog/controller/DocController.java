@@ -1,9 +1,7 @@
 package com.hz.blog.controller;
 
 
-import com.github.pagehelper.PageInfo;
 import com.hz.blog.annotation.SysLog;
-import com.hz.blog.controller.blog.BaseController;
 import com.hz.blog.entity.*;
 import com.hz.blog.exception.RRException;
 import com.hz.blog.service.AsyncService;
@@ -96,28 +94,27 @@ public class DocController extends BaseController {
      * 获取文档列表
      * @return ConvertResult对象
      */
-    @SysLog
-    @ApiOperation(value ="获取文档列表",notes="获取文档列表")
-    @GetMapping("/documents")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page",value = "页数",paramType = "query",dataType = "int",required = true),
-            @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
-    })
-    public ResponseResult getNewDocList(@RequestParam("per_page")Integer per_page,
-                                     @RequestParam("page")Integer page){
-        String principal = (String) SecurityUtils.getSubject().getPrincipal();
-        Claims claims = jwtUtil.parseJWT(principal);
-        String userId = (String)claims.get("userId");
-        PageRequest pageRequest = new PageRequest();
-        pageRequest.setPageNum(page);
-        pageRequest.setPageSize(per_page);
-
-        List<Document> docByPage = docService.getDocByPage(userId);
-        PageInfo<?> pageInfo = startPage(pageRequest, docByPage);
-        //PageResult docsPage = docService.getDocsPage(pageRequest,userId);
-        PageResult docsPage = getPageResult(pageInfo);
-        return ResponseResult.successResult(100000,docsPage);
-    }
+//    @SysLog
+//    @ApiOperation(value ="获取文档列表",notes="获取文档列表")
+//    @GetMapping("/documents")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "page",value = "页数",paramType = "query",dataType = "int",required = true),
+//            @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
+//    })
+//    public ResponseResult getNewDocList(@RequestParam("per_page")Integer per_page,
+//                                     @RequestParam("page")Integer page){
+//        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+//        Claims claims = jwtUtil.parseJWT(principal);
+//        String userId = (String)claims.get("userId");
+//        PageRequest pageRequest = new PageRequest();
+//        pageRequest.setPageNum(page);
+//        pageRequest.setPageSize(per_page);
+//
+//        List<Document> docByPage = docService.getDocByPage(userId);
+//        PageInfo<?> pageInfo = startPage(pageRequest, docByPage);
+//        PageResult docsPage = getPageResult(pageInfo);
+//        return ResponseResult.successResult(100000,docsPage);
+//    }
 
     @GetMapping("/getDocumentById")
     @ApiOperation(value = "获取文档信息",notes = "获取文档信息")

@@ -27,4 +27,6 @@ public class Tag implements Serializable {
     private String introduction;
 
     private String image;
+
+    private String tagId;
 }

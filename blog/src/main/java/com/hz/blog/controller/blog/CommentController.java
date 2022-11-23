@@ -2,6 +2,7 @@ package com.hz.blog.controller.blog;
 
 
 import com.hz.blog.annotation.ParamCheck;
+import com.hz.blog.controller.BaseController;
 import com.hz.blog.entity.Comments;
 import com.hz.blog.entity.Config;
 import com.hz.blog.entity.PageResult;
@@ -14,14 +15,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -31,7 +30,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("commentController")
 @Slf4j
-public class CommentController extends BaseController{
+public class CommentController extends BaseController {
 
     @Autowired
     private CommentService commentService;

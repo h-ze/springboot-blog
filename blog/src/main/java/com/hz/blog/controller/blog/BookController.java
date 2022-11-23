@@ -1,6 +1,7 @@
 package com.hz.blog.controller.blog;
 
 
+import com.hz.blog.controller.BaseController;
 import com.hz.blog.entity.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

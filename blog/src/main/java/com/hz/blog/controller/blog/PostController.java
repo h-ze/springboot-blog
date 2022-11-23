@@ -1,30 +1,23 @@
 package com.hz.blog.controller.blog;
 
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.hz.blog.entity.PageRequest;
+import com.hz.blog.controller.BaseController;
 import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
 import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.service.PostService;
-import com.hz.blog.utils.EntityConvertDtoAndVOUtils;
-import com.hz.blog.utils.PageUtils;
 import com.hz.blog.vo.PostVo;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
-import java.util.Date;
-import java.util.List;
 
 
 @Api(tags = "博客接口")
 @RestController
 @RequestMapping("postController")
-public class PostController extends BaseController{
+public class PostController extends BaseController {
 
     @Autowired
     private PostService postService;
@@ -80,10 +73,7 @@ public class PostController extends BaseController{
     })
     public ResponseResult getPosts(@RequestParam("per_page")Integer per_page,
                                         @RequestParam("page")Integer page) {
-        //startPage(page,per_page);
         PageResult pageResult = postService.getPost(initPage(page,per_page));
-        //PageInfo<?> pageList = getPageList(post);
-        //PageResult postsPage = getPageResult(pageList);
         return ResponseResult.successResult(100000,pageResult);
 
     }
@@ -95,7 +85,7 @@ public class PostController extends BaseController{
             @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
     })
     public ResponseResult getPostListByOther(@RequestParam("per_page")Integer per_page,
-                                             @RequestParam("page")Integer page, @NotNull(message = "参数不能为空") BigInteger authorId, BigInteger postId, Integer status, String title) {
+                                             @RequestParam("page")Integer page, BigInteger authorId, BigInteger postId, Integer status, String title) {
         //startPage(page,per_page);
         PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), authorId, postId, status, title);
         //PageInfo<?> pageList = getPageList(post);

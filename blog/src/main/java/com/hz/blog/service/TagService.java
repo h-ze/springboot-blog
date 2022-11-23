@@ -1,12 +1,13 @@
 package com.hz.blog.service;
 
 import com.hz.blog.entity.Tag;
+import com.hz.blog.vo.TagVo;
 
 import java.util.List;
 
 public interface TagService {
 
-    int addTag(Tag tag);
+    int addTag(TagVo tag);
 
     int updateTag(Tag tag);
 

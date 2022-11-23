@@ -130,7 +130,8 @@ public class ShiroConfig {
 
         filterChainDefinitionMap.put("/bookController/**","anon");
 
-        filterChainDefinitionMap.put("/tagController/**","anon");
+        filterChainDefinitionMap.put("/tagController/getTags","anon");
+        //filterChainDefinitionMap.put("/tagController/**","anon");
 
         filterChainDefinitionMap.put("/postController/**","anon");
 

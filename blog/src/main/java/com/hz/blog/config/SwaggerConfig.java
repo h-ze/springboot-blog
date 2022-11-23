@@ -22,8 +22,8 @@ import java.util.*;
  */
 @Configuration
 @EnableSwagger2
-//springboot swagger访问地址 http://localhost:6009/swagger-ui.html
-// 地址： http://localhost:6009/doc.html#/home
+//springboot swagger访问地址 http://localhost:6001/swagger-ui.html
+// 地址： http://localhost:6001/doc.html#/home
 public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
@@ -51,8 +51,8 @@ public class SwaggerConfig {
                 .groupName("RestfulApi")
                 .select()
                 // 包扫描范围（对指定的包下进行扫描，如果标注有相关swagger注解，则生成相应文档）
-                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                //.apis(RequestHandlerSelectors.basePackage("com.hz.controller"))
+                //.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                .apis(RequestHandlerSelectors.basePackage("com.hz.blog.controller.blog"))
                 // 过滤掉哪些path不用生成swagger
                 .paths(PathSelectors.any())
                 .build()
