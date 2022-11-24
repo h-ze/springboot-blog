@@ -19,6 +19,10 @@
         INSERT INTO t_user_role VALUES (#{id},#{userId},#{roleId})
     </insert>
 
+    <update id="updateUserRoles" parameterType="com.hz.blog.entity.UserRoles">
+        update  t_user_role set roleid =#{roleId} where userid =#{userId}
+    </update>
+
     <select id="findAll" resultType="com.hz.blog.entity.User">
         SELECT id,name,age,bir FROM user
     </select>

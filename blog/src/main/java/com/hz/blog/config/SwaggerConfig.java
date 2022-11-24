@@ -41,10 +41,14 @@ public class SwaggerConfig {
     @Bean
     public Docket apiDocket() {
         List<ResponseMessage> responseMessageList = new ArrayList<>();
-        responseMessageList.add(new ResponseMessageBuilder().code(404).message("找不到资源").responseModel(new ModelRef("ApiError")).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(409).message("业务逻辑异常").responseModel(new ModelRef("ApiError")).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(422).message("参数校验异常").responseModel(new ModelRef("ApiError")).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(500).message("服务器内部错误").responseModel(new ModelRef("ApiError")).build());
+        responseMessageList.add(new ResponseMessageBuilder().code(404).message("找不到资源").build());
+        responseMessageList.add(new ResponseMessageBuilder().code(409).message("业务逻辑异常").build());
+        responseMessageList.add(new ResponseMessageBuilder().code(422).message("参数校验异常").build());
+        responseMessageList.add(new ResponseMessageBuilder().code(999999).message("服务器内部错误").build());
+//        responseMessageList.add(new ResponseMessageBuilder().code(404).message("找不到资源").responseModel(new ModelRef("ApiError")).build());
+//        responseMessageList.add(new ResponseMessageBuilder().code(409).message("业务逻辑异常").responseModel(new ModelRef("ApiError")).build());
+//        responseMessageList.add(new ResponseMessageBuilder().code(422).message("参数校验异常").responseModel(new ModelRef("ApiError")).build());
+//        responseMessageList.add(new ResponseMessageBuilder().code(500).message("服务器内部错误").responseModel(new ModelRef("ApiError")).build());
         //responseMessageList.add(new ResponseMessageBuilder().code(503).message("Hystrix异常").responseModel(new ModelRef("ApiError")).build());
 
         return new Docket(DocumentationType.SWAGGER_2)

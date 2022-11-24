@@ -1,7 +1,7 @@
 package com.hz.blog.controller.blog;
 
 
-import com.hz.blog.entity.ConvertResult;
+import com.hz.blog.entity.ResponseResult;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,20 +30,20 @@ public class OperatorLogController {
     )
     @ApiResponses({@ApiResponse(code = 401,message = "未被授权"),
             @ApiResponse(code =404,message = "路径错误")})
-    public ConvertResult addLog(@RequestHeader("appName") String appName,
-                                @RequestParam String appToken,
-                                @PathVariable("email") String email,
-                                @RequestParam String to_id,
-                                @RequestParam String api,
-                                @RequestParam String method,
-                                @RequestParam String params,
-                                @RequestParam String url,
-                                @RequestParam String ip,
-                                @RequestParam String code,
-                                @RequestParam String msg,
-                                @RequestParam Boolean is_success,
-                                @RequestParam String note){
-        return new ConvertResult(0,"删除成功","用户已删除");
+    public ResponseResult addLog(@RequestHeader("appName") String appName,
+                                 @RequestParam String appToken,
+                                 @PathVariable("email") String email,
+                                 @RequestParam String to_id,
+                                 @RequestParam String api,
+                                 @RequestParam String method,
+                                 @RequestParam String params,
+                                 @RequestParam String url,
+                                 @RequestParam String ip,
+                                 @RequestParam String code,
+                                 @RequestParam String msg,
+                                 @RequestParam Boolean is_success,
+                                 @RequestParam String note){
+        return ResponseResult.successResult(0,"删除成功","用户已删除");
     }
 
     @GetMapping("/log")
@@ -60,7 +60,7 @@ public class OperatorLogController {
             @ApiImplicitParam(name = "log_type", paramType = "query", dataType = "Integer",value = "选择展示的日志面板，0=文档日志 1=操作日志 2=登录日志，默认是0"),
 
     })
-    public ConvertResult getLog(String access_token,
+    public ResponseResult getLog(String access_token,
                                 @PathVariable("begin_date")String begin_date,
                                 @PathVariable("end_date")String end_date,
                                 @PathVariable("email")String email,
@@ -70,7 +70,7 @@ public class OperatorLogController {
                                 @PathVariable("per_page")Integer per_page,
                                 @PathVariable("log_type")Integer log_type
     ) {
-        return new ConvertResult(0,"删除成功","用户已删除");
+        return ResponseResult.successResult(0,"删除成功","用户已删除");
     }
 
 

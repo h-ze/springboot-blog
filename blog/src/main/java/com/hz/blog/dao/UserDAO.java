@@ -15,6 +15,7 @@ import java.util.List;
 public interface UserDAO {
     int save(User user);
     int addUserRoles(UserRoles userRoles);
+    int updateUserRoles(UserRoles userRoles);
     List<User> findAll();
     User getUser(@Param("email") String email);
     User getUserById(String userId);

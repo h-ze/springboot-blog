@@ -68,48 +68,46 @@ public class UserController {
     @Resource
     private TaskManager taskManager;
 
-    //@ResponseBody
-    @GetMapping("/findAll")
-    public String getAll(Model model){
-        List<User> all = userService.findAll();
-        model.addAttribute("users", all);
-        log.info("info信息");
-        return "showAll";
-    }
-
-    @GetMapping("/save")
-    //@ResponseBody
-    public String save(User user){
-        userService.save(user,null);
-        return "redirect:/user/findAll";
-    }
-
-    @GetMapping("findAllJsp")
-    public String findAllJsp(Model model){
-        model.addAttribute("name","heze");
-        List<User> users = Arrays.asList(new User(1, "zhangsan", 24, new Date()), new User(2, "lisi", 24, new Date()));
-        model.addAttribute("users", users);
-        return "index";
-    }
-
-    @GetMapping("findAllByGThymeleaf")
-    public String findAll(Model model){
-        model.addAttribute("name","heze");
-        model.addAttribute("username","<a href=''>test </a>");
-        List<User> users = Arrays.asList(new User(1, "zhangsan", 24, new Date()), new User(2, "lisi", 24, new Date()));
-
-        model.addAttribute("user", new User(1, "zhangsan", 22, new Date()));
-        model.addAttribute("users", users);
-
-        return "index";
-    }
-
-    @GetMapping("/index")
-    public ModelAndView userIndex() {
-        ModelAndView view = new ModelAndView();
-        view.setViewName("userIndex");
-        return view;
-    }
+//    @GetMapping("/findAll")
+//    public String getAll(Model model){
+//        List<User> all = userService.findAll();
+//        model.addAttribute("users", all);
+//        log.info("info信息");
+//        return "showAll";
+//    }
+//
+//    @GetMapping("/save")
+//    public String save(User user){
+//        userService.save(user,null);
+//        return "redirect:/user/findAll";
+//    }
+//
+//    @GetMapping("findAllJsp")
+//    public String findAllJsp(Model model){
+//        model.addAttribute("name","heze");
+//        List<User> users = Arrays.asList(new User(1, "zhangsan", 24, new Date()), new User(2, "lisi", 24, new Date()));
+//        model.addAttribute("users", users);
+//        return "index";
+//    }
+//
+//    @GetMapping("findAllByGThymeleaf")
+//    public String findAll(Model model){
+//        model.addAttribute("name","heze");
+//        model.addAttribute("username","<a href=''>test </a>");
+//        List<User> users = Arrays.asList(new User(1, "zhangsan", 24, new Date()), new User(2, "lisi", 24, new Date()));
+//
+//        model.addAttribute("user", new User(1, "zhangsan", 22, new Date()));
+//        model.addAttribute("users", users);
+//
+//        return "index";
+//    }
+//
+//    @GetMapping("/index")
+//    public ModelAndView userIndex() {
+//        ModelAndView view = new ModelAndView();
+//        view.setViewName("userIndex");
+//        return view;
+//    }
 
 
     /**
@@ -126,7 +124,7 @@ public class UserController {
     })
     @PostMapping(value = "/user",consumes = "application/x-www-form-urlencoded")
     @ResponseBody
-    public ConvertResult registerUser(String username , @RequestParam("password") String password, @RequestParam("type") Integer type){
+    public ResponseResult registerUser(String username , @RequestParam("password") String password, @RequestParam("type") Integer type){
 
 //        String messageId = String.valueOf(UUID.randomUUID());
 //        String messageData = "message: lonelyDirectExchange test message";
@@ -141,7 +139,7 @@ public class UserController {
         log.info(password);
         User user = userService.getUser(username);
         if (user!=null){
-            return new ConvertResult(100002,"添加失败","用户已存在");
+            return ResponseResult.successResult(100002,"添加失败","用户已存在");
         }else {
             User addUser = new User();
             addUser.setName(username);
@@ -161,9 +159,9 @@ public class UserController {
 
             int i = userService.save(addUser,userRoles);
             if (i >0){
-                return new ConvertResult(100000,"注册成功","用户已注册成功,请前往当前注册邮箱地址点击激活用户");
+                return ResponseResult.successResult(100000,"注册成功","用户已注册成功,请前往当前注册邮箱地址点击激活用户");
             }else {
-                return new ConvertResult(100001,"注册失败","用户注册失败");
+                return ResponseResult.successResult(100001,"注册失败","用户注册失败");
             }
         }
     }
@@ -177,7 +175,7 @@ public class UserController {
      */
     /*multipart/form-data*/
     @PostMapping(value = "/login",consumes = "application/x-www-form-urlencoded")
-    @ApiOperation(value ="用户登录",notes="获取用户的token",response = ConvertResult.class)
+    @ApiOperation(value ="用户登录",notes="获取用户的token",response = ResponseResult.class)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username",dataType = "String",value = "用户名",required = true, paramType = "form"),
             @ApiImplicitParam(name = "password",dataType = "String",value = "用户密码", required = true, paramType = "form")
@@ -288,11 +286,9 @@ public class UserController {
             return ResponseResult.successResult(100001,"删除失败,用户不存在");
         }
         String sha = SaltUtil.shiroSha(password ,user.getSalt());
-        log.info(sha);
         if (sha.equals(user.getPassword())){
             int i = userService.deleteUser(user.getUserId(), sha);
             if (i >0){
-
                 return ResponseResult.successResult(100000,"注销成功,如需帐号请重新注册");
             }else {
                 return ResponseResult.successResult(100002,"注销失败,请稍后重试");
@@ -351,8 +347,8 @@ public class UserController {
     @GetMapping(value = "testRoles")
     @RequiresRoles("admin")
     @ResponseBody
-    public ConvertResult testRoles(){
-        return new ConvertResult(0,"测试权限","权限测试成功");
+    public ResponseResult testRoles(){
+        return ResponseResult.successResult(0,"测试权限","权限测试成功");
     }
 
     /**
@@ -360,7 +356,7 @@ public class UserController {
      * @param message 信息
      * @return ResultMap对象
      */
-    @RequestMapping(path = "/unauthorized/{message}")
+    @PostMapping(path = "/unauthorized/{message}")
     public ResultMap unauthorized(@PathVariable String message) {
         return new ResultMap().success().code(401).message(message);
     }
@@ -425,9 +421,9 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "email",value = "用户邮箱",paramType = "query",dataType = "String",required = true)
     })
-    public ConvertResult resetPassword(String email){
+    public ResponseResult resetPassword(String email){
         log.info("用户邮箱:"+email);
-        return new ConvertResult(0,"重置成功","密码已重置,请前往邮箱点击重置链接生效重置操作");
+        return ResponseResult.successResult(0,"重置成功","密码已重置,请前往邮箱点击重置链接生效重置操作");
     }
 
     /**
@@ -472,7 +468,6 @@ public class UserController {
         return ResponseResult.successResult(100000,user);
     }
 
-
     /**
      * 获取完整用户信息
      * @param id 邮箱
@@ -508,18 +503,19 @@ public class UserController {
             @ApiImplicitParam(name = "username",dataType = "String",value = "用户名",required = true, paramType = "form"),
     })
     @ResponseBody
+    @RequiresRoles("superAdmin")
     public ResponseResult changeSuperAdmin(String username){
-        String principal = (String) SecurityUtils.getSubject().getPrincipal();
-        Claims claims = jwtUtil.parseJWT(principal);
-        String userId = String.valueOf(claims.get("userId"));
-        String fullName = String.valueOf(claims.get("fullName"));
         User user = userService.getUser(username);
         if (user ==null){
-            return ResponseResult.successResult(100000,"当前用户为空");
+            return ResponseResult.successResult(100001,"当前用户为空");
         }else {
-            userService.changeUserRoles(user);
+            int i = userService.changeUserRoles(user);
+            if (i>0){
+                return ResponseResult.successResult(100000,"修改成功");
+            }else {
+                return ResponseResult.successResult(100003,"修改失败");
+            }
         }
-        return ResponseResult.successResult(100000,"当前用户为空");
     }
 
 }

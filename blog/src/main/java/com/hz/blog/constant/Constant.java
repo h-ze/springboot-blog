@@ -116,4 +116,11 @@ public class Constant {
             return value;
         }
     }
+
+    public static final Integer ADMIN =1;
+    public static final Integer USER =2;
+    public static final Integer PRODUCT =3;
+    public static final Integer ASSISTANT =4;
+    public static final Integer SUPERADMIN =5;
+
 }

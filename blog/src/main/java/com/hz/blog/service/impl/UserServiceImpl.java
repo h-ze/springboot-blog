@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+import static com.hz.blog.constant.Constant.SUPERADMIN;
+
 
 @Service("userService")
 @Transactional
@@ -161,10 +163,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int changeUserRoles(User user) {
-        List<Role> roles = user.getRoles();
-        System.out.println(roles);
+        UserRoles userRoles = new UserRoles();
+        userRoles.setUserId(user.getUserId());
+        userRoles.setRoleId(SUPERADMIN);
+        int i = userDAO.updateUserRoles(userRoles);
         //userDAO.addUserRoles()
-        return 0;
+        return i;
     }
 
 }

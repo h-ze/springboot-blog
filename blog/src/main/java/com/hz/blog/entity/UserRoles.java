@@ -14,14 +14,6 @@ public class UserRoles {
         this.roleId = roleId;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -30,15 +22,19 @@ public class UserRoles {
         this.id = id;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public String getUserId() {
+        return userId;
     }
 
-    public int getRoleId() {
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 
@@ -46,7 +42,7 @@ public class UserRoles {
     public String toString() {
         return "UserRoles{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userId='" + userId + '\'' +
                 ", roleId=" + roleId +
                 '}';
     }
