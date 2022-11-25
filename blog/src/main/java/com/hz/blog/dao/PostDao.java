@@ -16,7 +16,7 @@ public interface PostDao {
 
     int updatePost(Post post);
 
-    int deletePost(BigInteger id);
+    int deletePost(Long id);
 
     Post getPostById(BigInteger id);
 
@@ -28,5 +28,5 @@ public interface PostDao {
     List<Post> getPost(PageResult pageResult);
 
     @StartPage
-    List<Post> getPostListByOther(PageResult pageResult,@Param("authorId") BigInteger authorId, @Param("postId") BigInteger postId,@Param("status") Integer status, @Param("title")String title);
+    List<Post> getPostListByOther(PageResult pageResult,@Param("authorId") BigInteger authorId, @Param("postId") Long postId,@Param("status") Integer status, @Param("title")String title);
 }

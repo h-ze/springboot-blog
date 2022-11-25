@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.util.Date;
 
+import static com.hz.blog.constant.Constant.*;
 
 
 @Api(tags = "commentController接口")
@@ -51,6 +53,7 @@ public class CommentController extends BaseController {
             @ApiImplicitParam(name = "replyId",value = "回复的评论id",paramType = "query",dataType = "int",required = true),
             @ApiImplicitParam(name = "content",value = "回复内容",paramType = "query",dataType = "String",required = true)
     })
+    @RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
     @ParamCheck
     public ResponseResult addComments(HttpServletRequest request, @ParamCheck BigInteger post_id, @ParamCheck BigInteger replyId,@ParamCheck String content){
 
@@ -86,6 +89,7 @@ public class CommentController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "commentsId",value = "评论的id",paramType = "query",dataType = "Long",required = true)
     })
+    @RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
     public ResponseResult deleteComments(Long commentsId){
 
         PageResult<Comments> commentsList = commentService.getComments(initPage(1, 1),null, commentsId);
@@ -110,10 +114,8 @@ public class CommentController extends BaseController {
     })
     public ResponseResult getComments(@ParamCheck Long post_id,Long commentsId,@RequestParam("per_page")Integer per_page,
                                       @RequestParam("page")Integer page){
-
         PageResult<Comments> commentsList = commentService.getComments(initPage(page, per_page),post_id, commentsId);
         return ResponseResult.successResult(100000,commentsList);
-
     }
 
 

@@ -35,11 +35,10 @@ public class PostServiceImpl implements PostService {
     private SnowflakeManager snowflakeManager;
 
     @Override
-    public int addPost(PostVo postVo) {
-        Post post = EntityConvertDtoAndVOUtils.convertBean(postVo, Post.class);
+    public int addPost(Post post) {
 
         try {
-            post.setPostId(BigInteger.valueOf(snowflakeManager.nextValue()));
+            post.setPostId(Long.valueOf(snowflakeManager.nextValue()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,8 +47,8 @@ public class PostServiceImpl implements PostService {
         int i = postDao.addPost(post);
         PostTag postTag = new PostTag();
         postTag.setPostId(post.getPostId());
-        postTag.setTagId(postVo.getTagId());
-        postTag.setWeight(BigInteger.valueOf(0L));
+        //postTag.setTagId(postVo.getTagId());
+        postTag.setWeight(Long.valueOf(0L));
         postTagService.addPostTag(postTag);
         return i;
     }
@@ -60,7 +59,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public int deletePost(BigInteger id) {
+    public int deletePost(Long id) {
         return postDao.deletePost(id);
     }
 
@@ -86,7 +85,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PageResult<Post> getPostListByOther(PageResult pageResult,BigInteger authorId,BigInteger postId,Integer status,String title) {
+    public PageResult<Post> getPostListByOther(PageResult pageResult,BigInteger authorId,Long postId,Integer status,String title) {
         List<Post> postListByOther = postDao.getPostListByOther(pageResult, authorId, postId, status, title);
         log.info("post:{}",postListByOther);
         return pageResult.getPageFilter(pageResult,postListByOther);

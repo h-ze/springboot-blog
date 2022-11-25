@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.hz.blog.constant.Constant.TYPE_SUPERADMIN;
+
 
 @Api(tags = "标签接口")
 @RestController()
@@ -37,7 +39,7 @@ public class TagController extends BaseController {
     }
 
 
-    @RequiresRoles("superAdmin")
+    @RequiresRoles(TYPE_SUPERADMIN)
     @ApiOperation(value ="删除指定标签",notes="删除指定标签")
     @DeleteMapping("deleteTag")
     public ResponseResult deleteTag(Integer id){
@@ -53,20 +55,15 @@ public class TagController extends BaseController {
 
     }
 
-    @RequiresRoles("superAdmin")
+    @RequiresRoles(TYPE_SUPERADMIN)
     @ApiOperation(value ="插入标签",notes="插入标签")
     @PostMapping("addTag")
     public ResponseResult addTag(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) @Validated TagVo tagVo){
-
-        //Tag tag = TagMapper.INSTANCE.toDTO(tagVo);
-        //Tag tag = new Tag(0,tagVo.getName(),tagVo.getIntroduction(),tagVo.getImage(),"");
-
         String name = tagVo.getName();
         Tag tagByName = tagService.getTagByName(name);
         if (tagByName!=null){
             return ResponseResult.successResult(100003,"标签已存在");
         }
-
         int i = tagService.addTag(tagVo);
         if (i>0){
             return ResponseResult.successResult(100000,"插入成功",tagVo);
@@ -74,7 +71,7 @@ public class TagController extends BaseController {
         return ResponseResult.successResult(100001,"插入失败",tagVo);
     }
 
-    @RequiresRoles("superAdmin")
+    @RequiresRoles(TYPE_SUPERADMIN)
     @ApiOperation(value ="修改标签",notes="修改标签")
     @PutMapping("updateTag")
     public ResponseResult updateTag(Tag tag){

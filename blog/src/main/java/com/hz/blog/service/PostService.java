@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface PostService {
 
-    int addPost(PostVo postVo);
+    int addPost(Post post);
 
     int updatePost(Post post);
 
-    int deletePost(BigInteger id);
+    int deletePost(Long id);
 
     Post getPostById(BigInteger id);
 
@@ -25,5 +25,5 @@ public interface PostService {
     PageResult<Post> getPost(PageResult pageResult);
 
 
-    PageResult<Post> getPostListByOther(PageResult pageResult,BigInteger authorId,BigInteger postId,Integer status,String title);
+    PageResult<Post> getPostListByOther(PageResult pageResult,BigInteger authorId,Long postId,Integer status,String title);
 }

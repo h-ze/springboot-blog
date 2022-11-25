@@ -15,11 +15,11 @@ import java.util.Date;
 @Configuration
 public class Post {
 
-    private BigInteger id;
+    private Long id;
 
-    private BigInteger postId;
+    private Long postId;
 
-    private BigInteger authorId;
+    private Long authorId;
 
     //渠道id
     private Integer channelId;

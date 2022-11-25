@@ -28,8 +28,8 @@ public class PostVo {
     private Integer comments;
 
     //创建时间
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private Date created;
+    //@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    //private Date created;
 
     //喜爱数
     private Integer favors;

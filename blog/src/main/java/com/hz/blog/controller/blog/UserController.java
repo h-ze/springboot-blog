@@ -381,16 +381,10 @@ public class UserController {
         int i = userInfoService.updateUserInfo(userInfo);
         if (i>0){
             return ResponseResult.successResult(100000,userInfo);
-
         }else {
             return ResponseResult.successResult(100001,userInfo);
 
         }
-        /*String fullName = userMessage.getFullName();
-        if (fullName ==null){
-            return new ConvertResult(999999,"参数错误","fullName不能为空");
-        }*/
-        //return new ConvertResult(0,"修改成功","用户已修改");
     }
 
     /**
@@ -404,9 +398,6 @@ public class UserController {
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = (String)claims.get("userId");
-        //User user = userService.getUserByUserId(userId);
-        //String userId ="1125";
-
         UserInfo userInfo = userInfoService.getUserInfo(userId);
         return ResponseResult.successResult(100000,userInfo);
     }
@@ -423,6 +414,7 @@ public class UserController {
     })
     public ResponseResult resetPassword(String email){
         log.info("用户邮箱:"+email);
+        //发送邮件到指定邮箱验证
         return ResponseResult.successResult(0,"重置成功","密码已重置,请前往邮箱点击重置链接生效重置操作");
     }
 
@@ -470,29 +462,19 @@ public class UserController {
 
     /**
      * 获取完整用户信息
-     * @param id 邮箱
-     * @return ConvertResult对象
+     * @return ResponseResult
      */
     @ApiOperation(value ="获取用户完整信息",notes="获取用户完整信息")
     @GetMapping(value = "/getUserWithInfo"/*,consumes = "application/x-www-form-urlencoded"*/)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",paramType = "query",dataType = "String",required = true),
-            //@ApiImplicitParam(name = "phone_number",value = "手机号",paramType = "query",dataType = "String",required = true)
-    })
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "id",value = "用户id",paramType = "query",dataType = "String",required = true),
+//    })
     @ResponseBody
-    public ResponseResult<String> getUserWithInfo(@RequestParam("id") String id/*,@RequestParam("phone_number") String phone_number*/){
-        log.info("email:"+ id);
-
+    public ResponseResult<String> getUserWithInfo(/*@RequestParam("id") String id*/){
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = String.valueOf(claims.get("userId"));
-        String fullName = String.valueOf(claims.get("fullName"));
-        log.info("userId:{}",userId);
-        log.info("fullName:{}",fullName);
-
-        //log.info("phone_number:"+phone_number);
-        UserWithInfo user = userService.getUserWithInfo(id,null);
-        log.info("用户为:"+user);
+        UserWithInfo user = userService.getUserWithInfo(userId,null);
         return ResponseResult.successResult(100000,user);
     }
 

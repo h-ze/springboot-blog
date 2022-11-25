@@ -13,8 +13,8 @@ import java.math.BigInteger;
 @AllArgsConstructor                //有参构造
 @Configuration
 public class PostTag {
-    private BigInteger id;
-    private BigInteger postId;
-    private BigInteger tagId;
-    private BigInteger weight;
+    private Long id;
+    private Long postId;
+    private Long tagId;
+    private Long weight;
 }

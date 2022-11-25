@@ -123,4 +123,10 @@ public class Constant {
     public static final Integer ASSISTANT =4;
     public static final Integer SUPERADMIN =5;
 
+    public static final String TYPE_ADMIN = "admin";
+    public static final String TYPE_USER = "user";
+    public static final String TYPE_PRODUCT = "product";
+    public static final String TYPE_ASSISTANT = "assistant";
+    public static final String TYPE_SUPERADMIN = "superadmin";
+
 }
