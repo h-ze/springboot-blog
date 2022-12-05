@@ -159,4 +159,15 @@ public class WebMvcConfig  implements WebMvcConfigurer/*extends WebMvcConfigurat
         registry.addViewController("/").setViewName("login");
     }
 
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .maxAge(1800)
+                .allowedOrigins("*");
+    }
+
+
+
 }
