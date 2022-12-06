@@ -26,7 +26,7 @@ public class JWTUtil {
     }
 
 
-    public String createJWT(String id, String username,String userId,String fullName/*,String password*/, String roles) {
+    public static String createJWT(String id, String username,String userId,String fullName/*,String password*/, String roles) {
         long nowMillis = System.currentTimeMillis();
 
         //需要添加userId 查找用户时应该使用id进行查询

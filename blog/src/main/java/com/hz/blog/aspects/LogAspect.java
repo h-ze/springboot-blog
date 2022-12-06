@@ -1,7 +1,9 @@
 package com.hz.blog.aspects;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.hz.blog.annotation.LogOperator;
+import com.hz.blog.entity.Config;
 import com.hz.blog.entity.LogEntity;
 import com.hz.blog.entity.SysLogEntity;
 import com.hz.blog.service.LogService;
@@ -10,8 +12,10 @@ import com.hz.blog.utils.IPUtils;
 import com.hz.blog.utils.JWTUtil;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -35,6 +39,9 @@ public class LogAspect {
     @Autowired
     private LogService logService;
 
+    @Autowired
+    private Config config;
+
     @Pointcut("@annotation(com.hz.blog.annotation.LogOperator)")
     public void logPointCut() {
 
@@ -53,6 +60,7 @@ public class LogAspect {
 
         return result;
     }
+
 
     private void saveSysLog(ProceedingJoinPoint joinPoint, long time) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -74,27 +82,42 @@ public class LogAspect {
             //logEntity.setOperator(className + "." + methodName + "()");
 
             //请求的参数
-            Object[] args = joinPoint.getArgs();
-            try{
-                String params = new Gson().toJson(args[0]);
-                //logEntity.setParams(params);
-            }catch (Exception e){
-
-            }
+//            Object[] args = joinPoint.getArgs();
+//            try{
+//                String params = new Gson().toJson(args[0]);
+//                //logEntity.setParams(params);
+//                System.out.println("======"+params);
+//
+//            }catch (Exception e){
+//
+//            }
 
             //获取request
             HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+
+            String userId="";
+            String fullName="";
+            String principal = (String) SecurityUtils.getSubject().getPrincipal();
+            if (StringUtils.isNoneEmpty(principal)) {
+                Claims claims = jwtUtil.parseJWT(principal);
+                userId = (String)claims.get("userId");
+                fullName = (String)claims.get("fullName");
+            }else {
+                JSONObject loginInfo = config.getJsonObject().getJSONObject("loginInfo");
+                userId =loginInfo.getString("userId");
+                fullName =loginInfo.getString("fullName");
+            }
             //设置IP地址
             //logEntity.setIp(IPUtils.getIpAddr(request));
 
             //用户名
-            //String principal = (String) SecurityUtils.getSubject().getPrincipal();
-            //Claims claims = jwtUtil.parseJWT(principal);
-            //String userId = (String)claims.get("userId");
-            //String fullName = (String)claims.get("fullName");
 
-            String userId = "userId";
-            String fullName = "fullName";
+
+            //JSONObject requestBody = (JSONObject)config.getJsonObject().get("requestBody");
+            //String remoteAddr = requestBody.getString("remoteAddr");
+
+            //String userId = "userId";
+            //String fullName = "fullName";
             String username ="test";
             //logEntity.setUsername(username);
 
@@ -105,10 +128,10 @@ public class LogAspect {
             String logId = UUID.randomUUID().toString().replace("-", "");
             String ip ="";
             Integer code =100000;
-            LogEntity logEntity = new LogEntity(logId,userId,fullName,"","",ip,new Date(),syslog.value(),code);
+            LogEntity logEntity = new LogEntity(logId,userId,fullName,"","",IPUtils.getIpAddr(request),new Date(),syslog.value(),code);
             //保存系统日志
-            //sysLogService.save(sysLog);
             logService.addLog(logEntity);
+            //sysLogService.save(sysLog);
         }
 
 

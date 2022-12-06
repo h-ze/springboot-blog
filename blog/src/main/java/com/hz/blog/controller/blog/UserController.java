@@ -65,6 +65,8 @@ public class UserController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private Config config;
 
     @Resource
     private TaskManager taskManager;
@@ -211,7 +213,10 @@ public class UserController {
                 boolean set = redisUtils.set(user.getUserId(), jsonObject.toString(), 60*60*24);
                 //boolean setRedisExpire = redisUtil.setRedisExpire(token, 600);
                 //log.info("结果: {}",set);
-
+                JSONObject info = new JSONObject();
+                info.put("userId",user.getId());
+                info.put("fullName",username);
+                config.getJsonObject().put("loginInfo",info);
                 return ResponseResult.successResult(100000,token);
             }else {
                 int errorNum=1;
@@ -398,6 +403,7 @@ public class UserController {
     @ResponseBody
     public ResponseResult getUserMessage(){
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        log.info("info:{}",principal);
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = (String)claims.get("userId");
         UserInfo userInfo = userInfoService.getUserInfo(userId);
