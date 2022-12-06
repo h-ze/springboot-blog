@@ -59,4 +59,6 @@ public class PostVo {
     private Integer weight;
 
     private BigInteger tagId;
+
+    private String authorName;
 }

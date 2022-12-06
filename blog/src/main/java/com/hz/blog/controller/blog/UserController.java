@@ -1,6 +1,7 @@
 package com.hz.blog.controller.blog;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hz.blog.annotation.LogOperator;
 import com.hz.blog.constant.CommonConstant;
 import com.hz.blog.entity.*;
 import com.hz.blog.service.RedisService;
@@ -174,6 +175,7 @@ public class UserController {
      * @return ConvertResult对象
      */
     /*multipart/form-data*/
+    @LogOperator("login")
     @PostMapping(value = "/login",consumes = "application/x-www-form-urlencoded")
     @ApiOperation(value ="用户登录",notes="获取用户的token",response = ResponseResult.class)
     @ApiImplicitParams({

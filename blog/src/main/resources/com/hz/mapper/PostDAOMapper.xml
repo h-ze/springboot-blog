@@ -3,32 +3,36 @@
 <mapper namespace="com.hz.blog.dao.PostDao">
 
     <select id="getPost" resultType="com.hz.blog.entity.Post">
-        select id,post_id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+        select id,post_id,author_id,author_name,channel_id,comments,created,favors,featured,status,summary,tags,
                thumbnail,title,views,weight from blog_post
     </select>
 
     <select id="getPostById" resultType="com.hz.blog.entity.Post">
-        select id,post_id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+        select id,post_id,author_id,author_name,channel_id,comments,created,favors,featured,status,summary,tags,
                thumbnail,title,views,weight from blog_post where id=#{id}
     </select>
 
     <select id="getPostByName" resultType="com.hz.blog.entity.Post">
-        select id,post_id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+        select id,post_id,author_id,author_name,channel_id,comments,created,favors,featured,status,summary,tags,
                thumbnail,title,views,weight from blog_post where title=#{name}
     </select>
 
     <select id="getPostListByAuthor" resultType="com.hz.blog.entity.Post">
-        select id,post_id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+        select id,post_id,author_id,author_name,channel_id,comments,created,favors,featured,status,summary,tags,
                thumbnail,title,views,weight from blog_post where author_id=#{authorId}
     </select>
 
 
     <select id="getPostListByOther" resultType="com.hz.blog.entity.Post">
-        select id,post_id,author_id,channel_id,comments,created,favors,featured,status,summary,tags,
+        select id,post_id,author_id,author_name,channel_id,comments,created,favors,featured,status,summary,tags,
                thumbnail,title,views,weight from blog_post
         <where>
             <if test="authorId !=null and authorId != ''">
-                author_id=#{authorId}
+                author_id = #{authorId}
+            </if>
+
+            <if test="authorName !=null and authorName != ''">
+                author_name = #{authorName}
             </if>
 
             <if test="postId !=null and  postId != ''">
@@ -50,7 +54,7 @@
                                      #{featured},
                                      #{status},#{summary},#{tags},
                                      #{thumbnail},#{title},#{views},
-                                     #{weight})
+                                     #{weight},#{authorName})
     </insert>
 
     <update id="updatePost">

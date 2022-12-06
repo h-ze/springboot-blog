@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.blog.dao.LogDao">
+
+    <select id="getLogListByOther" resultType="com.hz.blog.entity.LogEntity">
+        select id,log_id,user_id,username,email,phone,ip,operator_date,operator,code
+            from blog_log
+        <where>
+            <if test="username !=null and username != ''">
+                username = #{username}
+            </if>
+
+            <if test="email !=null and email != ''">
+                email = #{email}
+            </if>
+
+            <if test="phone !=null and phone != ''">
+                phone = #{phone}
+            </if>
+
+            <if test="ip !=null and  ip != ''">
+                and ip =#{ip}
+            </if>
+
+            <if test="code !=null and  code != ''">
+                and code =#{code}
+            </if>
+
+            <if test="operator !=null and  operator != ''">
+                and title =#{title}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addLog" parameterType="com.hz.blog.entity.LogEntity">
+        insert into blog_log values(null,#{logId},#{userId},#{username},#{email},#{phone},#{ip},#{operatorDate},
+                                     #{operator},
+                                     #{code})
+    </insert>
+
+
+    <delete id="deleteLog" parameterType="String">
+        delete from blog_log  where blog_log.log_id=#{logId}
+    </delete>
+
+
+
+</mapper>

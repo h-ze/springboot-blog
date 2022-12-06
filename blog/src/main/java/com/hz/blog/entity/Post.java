@@ -15,11 +15,16 @@ import java.util.Date;
 @Configuration
 public class Post {
 
+    //自增id
     private Long id;
 
+    //postId
     private Long postId;
 
+    //作者id
     private Long authorId;
+
+
 
     //渠道id
     private Integer channelId;
@@ -34,13 +39,13 @@ public class Post {
     //喜爱数
     private Integer favors;
 
-    //
+    //特点
     private Integer featured;
 
     //状态
     private Integer status;
 
-    //概要
+    //概要内容
     private String summary;
 
     //标签
@@ -57,4 +62,7 @@ public class Post {
 
     //权重
     private Integer weight;
+
+    //作者姓名
+    private String authorName;
 }
