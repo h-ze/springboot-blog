@@ -1,9 +1,11 @@
 package com.hz.blog.aspects;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hz.blog.annotation.LogOperator;
 import com.hz.blog.entity.Config;
 import com.hz.blog.entity.LogEntity;
+import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.service.LogService;
 import com.hz.blog.task.LogListener;
 import com.hz.blog.task.TaskManager;
@@ -26,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.UUID;
+
+import static com.hz.blog.constant.Constant.LOG_LOGIN;
 
 @Aspect
 @Component
@@ -69,7 +73,8 @@ public class LogAspect {
      */
     @AfterReturning(pointcut = "logPointCut()", returning = "jsonResult")
     public void doAfterReturning(JoinPoint joinPoint, Object jsonResult) {
-        saveSysLog(joinPoint,null);
+        System.out.println("1232"+jsonResult);
+        saveSysLog(joinPoint,jsonResult,null);
     }
 
     /**
@@ -80,11 +85,11 @@ public class LogAspect {
      */
     @AfterThrowing(value = "logPointCut()", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, Exception e) {
-        saveSysLog(joinPoint,e);
+        saveSysLog(joinPoint,null,e);
     }
 
 
-    private void saveSysLog(JoinPoint joinPoint , final Exception e) {
+    private void saveSysLog(JoinPoint joinPoint ,Object jsonResult, final Exception e) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 
@@ -126,11 +131,22 @@ public class LogAspect {
                 fullName = (String)claims.get("fullName");
                 log.info("fullName:{}",fullName);
             }else {
-                String token = request.getHeader("token");
-                log.info("token{}",token);
-                Claims claims = jwtUtil.parseJWT(token);
-                userId = (String)claims.get("userId");
-                fullName = (String)claims.get("fullName");
+                if (jsonResult!=null && StringUtils.equals(syslog.type(),LOG_LOGIN)){
+                    if (jsonResult instanceof ResponseResult) {
+                        ResponseResult responseResult = (ResponseResult) jsonResult;
+                        String token = String.valueOf(responseResult.getData());
+                        Claims claims = jwtUtil.parseJWT(token);
+                        userId = (String)claims.get("userId");
+                        fullName = (String)claims.get("fullName");
+                    }
+                }else {
+                    String token = request.getHeader("token");
+                    log.info("token{}",token);
+                    Claims claims = jwtUtil.parseJWT(token);
+                    userId = (String)claims.get("userId");
+                    fullName = (String)claims.get("fullName");
+                }
+
 //                JSONObject loginInfo = config.getJsonObject().getJSONObject("loginInfo");
 //                userId =loginInfo.getString("userId");
 //                fullName =loginInfo.getString("fullName");
