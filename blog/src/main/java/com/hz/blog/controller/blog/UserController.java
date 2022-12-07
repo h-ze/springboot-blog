@@ -33,6 +33,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static com.hz.blog.constant.Constant.LOG_LOGIN;
+import static com.hz.blog.constant.Constant.LOG_POST;
+
 
 @Controller
 @Api(tags = "用户管理接口")
@@ -177,7 +180,7 @@ public class UserController {
      * @return ConvertResult对象
      */
     /*multipart/form-data*/
-    @LogOperator("login")
+    @LogOperator(value = "登录",type = LOG_LOGIN)
     @PostMapping(value = "/login",consumes = "application/x-www-form-urlencoded")
     @ApiOperation(value ="用户登录",notes="获取用户的token",response = ResponseResult.class)
     @ApiImplicitParams({
@@ -190,6 +193,7 @@ public class UserController {
         log.info(username);
         log.info(password);
         UserWithInfo user = userService.getUserWithInfo(null,username);
+        log.info("user:{}",user);
         if (user!=null){
             if (redisUtils.hasKey(user.getUserId())){
                 String s = (String) redisUtils.get(user.getUserId());
@@ -204,7 +208,7 @@ public class UserController {
             String sha = SaltUtil.shiroSha(password ,user.getSalt());
             if (sha.equals(user.getPassword())){
                 String token = jwtUtil.createJWT(user.getId().toString(),
-                        user.getName(),user.getUserId(),user.getFullName(), user.getSalt());
+                        user.getName(),user.getUserId(),user.getName(), user.getSalt());
                 log.info(token);
                 //将登录的token存储到redis中
                 JSONObject jsonObject = new JSONObject();

@@ -5,7 +5,6 @@ import com.hz.blog.model.ModelBeanMap;
 
 /**
  * 封装任务参数类
- * @author zengjintao
  * @version 1.0
  * @create_at 2020/4/13 14:46
  */

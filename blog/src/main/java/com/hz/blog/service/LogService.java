@@ -14,12 +14,14 @@ public interface LogService {
 
     @StartPage
     PageResult<Post> getLogListByOther(PageResult pageResult,
-                                       @Param("username") String username,
-                                       @Param("email") String email,
-                                       @Param("phone") String phone,
-                                       @Param("ip")String ip,
-                                       @Param("code")Integer code,
-                                       @Param("operator")String operator
+                                       String username,
+                                       String email,
+                                       String phone,
+                                       String ip,
+                                       Integer code,
+                                       String operator,
+                                       String userId,
+                                       Integer type
     );
 
     int deleteLog(String logId);

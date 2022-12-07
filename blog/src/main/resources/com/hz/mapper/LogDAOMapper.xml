@@ -3,7 +3,7 @@
 <mapper namespace="com.hz.blog.dao.LogDao">
 
     <select id="getLogListByOther" resultType="com.hz.blog.entity.LogEntity">
-        select id,log_id,user_id,username,email,phone,ip,operator_date,operator,code
+        select id,log_id,user_id,username,email,phone,type,ip,operator_date,operator,code
             from blog_log
         <where>
             <if test="username !=null and username != ''">
@@ -29,11 +29,19 @@
             <if test="operator !=null and  operator != ''">
                 and title =#{title}
             </if>
+
+            <if test="userId !=null and  userId != ''">
+                and user_id =#{userId}
+            </if>
+
+            <if test="type !=null and  type != ''">
+                and type =#{type}
+            </if>
         </where>
     </select>
 
     <insert id="addLog" parameterType="com.hz.blog.entity.LogEntity">
-        insert into blog_log values(null,#{logId},#{userId},#{username},#{email},#{phone},#{ip},#{operatorDate},
+        insert into blog_log values(null,#{logId},#{userId},#{username},#{email},#{phone},#{type},#{ip},#{operatorDate},
                                      #{operator},
                                      #{code})
     </insert>

@@ -32,7 +32,6 @@ public class TagController extends BaseController {
     @ApiOperation(value ="获取所有的标签",notes="获取所有的标签")
     @GetMapping("getTags")
     public ResponseResult getTags(){
-
         List<Tag> tags = tagService.getTags();
         List<TagVo> tagVos = EntityConvertDtoAndVOUtils.convertList(tags, TagVo.class);
         return ResponseResult.successResult(100000,tagVos);

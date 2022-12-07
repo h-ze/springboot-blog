@@ -24,6 +24,8 @@ public class LogEntity implements Serializable {
 
     private String phone;
 
+    private Integer type;
+
     private String ip;
 
     @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")

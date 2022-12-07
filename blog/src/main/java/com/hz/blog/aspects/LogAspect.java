@@ -1,12 +1,13 @@
 package com.hz.blog.aspects;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.Gson;
 import com.hz.blog.annotation.LogOperator;
 import com.hz.blog.entity.Config;
 import com.hz.blog.entity.LogEntity;
-import com.hz.blog.entity.SysLogEntity;
 import com.hz.blog.service.LogService;
+import com.hz.blog.task.LogListener;
+import com.hz.blog.task.TaskManager;
+import com.hz.blog.task.TaskParam;
 import com.hz.blog.utils.HttpContextUtils;
 import com.hz.blog.utils.IPUtils;
 import com.hz.blog.utils.JWTUtil;
@@ -14,11 +15,9 @@ import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,27 +41,50 @@ public class LogAspect {
     @Autowired
     private Config config;
 
+    @Autowired
+    private TaskManager taskManager;
+
     @Pointcut("@annotation(com.hz.blog.annotation.LogOperator)")
     public void logPointCut() {
 
     }
 
-    @Around("logPointCut()")
-    public Object around(ProceedingJoinPoint point) throws Throwable {
-        long beginTime = System.currentTimeMillis();
-        //执行方法
-        Object result = point.proceed();
-        //执行时长(毫秒)
-        long time = System.currentTimeMillis() - beginTime;
+//    @Around("logPointCut()")
+//    public Object around(ProceedingJoinPoint point) throws Throwable {
+//        long beginTime = System.currentTimeMillis();
+//        //执行方法
+//        Object result = point.proceed();
+//        //执行时长(毫秒)
+//        long time = System.currentTimeMillis() - beginTime;
+//
+//        //保存日志
+//        saveSysLog(point, time);
+//
+//        return result;
+//    }
 
-        //保存日志
-        saveSysLog(point, time);
+    /**
+     * 处理完请求后执行
+     * @param joinPoint 切点
+     */
+    @AfterReturning(pointcut = "logPointCut()", returning = "jsonResult")
+    public void doAfterReturning(JoinPoint joinPoint, Object jsonResult) {
+        saveSysLog(joinPoint,null);
+    }
 
-        return result;
+    /**
+     * 拦截异常操作
+     * 抛出异常后执行
+     * @param joinPoint 切点
+     * @param e         异常
+     */
+    @AfterThrowing(value = "logPointCut()", throwing = "e")
+    public void doAfterThrowing(JoinPoint joinPoint, Exception e) {
+        saveSysLog(joinPoint,e);
     }
 
 
-    private void saveSysLog(ProceedingJoinPoint joinPoint, long time) {
+    private void saveSysLog(JoinPoint joinPoint , final Exception e) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 
@@ -102,11 +124,20 @@ public class LogAspect {
                 Claims claims = jwtUtil.parseJWT(principal);
                 userId = (String)claims.get("userId");
                 fullName = (String)claims.get("fullName");
+                log.info("fullName:{}",fullName);
             }else {
-                JSONObject loginInfo = config.getJsonObject().getJSONObject("loginInfo");
-                userId =loginInfo.getString("userId");
-                fullName =loginInfo.getString("fullName");
+                String token = request.getHeader("token");
+                log.info("token{}",token);
+                Claims claims = jwtUtil.parseJWT(token);
+                userId = (String)claims.get("userId");
+                fullName = (String)claims.get("fullName");
+//                JSONObject loginInfo = config.getJsonObject().getJSONObject("loginInfo");
+//                userId =loginInfo.getString("userId");
+//                fullName =loginInfo.getString("fullName");
+//                log.info("fullName:{}",fullName);
+
             }
+
             //设置IP地址
             //logEntity.setIp(IPUtils.getIpAddr(request));
 
@@ -126,13 +157,20 @@ public class LogAspect {
 
             log.info("保存日志。。。。。。");
             String logId = UUID.randomUUID().toString().replace("-", "");
-            String ip ="";
-            Integer code =100000;
-            LogEntity logEntity = new LogEntity(logId,userId,fullName,"","",IPUtils.getIpAddr(request),new Date(),syslog.value(),code);
-            //保存系统日志
-            logService.addLog(logEntity);
+
+            Integer code = e==null ? 200:500;
+
+            LogEntity logEntity = new LogEntity(logId,userId,fullName,"","",Integer.valueOf(syslog.type()),IPUtils.getIpAddr(request),new Date(),syslog.value(),code);
+
+            //保存系统日志 异步任务执行
+            TaskParam taskParam = new TaskParam(LogListener.class);
+            taskParam.put("log", logEntity);
+            taskManager.pushTask(taskParam);
+
+            //logService.addLog(logEntity);
             //sysLogService.save(sysLog);
         }
+
 
 
     }

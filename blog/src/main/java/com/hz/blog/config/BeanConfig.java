@@ -19,14 +19,14 @@ public class BeanConfig {
         return Calendar.getInstance();
     }
 
-    /**
-     * 配置线程池
-     * @return 返回ExecutorService对象
-     */
-    @Bean
-    public ExecutorService executorService() {
-        return Executors.newCachedThreadPool();
-    }
+//    /**
+//     * 配置线程池
+//     * @return 返回ExecutorService对象
+//     */
+//    @Bean
+//    public ExecutorService executorService() {
+//        return Executors.newCachedThreadPool();
+//    }
     //executorService.execute(new EmailRunnable(employee));
 
     /*@Bean

@@ -5,6 +5,8 @@ import com.hz.blog.entity.LogEntity;
 import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
 import com.hz.blog.service.LogService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +26,12 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public PageResult<Post> getLogListByOther(PageResult pageResult, String username, String email, String phone, String ip, Integer code, String operator) {
-
-        List<LogEntity> logListByOther = logDao.getLogListByOther(pageResult, username, email, phone, ip, code, operator);
+    public PageResult<Post> getLogListByOther(PageResult pageResult, String username, String email, String phone, String ip, Integer code, String operator,String userId,Integer type) {
+        List<LogEntity> logListByOther =new ArrayList<>();
+        if (StringUtils.isNotEmpty(userId)){
+            logListByOther = logDao.getLogListByOther(pageResult, username, email, phone, ip, code, operator,userId,type);
+        }
         return pageResult.getPageFilter(pageResult,logListByOther);
-
     }
 
     @Override

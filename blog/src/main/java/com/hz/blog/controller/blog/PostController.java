@@ -1,6 +1,8 @@
 package com.hz.blog.controller.blog;
 
 
+import com.hz.blog.annotation.LogOperator;
+import com.hz.blog.constant.Constant;
 import com.hz.blog.controller.BaseController;
 import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
@@ -37,6 +39,8 @@ public class PostController extends BaseController {
     @Autowired
     private JWTUtil jwtUtil;
 
+
+    @LogOperator(value = "新建博客",type = LOG_POST)
     @PostMapping("addPost")
     @ApiOperation(value ="添加博客",notes="添加博客")
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})

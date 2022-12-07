@@ -129,4 +129,7 @@ public class Constant {
     public static final String TYPE_ASSISTANT = "assistant";
     public static final String TYPE_SUPERADMIN = "superadmin";
 
+    public static final String LOG_LOGIN ="1";
+    public static final String LOG_POST ="2";
+
 }

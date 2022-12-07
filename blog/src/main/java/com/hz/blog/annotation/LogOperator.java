@@ -8,4 +8,6 @@ import java.lang.annotation.*;
 public @interface LogOperator {
 
     String value() default "";
+
+    String type() default "0";
 }

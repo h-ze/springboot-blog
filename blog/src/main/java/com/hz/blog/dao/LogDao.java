@@ -22,7 +22,9 @@ public interface LogDao {
                                       @Param("phone") String phone,
                                       @Param("ip")String ip,
                                       @Param("code")Integer code,
-                                      @Param("operator")String operator
+                                      @Param("operator")String operator,
+                                      @Param("userId")String userId,
+                                      @Param("type") Integer type
     );
 
     int deleteLog(String logId);
