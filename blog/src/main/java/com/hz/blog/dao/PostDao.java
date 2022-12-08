@@ -28,5 +28,5 @@ public interface PostDao {
     List<Post> getPost(PageResult pageResult);
 
     @StartPage
-    List<Post> getPostListByOther(PageResult pageResult,@Param("authorId") BigInteger authorId, @Param("postId") Long postId,@Param("status") Integer status, @Param("title")String title);
+    List<Post> getPostListByOther(PageResult pageResult,@Param("authorId") Long authorId,@Param("authorName") String authorName, @Param("postId") Long postId,@Param("status") Integer status, @Param("title")String title);
 }

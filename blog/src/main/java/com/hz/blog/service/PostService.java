@@ -25,5 +25,5 @@ public interface PostService {
     PageResult<Post> getPost(PageResult pageResult);
 
 
-    PageResult<Post> getPostListByOther(PageResult pageResult,BigInteger authorId,Long postId,Integer status,String title);
+    PageResult<Post> getPostListByOther(PageResult pageResult,Long authorId,String authorName,Long postId,Integer status,String title);
 }

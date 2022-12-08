@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * 异常处理逻辑
  */
-//@RestControllerAdvice
+@RestControllerAdvice
 @Slf4j
 public class ExceptionController {
 

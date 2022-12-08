@@ -85,8 +85,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PageResult<Post> getPostListByOther(PageResult pageResult,BigInteger authorId,Long postId,Integer status,String title) {
-        List<Post> postListByOther = postDao.getPostListByOther(pageResult, authorId, postId, status, title);
+    public PageResult<Post> getPostListByOther(PageResult pageResult,Long authorId,String authorName,Long postId,Integer status,String title) {
+        List<Post> postListByOther = postDao.getPostListByOther(pageResult, authorId,authorName, postId, status, title);
         log.info("post:{}",postListByOther);
         return pageResult.getPageFilter(pageResult,postListByOther);
 

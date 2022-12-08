@@ -2,6 +2,7 @@ package com.hz.blog.config.shiro;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hz.blog.constant.Constant;
+import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.utils.JWTUtil;
 import com.hz.blog.utils.RedisUtils;
 import com.hz.blog.utils.SpringContextUtils;
@@ -164,9 +165,10 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         //httpServletResponse.sendRedirect("/unauthorized/" + message);
 
         JSONObject jsonObject = new JSONObject(true);
-        jsonObject.put("code","999999");
+        jsonObject.put("code",999999);
         jsonObject.put("message","TOKEN_ERROR");
         jsonObject.put("data",message);
+
         response.setContentType("application/json;charset=UTF-8");
         try {
             response.getWriter().println(jsonObject.toString());

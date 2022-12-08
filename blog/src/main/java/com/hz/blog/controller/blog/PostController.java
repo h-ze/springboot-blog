@@ -7,6 +7,7 @@ import com.hz.blog.controller.BaseController;
 import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
 import com.hz.blog.entity.ResponseResult;
+import com.hz.blog.exception.RRException;
 import com.hz.blog.service.PostService;
 import com.hz.blog.utils.EntityConvertDtoAndVOUtils;
 import com.hz.blog.utils.JWTUtil;
@@ -21,8 +22,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.hz.blog.constant.Constant.*;
+import static com.hz.blog.utils.ConvertUtils.convertString;
 
 
 @Api(tags = "博客接口")
@@ -69,7 +75,7 @@ public class PostController extends BaseController {
     })
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
     public ResponseResult updatePost(Long id,@ApiParam(value = "博客标题") String title){
-        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(1, 1), null, id, null, null);
+        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(1, 1), null,null, id, null, null);
         if (postListByOther.getTotalSize() ==0 ){
             return ResponseResult.successResult(100003,"当前内容不存在",id);
         }
@@ -99,8 +105,11 @@ public class PostController extends BaseController {
     @DeleteMapping("deletePost")
     @ApiOperation(value ="删除博客",notes="删除博客")
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
-    public ResponseResult deletePost(Long id){
-        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(1, 1), null, id, null, null);
+    public ResponseResult deletePost(String ids){
+        List<Long> categoryids = convertString(ids);
+        Long id = categoryids.get(0);
+
+        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(1, 1), null, null,id, null, null);
         if (postListByOther.getTotalSize()==0){
             return ResponseResult.successResult(100003,"当前内容不存在",postListByOther.getData().get(0));
         }
@@ -108,7 +117,6 @@ public class PostController extends BaseController {
         if (StringUtils.equals(String.valueOf(postListByOther.getData().get(0).getAuthorId()),shiroUtils.getUserId())){
             ResponseResult.successResult(100001,"删除失败，您不是当前博客的作者",postListByOther.getData().get(0));
         }
-
         int i = postService.deletePost(id);
         if (i>0){
             return ResponseResult.successResult(100000,"删除成功",postListByOther.getData().get(0));
@@ -136,9 +144,9 @@ public class PostController extends BaseController {
             @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
     })
     public ResponseResult getPostListByOther(@RequestParam("per_page")Integer per_page,
-                                             @RequestParam("page")Integer page, BigInteger authorId, Long postId, Integer status, String title) {
+                                             @RequestParam("page")Integer page, Long authorId,String authorName, Long postId, Integer status, String title) {
         //startPage(page,per_page);
-        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), authorId, postId, status, title);
+        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), authorId, authorName,postId, status, title);
         //PageInfo<?> pageList = getPageList(post);
         //PageResult postsPage = getPageResult(pageList);
         return ResponseResult.successResult(100000,postListByOther);
