@@ -92,7 +92,6 @@ public class PostController extends BaseController {
         System.out.println("test2");
         System.out.println("test3");
 
-
         //String principal = (String) SecurityUtils.getSubject().getPrincipal();
         //Claims claims = jwtUtil.parseJWT(principal);
         //String userId = (String)claims.get("userId");
@@ -120,6 +119,7 @@ public class PostController extends BaseController {
     @ApiOperation(value ="删除博客",notes="删除博客")
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
     public ResponseResult deletePost(String ids){
+        System.out.println("delete");
         List<Long> categoryids = convertString(ids);
         Long id = categoryids.get(0);
 
