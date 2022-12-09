@@ -14,7 +14,7 @@ public interface PostService {
 
     int updatePost(Post post);
 
-    int deletePost(Long id);
+    int deletePost(Long id,Long authorId);
 
     Post getPostById(BigInteger id);
 

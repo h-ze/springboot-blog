@@ -16,7 +16,7 @@ public interface PostDao {
 
     int updatePost(Post post);
 
-    int deletePost(Long id);
+    int deletePost(@Param("postId") Long postId,@Param("authorId") Long authorId);
 
     Post getPostById(BigInteger id);
 

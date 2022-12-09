@@ -88,18 +88,6 @@ public class PostController extends BaseController {
         logger.info("post1:{}",post);
         Long authorId = post.getAuthorId();
 
-        System.out.println("test1");
-        System.out.println("test2");
-        System.out.println("test3");
-        System.out.println("test4");
-        System.out.println("test5");
-        System.out.println("test6");
-        System.out.println("test7");
-        System.out.println("test8");
-        System.out.println("test9");
-        System.out.println("test10");
-
-
         //String principal = (String) SecurityUtils.getSubject().getPrincipal();
         //Claims claims = jwtUtil.parseJWT(principal);
         //String userId = (String)claims.get("userId");
@@ -131,19 +119,20 @@ public class PostController extends BaseController {
         List<Long> categoryids = convertString(ids);
         Long id = categoryids.get(0);
 
-        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(1, 1), null, null,id, null, null);
-        if (postListByOther.getTotalSize()==0){
-            return ResponseResult.successResult(100003,"当前内容不存在",postListByOther.getData().get(0));
-        }
+//        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(1, 1), null, null,id, null, null);
+//        if (postListByOther.getTotalSize()==0){
+//            return ResponseResult.successResult(100003,"当前内容不存在",postListByOther.getData().get(0));
+//        }
+//        if (StringUtils.equals(String.valueOf(postListByOther.getData().get(0).getAuthorId()),shiroUtils.getUserId())){
+//            ResponseResult.successResult(100001,"删除失败，您不是当前博客的作者",postListByOther.getData().get(0));
+//        }
+        String userId = shiroUtils.getUserId();
 
-        if (StringUtils.equals(String.valueOf(postListByOther.getData().get(0).getAuthorId()),shiroUtils.getUserId())){
-            ResponseResult.successResult(100001,"删除失败，您不是当前博客的作者",postListByOther.getData().get(0));
-        }
-        int i = postService.deletePost(id);
+        int i = postService.deletePost(id,Long.parseLong(userId));
         if (i>0){
-            return ResponseResult.successResult(100000,"删除成功",postListByOther.getData().get(0));
+            return ResponseResult.successResult(100000,"删除成功"/*,postListByOther.getData().get(0)*/);
         }
-        return ResponseResult.successResult(100001,"删除失败",postListByOther.getData().get(0));
+        return ResponseResult.successResult(100001,"删除失败"/*,postListByOther.getData().get(0)*/);
     }
 
     @GetMapping("getPosts")

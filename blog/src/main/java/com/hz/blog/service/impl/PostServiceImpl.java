@@ -59,8 +59,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public int deletePost(Long id) {
-        return postDao.deletePost(id);
+    public int deletePost(Long id,Long authorId) {
+        int i = postDao.deletePost(id, authorId);
+        log.info("i：{}",i);
+        return i;
     }
 
     @Override

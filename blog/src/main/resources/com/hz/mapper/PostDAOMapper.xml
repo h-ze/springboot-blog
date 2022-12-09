@@ -69,7 +69,7 @@
     </delete>-->
 
     <delete id="deletePost" parameterType="Long">
-        delete blog_post,post_tag from blog_post  left join post_tag  on blog_post.post_id = post_tag.post_id where blog_post.post_id=#{postId}
+        delete blog_post,post_tag from blog_post  left join post_tag  on blog_post.post_id = post_tag.post_id where blog_post.post_id=#{postId} and blog_post.author_id =#{authorId}
     </delete>
 
 
