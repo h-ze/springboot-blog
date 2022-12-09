@@ -97,6 +97,7 @@ public class PostController extends BaseController {
         System.out.println("test7");
         System.out.println("test8");
         System.out.println("test9");
+        System.out.println("test10");
 
 
         //String principal = (String) SecurityUtils.getSubject().getPrincipal();
