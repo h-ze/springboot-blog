@@ -92,6 +92,7 @@ public class PostController extends BaseController {
         System.out.println("test2");
         System.out.println("test3");
         System.out.println("test4");
+        System.out.println("test5");
 
         //String principal = (String) SecurityUtils.getSubject().getPrincipal();
         //Claims claims = jwtUtil.parseJWT(principal);
