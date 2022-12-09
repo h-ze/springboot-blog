@@ -68,29 +68,40 @@ public class PostController extends BaseController {
         return ResponseResult.successResult(100001,"插入失败",postVo);
     }
 
-    @PutMapping("updatePost")
+    @PutMapping(value = "updatePost",consumes = "application/x-www-form-urlencoded")
     @ApiOperation(value ="修改博客",notes="修改博客")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "博客id",paramType = "query",dataType = "int",required = true),
+            @ApiImplicitParam(name = "postId",value = "文章id",paramType = "form",dataType = "Long",required = true),
+            @ApiImplicitParam(name = "title",value = "文章标题",paramType = "form",dataType = "String"),
+            @ApiImplicitParam(name = "tags",value = "文章标签",paramType = "form",dataType = "String"),
+            @ApiImplicitParam(name = "summary",value = "文章概要",paramType = "form",dataType = "String"),
+            @ApiImplicitParam(name = "status",value = "文章状态",paramType = "form",dataType = "int")
+
     })
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
-    public ResponseResult updatePost(Long id,@ApiParam(value = "博客标题") String title){
-        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(1, 1), null,null, id, null, null);
+    public ResponseResult updatePost(Long postId,String title,String tags,String summary,Integer status){
+        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(1, 1), null,null, postId, null, null);
         if (postListByOther.getTotalSize() ==0 ){
-            return ResponseResult.successResult(100003,"当前内容不存在",id);
+            return ResponseResult.successResult(100003,"当前内容不存在",postId);
         }
         Post post = postListByOther.getData().get(0);
-
+        logger.info("post1:{}",post);
         Long authorId = post.getAuthorId();
+
+        System.out.println("test1");
 
         //String principal = (String) SecurityUtils.getSubject().getPrincipal();
         //Claims claims = jwtUtil.parseJWT(principal);
         //String userId = (String)claims.get("userId");
         //String userId = shiroUtils.getUserId();
         //logger.info("userId:{}",userId);
-
+        logger.info("authorId:{}",authorId);
+        logger.info("userId:{}",shiroUtils.getUserId());
         if (StringUtils.equals(String.valueOf(authorId),shiroUtils.getUserId())){
             post.setTitle(title);
+            post.setStatus(status);
+            post.setTags(tags);
+            post.setSummary(summary);
             int i = postService.updatePost(post);
             if (i>0){
                 return ResponseResult.successResult(100000,"修改成功",post);
@@ -147,6 +158,7 @@ public class PostController extends BaseController {
                                              @RequestParam("page")Integer page, Long authorId,String authorName, Long postId, Integer status, String title) {
         //startPage(page,per_page);
         PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), authorId, authorName,postId, status, title);
+        logger.info("postList：{}",postListByOther);
         //PageInfo<?> pageList = getPageList(post);
         //PageResult postsPage = getPageResult(pageList);
         return ResponseResult.successResult(100000,postListByOther);

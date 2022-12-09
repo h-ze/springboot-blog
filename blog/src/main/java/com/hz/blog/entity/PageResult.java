@@ -84,4 +84,16 @@ public class PageResult<T> {
         //pageResult.setCurrentSize(page.getList().size());
         return pages;
     }
+
+    @Override
+    public String toString() {
+        return "PageResult{" +
+                "pageNum=" + pageNum +
+                ", pageSize=" + pageSize +
+                ", totalSize=" + totalSize +
+                ", totalPages=" + totalPages +
+                ", list=" + list +
+                ", currentSize=" + currentSize +
+                '}';
+    }
 }

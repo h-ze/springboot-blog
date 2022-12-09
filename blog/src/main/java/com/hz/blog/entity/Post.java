@@ -16,15 +16,16 @@ import java.util.Date;
 public class Post {
 
     //自增id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     //postId
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long postId;
 
     //作者id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long authorId;
-
-
 
     //渠道id
     private Integer channelId;
