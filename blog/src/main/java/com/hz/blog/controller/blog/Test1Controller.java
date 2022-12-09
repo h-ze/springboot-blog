@@ -19,6 +19,7 @@ public class Test1Controller extends BaseController {
     @GetMapping("getTest")
     public String getTest(@RequestParam String param){
         log.info("param:{}",param);
+        System.out.println("1");
         return param;
     }
 
