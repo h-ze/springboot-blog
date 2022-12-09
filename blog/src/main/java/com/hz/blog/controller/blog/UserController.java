@@ -192,6 +192,7 @@ public class UserController {
     public ResponseResult login(@RequestParam("username") String username , @RequestParam("password")String password){
         log.info(username);
         log.info(password);
+        System.out.println("1");
         UserWithInfo user = userService.getUserWithInfo(null,username);
         log.info("user:{}",user);
         if (user!=null){
