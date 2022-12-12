@@ -7,6 +7,7 @@ import com.hz.blog.controller.BaseController;
 import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
 import com.hz.blog.entity.ResponseResult;
+import com.hz.blog.entity.ResultList;
 import com.hz.blog.exception.RRException;
 import com.hz.blog.service.PostService;
 import com.hz.blog.utils.EntityConvertDtoAndVOUtils;
@@ -128,11 +129,11 @@ public class PostController extends BaseController {
 //        }
         String userId = shiroUtils.getUserId();
 
-        int i = postService.deletePost(id,Long.parseLong(userId));
-        if (i>0){
-            return ResponseResult.successResult(100000,"删除成功"/*,postListByOther.getData().get(0)*/);
+        ResultList<Long> longResultList = postService.deletePost(categoryids, Long.parseLong(userId));
+        if (longResultList.getSuccessNum()>0){
+            return ResponseResult.successResult(100000,"删除成功",longResultList/*,postListByOther.getData().get(0)*/);
         }
-        return ResponseResult.successResult(100001,"删除失败"/*,postListByOther.getData().get(0)*/);
+        return ResponseResult.successResult(100001,"删除失败",longResultList/*,postListByOther.getData().get(0)*/);
     }
 
     @GetMapping("getPosts")
@@ -157,6 +158,38 @@ public class PostController extends BaseController {
     public ResponseResult getPostListByOther(@RequestParam("per_page")Integer per_page,
                                              @RequestParam("page")Integer page, Long authorId,String authorName, Long postId, Integer status, String title) {
         //startPage(page,per_page);
+        //String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        //Claims claims = jwtUtil.parseJWT(principal);
+        //String userId =(String)claims.get("userId");
+        String userId = shiroUtils.getUserId();
+        if (authorId!=null && !StringUtils.equals(userId,String.valueOf(authorId))){
+            return ResponseResult.successResult(100000,initPage(page, per_page).getPageFilter(initPage(page, per_page),new ArrayList()));
+        }
+        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), authorId, authorName,postId, status, title);
+        logger.info("postList：{}",postListByOther);
+        //PageInfo<?> pageList = getPageList(post);
+        //PageResult postsPage = getPageResult(pageList);
+        return ResponseResult.successResult(100000,postListByOther);
+
+    }
+
+
+    @GetMapping("getPublicPostListByOther")
+    @ApiOperation(value = "对外根据需求获取博客列表",notes = "对外根据需求获取博客列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",value = "页数",paramType = "query",dataType = "int",required = true),
+            @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
+    })
+    public ResponseResult getPublicPostListByOther(@RequestParam("per_page")Integer per_page,
+                                             @RequestParam("page")Integer page, Long authorId,String authorName, Long postId, Integer status, String title) {
+        //startPage(page,per_page);
+        //String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        //Claims claims = jwtUtil.parseJWT(principal);
+        //String userId =(String)claims.get("userId");
+        String userId = shiroUtils.getUserId();
+        if (authorId!=null && StringUtils.equals(userId,String.valueOf(authorId))){
+            return ResponseResult.successResult(100000,initPage(page, per_page).getPageFilter(initPage(page, per_page),new ArrayList()));
+        }
         PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), authorId, authorName,postId, status, title);
         logger.info("postList：{}",postListByOther);
         //PageInfo<?> pageList = getPageList(post);

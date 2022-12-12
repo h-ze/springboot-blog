@@ -2,19 +2,22 @@ package com.hz.blog.service.impl;
 
 import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.PostTag;
+import com.hz.blog.entity.ResultList;
 import com.hz.blog.service.PostService;
 import com.hz.blog.dao.PostDao;
 import com.hz.blog.entity.Post;
 import com.hz.blog.service.PostTagService;
-import com.hz.blog.utils.EntityConvertDtoAndVOUtils;
 import com.hz.blog.utils.SnowflakeManager;
-import com.hz.blog.vo.PostVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +36,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private SnowflakeManager snowflakeManager;
+
+    @Autowired
+    private SqlSessionFactory sqlSessionFactory;
 
     @Override
     public int addPost(Post post) {
@@ -63,6 +69,43 @@ public class PostServiceImpl implements PostService {
         int i = postDao.deletePost(id, authorId);
         log.info("i：{}",i);
         return i;
+    }
+
+    @Override
+    public ResultList<Long> deletePost(List<Long> posts, Long authorId) {
+        //设置true的话以后的增删改就不用提交事务
+        ResultList<Long> longResultList = new ResultList<>();
+        int successNum=1;
+        int failNum =0;
+        List<Long> successList =new ArrayList<>();
+        List<Long> failList = new ArrayList<>();
+        try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,false)) {
+
+            PostDao mapper = sqlSession.getMapper(PostDao.class);
+            for (int i=0;i<posts.size();i++){
+                int deletePost = mapper.deletePost(posts.get(i), authorId);
+                System.out.println("==="+deletePost);
+                if (deletePost>0){
+                    successNum++;
+                    successList.add(posts.get(i));
+                }else {
+                    failNum++;
+                    failList.add(posts.get(i));
+                }
+                if (i%1000 ==999){
+                    sqlSession.commit();
+                    sqlSession.clearCache();
+                }
+            }
+            sqlSession.commit();
+            sqlSession.clearCache();
+        }
+        longResultList.setFailNum(failNum);
+        longResultList.setSuccessNum(successNum);
+        longResultList.setSuccessList(successList);
+        longResultList.setFailList(failList);
+        return longResultList;
+        //return postDao.deletePosts(posts,authorId);
     }
 
     @Override

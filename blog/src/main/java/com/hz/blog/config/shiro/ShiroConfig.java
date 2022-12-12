@@ -135,7 +135,7 @@ public class ShiroConfig {
 
         filterChainDefinitionMap.put("/postController/getPosts","anon");
 
-        filterChainDefinitionMap.put("/postController/getPostListByOther","anon");
+        filterChainDefinitionMap.put("/postController/getPublicPostListByOther","anon");
 
 
         filterChainDefinitionMap.put("/commentController/**","anon");

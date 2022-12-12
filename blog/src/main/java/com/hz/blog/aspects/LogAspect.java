@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hz.blog.annotation.LogOperator;
 import com.hz.blog.entity.Config;
 import com.hz.blog.entity.LogEntity;
+import com.hz.blog.entity.LoginUserInfo;
 import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.service.LogService;
 import com.hz.blog.task.LogListener;
@@ -134,8 +135,9 @@ public class LogAspect {
                 if (jsonResult!=null && StringUtils.equals(syslog.type(),LOG_LOGIN)){
                     if (jsonResult instanceof ResponseResult) {
                         ResponseResult responseResult = (ResponseResult) jsonResult;
-                        String token = String.valueOf(responseResult.getData());
-                        Claims claims = jwtUtil.parseJWT(token);
+                        //String token = String.valueOf(responseResult.getData());
+                        LoginUserInfo loginUserInfo = (LoginUserInfo) responseResult.getData();
+                        Claims claims = jwtUtil.parseJWT(loginUserInfo.getToken());
                         userId = (String)claims.get("userId");
                         fullName = (String)claims.get("fullName");
                     }

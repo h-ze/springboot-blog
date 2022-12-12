@@ -72,6 +72,21 @@
         delete blog_post,post_tag from blog_post  left join post_tag  on blog_post.post_id = post_tag.post_id where blog_post.post_id=#{postId} and blog_post.author_id =#{authorId}
     </delete>
 
+    <delete id="deletePosts">
+        delete blog_post,post_tag from blog_post  left join post_tag  on blog_post.post_id = post_tag.post_id
+        <where>
+            <foreach collection="posts" item="post" index="index" separator=",">
+                <!--        <foreach item="posts" collection="list" index="index" open="("-->
+                <!--                 separator="," close=")">-->
+                blog_post.post_id=#{post}
+            </foreach>
+
+            and blog_post.author_id =#{authorId}
+        </where>
+
+
+    </delete>
+
 
 
 </mapper>

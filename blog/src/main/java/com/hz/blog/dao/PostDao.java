@@ -1,6 +1,7 @@
 package com.hz.blog.dao;
 
 import com.hz.blog.annotation.StartPage;
+import com.hz.blog.entity.Document;
 import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,6 +18,10 @@ public interface PostDao {
     int updatePost(Post post);
 
     int deletePost(@Param("postId") Long postId,@Param("authorId") Long authorId);
+
+    int deletePosts(@Param("posts") List<Long> posts,@Param("authorId") Long authorId);
+    //int addDocs(@Param("documents") List<Document> documents);
+
 
     Post getPostById(BigInteger id);
 

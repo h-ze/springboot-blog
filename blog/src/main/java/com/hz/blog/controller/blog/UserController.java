@@ -222,7 +222,7 @@ public class UserController {
                 info.put("userId",user.getId());
                 info.put("fullName",username);
                 config.getJsonObject().put("loginInfo",info);
-                return ResponseResult.successResult(100000,token);
+                return ResponseResult.successResult(100000,new LoginUserInfo(token,user.getUserId()));
             }else {
                 int errorNum=1;
                 if (redisUtils.hasKey(user.getUserId())) {
