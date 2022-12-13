@@ -8,6 +8,7 @@ import com.hz.blog.vo.PostVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 public interface PostService {
@@ -29,5 +30,5 @@ public interface PostService {
     PageResult<Post> getPost(PageResult pageResult);
 
 
-    PageResult<Post> getPostListByOther(PageResult pageResult,Long authorId,String authorName,Long postId,Integer status,String title);
+    PageResult<Post> getPostListByOther(PageResult pageResult, Long authorId, String authorName, Long postId, Integer status, String title, String startTime, String endTime);
 }

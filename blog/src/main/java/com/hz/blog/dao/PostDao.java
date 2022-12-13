@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -33,5 +34,6 @@ public interface PostDao {
     List<Post> getPost(PageResult pageResult);
 
     @StartPage
-    List<Post> getPostListByOther(PageResult pageResult,@Param("authorId") Long authorId,@Param("authorName") String authorName, @Param("postId") Long postId,@Param("status") Integer status, @Param("title")String title);
+    List<Post> getPostListByOther(PageResult pageResult, @Param("authorId") Long authorId, @Param("authorName") String authorName, @Param("postId") Long postId, @Param("status") Integer status, @Param("title")String title,
+                                  @Param("startTime") String startTime, @Param("endTime") String endTime);
 }

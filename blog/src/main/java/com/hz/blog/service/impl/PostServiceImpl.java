@@ -48,7 +48,7 @@ public class PostServiceImpl implements PostService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        post.setCreated(new Date());
+        post.setCreated(new Date().toString());
 
         int i = postDao.addPost(post);
         PostTag postTag = new PostTag();
@@ -130,8 +130,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PageResult<Post> getPostListByOther(PageResult pageResult,Long authorId,String authorName,Long postId,Integer status,String title) {
-        List<Post> postListByOther = postDao.getPostListByOther(pageResult, authorId,authorName, postId, status, title);
+    public PageResult<Post> getPostListByOther(PageResult pageResult,Long authorId,String authorName,Long postId,Integer status,String title,String startTime,String endTime) {
+        List<Post> postListByOther = postDao.getPostListByOther(pageResult, authorId,authorName, postId, status, title,startTime,endTime);
         log.info("post:{}",postListByOther);
         return pageResult.getPageFilter(pageResult,postListByOther);
 

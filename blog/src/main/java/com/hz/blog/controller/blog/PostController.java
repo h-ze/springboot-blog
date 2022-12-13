@@ -23,8 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,7 +84,7 @@ public class PostController extends BaseController {
     })
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
     public ResponseResult updatePost(Long postId,String title,String tags,String summary,Integer status){
-        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(1, 1), null,null, postId, null, null);
+        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(1, 1), null,null, postId, null, null,null,null);
         if (postListByOther.getTotalSize() ==0 ){
             return ResponseResult.successResult(100003,"当前内容不存在",postId);
         }
@@ -156,16 +159,17 @@ public class PostController extends BaseController {
             @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
     })
     public ResponseResult getPostListByOther(@RequestParam("per_page")Integer per_page,
-                                             @RequestParam("page")Integer page, Long authorId,String authorName, Long postId, Integer status, String title) {
+                                             @RequestParam("page")Integer page/*, Long authorId*/, String authorName, Long postId, Integer status, String title, String startTime, String endTime) throws ParseException {
         //startPage(page,per_page);
         //String principal = (String) SecurityUtils.getSubject().getPrincipal();
         //Claims claims = jwtUtil.parseJWT(principal);
         //String userId =(String)claims.get("userId");
         String userId = shiroUtils.getUserId();
-        if (authorId!=null && !StringUtils.equals(userId,String.valueOf(authorId))){
+        if (userId==null /*&& !StringUtils.equals(userId,String.valueOf(authorId))*/){
             return ResponseResult.successResult(100000,initPage(page, per_page).getPageFilter(initPage(page, per_page),new ArrayList()));
         }
-        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), authorId, authorName,postId, status, title);
+
+        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), Long.parseLong(userId), authorName,postId, status, title,startTime,endTime);
         logger.info("postList：{}",postListByOther);
         //PageInfo<?> pageList = getPageList(post);
         //PageResult postsPage = getPageResult(pageList);
@@ -181,7 +185,7 @@ public class PostController extends BaseController {
             @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
     })
     public ResponseResult getPublicPostListByOther(@RequestParam("per_page")Integer per_page,
-                                             @RequestParam("page")Integer page, Long authorId,String authorName, Long postId, Integer status, String title) {
+                                             @RequestParam("page")Integer page, Long authorId,String authorName, Long postId, Integer status, String title, String startTime, String endTime) {
         //startPage(page,per_page);
         //String principal = (String) SecurityUtils.getSubject().getPrincipal();
         //Claims claims = jwtUtil.parseJWT(principal);
@@ -190,7 +194,7 @@ public class PostController extends BaseController {
         if (authorId!=null && StringUtils.equals(userId,String.valueOf(authorId))){
             return ResponseResult.successResult(100000,initPage(page, per_page).getPageFilter(initPage(page, per_page),new ArrayList()));
         }
-        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), authorId, authorName,postId, status, title);
+        PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), authorId, authorName,postId, status, title,startTime,endTime);
         logger.info("postList：{}",postListByOther);
         //PageInfo<?> pageList = getPageList(post);
         //PageResult postsPage = getPageResult(pageList);
