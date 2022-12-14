@@ -59,7 +59,9 @@
     </select>
 
     <insert id="addPost" parameterType="com.hz.blog.entity.Post">
-        insert into blog_post values(null,#{postId},#{authorId},#{channelId},#{comments},#{created},#{favors},
+        insert into blog_post values(null,#{postId},#{authorId},#{channelId},#{comments},
+                                     #{created},
+                                     #{favors},
                                      #{featured},
                                      #{status},#{summary},#{tags},
                                      #{thumbnail},#{title},#{views},

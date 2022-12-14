@@ -17,9 +17,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 @Service
@@ -48,7 +51,14 @@ public class PostServiceImpl implements PostService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        post.setCreated(new Date().toString());
+
+        //SimpleDateFormat inSdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+
+        SimpleDateFormat outSdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.CHINA);
+        System.out.println(outSdf.format(new Date()));
+
+
+        post.setCreated(outSdf.format(new Date()));
 
         int i = postDao.addPost(post);
         PostTag postTag = new PostTag();
