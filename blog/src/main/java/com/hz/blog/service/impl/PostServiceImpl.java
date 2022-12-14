@@ -54,11 +54,13 @@ public class PostServiceImpl implements PostService {
 
         //SimpleDateFormat inSdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
 
-        SimpleDateFormat outSdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.CHINA);
-        System.out.println(outSdf.format(new Date()));
+        //SimpleDateFormat outSdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.CHINA);
+        //System.out.println(outSdf.format(new Date()));
 
-
-        post.setCreated(outSdf.format(new Date()));
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.CHINA);
+        String format = sf.format(new Date());
+        System.out.println("-----"+format);
+        post.setCreated(new Date());
 
         int i = postDao.addPost(post);
         PostTag postTag = new PostTag();
@@ -141,7 +143,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PageResult<Post> getPostListByOther(PageResult pageResult,Long authorId,String authorName,Long postId,Integer status,String title,String startTime,String endTime) {
-        List<Post> postListByOther = postDao.getPostListByOther(pageResult, authorId,authorName, postId, status, title,startTime,endTime);
+        Date startTime1 = null;
+        Date endTime1 = null;
+
+        try {
+            if (startTime!=null)
+            startTime1 = new SimpleDateFormat("yyyy-MM-dd").parse(startTime);
+
+            if (endTime!=null)
+            endTime1 = new SimpleDateFormat("yyyy-MM-dd").parse(endTime);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<Post> postListByOther = postDao.getPostListByOther(pageResult, authorId,authorName, postId, status, title,startTime1,endTime1);
         log.info("post:{}",postListByOther);
         return pageResult.getPageFilter(pageResult,postListByOther);
 

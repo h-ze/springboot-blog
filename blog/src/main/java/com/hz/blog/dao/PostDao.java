@@ -35,5 +35,5 @@ public interface PostDao {
 
     @StartPage
     List<Post> getPostListByOther(PageResult pageResult, @Param("authorId") Long authorId, @Param("authorName") String authorName, @Param("postId") Long postId, @Param("status") Integer status, @Param("title")String title,
-                                  @Param("startTime") String startTime, @Param("endTime") String endTime);
+                                  @Param("startTime") Date startTime, @Param("endTime") Date endTime);
 }

@@ -47,14 +47,21 @@
                 and title =#{title}
             </if>
 
-            <if test="startTime !=null and startTime != '' ">
-                and created  &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
-
+            <if test="startTime !=null  ">
+                and created &gt;= #{startTime}
             </if>
 
-            <if test="endTime !=null and endTime != '' ">
-                and created &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
+            <if test="endTime !=null  ">
+                and created &lt;= #{endTime}
             </if>
+
+<!--            <if test="startTime !=null and startTime != '' ">-->
+<!--                and created  &gt;= #{startTime}-->
+<!--            </if>-->
+
+<!--            <if test="endTime !=null and endTime != '' ">-->
+<!--                and created &lt;= #{endTime}-->
+<!--            </if>-->
         </where>
     </select>
 

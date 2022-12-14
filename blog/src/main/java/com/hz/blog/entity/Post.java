@@ -35,7 +35,7 @@ public class Post {
 
     //创建时间
     @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private String created;
+    private Date created;
 
     //喜爱数
     private Integer favors;
