@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -13,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor                 //无参构造
 @AllArgsConstructor                //有参构造
 @Configuration
-public class Post {
+public class Post implements Serializable {
 
     //自增id
     @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -26,6 +27,8 @@ public class Post {
     //作者id
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long authorId;
+
+    private String content;
 
     //渠道id
     private Integer channelId;

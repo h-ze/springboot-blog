@@ -68,7 +68,7 @@
     </update>
 
     <select id="getUserWithInfo" resultType="com.hz.blog.entity.UserWithInfo">
-        SELECT u.name,u.age,u.bir,u.userId,u.password,u.salt,u.status,u.id,ur.email,ur.full_name FROM user u LEFT JOIN user_info ur ON u.userId =ur.userId
+        SELECT u.name,u.age,u.bir,u.userId,u.password,u.salt,u.status,u.id,ur.email,ur.full_name,ur.enterprise_id,ur.email,ur.phone_number FROM user u LEFT JOIN user_info ur ON u.userId =ur.userId
         <where>
             <if test="userId != '' and userId!= null">
                 u.userId= #{userId}

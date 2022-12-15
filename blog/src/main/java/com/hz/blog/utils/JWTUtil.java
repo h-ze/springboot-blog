@@ -26,7 +26,7 @@ public class JWTUtil {
     }
 
 
-    public static String createJWT(String id, String username,String userId,String fullName/*,String password*/, String roles) {
+    public static String createJWT(String id, String username,String userId,String fullName/*,String password*/,String email,String phone, String roles) {
         long nowMillis = System.currentTimeMillis();
 
         //需要添加userId 查找用户时应该使用id进行查询
@@ -38,6 +38,8 @@ public class JWTUtil {
                 .claim("userId",userId)
                 .claim("fullName",fullName)
                 .claim("roles",roles)
+                .claim("email",email)
+                .claim("phone",phone)
                 ;
         return builder.compact();
     }

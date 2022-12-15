@@ -14,7 +14,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public int insertUserInfo(UserInfo userInfo) {
-        return 0;
+        return userInfoDao.insertUserInfo(userInfo);
     }
 
     @Override

@@ -1,11 +1,16 @@
 package com.hz.blog.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.context.annotation.Configuration;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -13,13 +18,16 @@ import java.util.Date;
 @NoArgsConstructor                 //无参构造
 @AllArgsConstructor                //有参构造
 @Configuration
+@ApiModel(value = "PostVo对象", description = "PostVo对象详情")
 public class PostVo {
 
-    private BigInteger id;
+    private Long id;
 
-    private BigInteger postId;
+    private Long postId;
 
-    private BigInteger authorId;
+    private Long authorId;
+
+    private String content;
 
     //渠道id
     private Integer channelId;
@@ -38,6 +46,9 @@ public class PostVo {
     private Integer featured;
 
     //状态
+    @ApiModelProperty(value = "状态不能为空")
+    @NotNull(message = "文章状态不能为空")
+    //@Range(min = 1, max = 120, message = "年龄必须在1到120之间")
     private Integer status;
 
     //概要
@@ -58,7 +69,7 @@ public class PostVo {
     //权重
     private Integer weight;
 
-    private BigInteger tagId;
+    private Long tagId;
 
     private String authorName;
 }

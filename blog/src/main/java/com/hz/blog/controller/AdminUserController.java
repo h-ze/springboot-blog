@@ -70,7 +70,11 @@ public class AdminUserController {
             addUser.setStatus("1");
             String userId = String.valueOf(System.currentTimeMillis());
             addUser.setUserId(userId);
-            int i = userService.save(addUser,null);
+
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserId(userId);
+
+            int i = userService.save(addUser,userInfo,null);
             if (i >0){
                 return ResponseResult.successResult(100000,"添加成功,用户已添加");
             }else {

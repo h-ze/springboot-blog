@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * xss 过滤器
  */
-@WebFilter(urlPatterns = "/*", filterName = "xssFilter")
+//@WebFilter(urlPatterns = "/*", filterName = "xssFilter")
 public class XssFilter implements Filter {
     private FilterConfig filterConfig = null;
 

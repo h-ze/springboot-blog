@@ -130,7 +130,11 @@ public class UserController {
     })
     @PostMapping(value = "/user",consumes = "application/x-www-form-urlencoded")
     @ResponseBody
-    public ResponseResult registerUser(String username , @RequestParam("password") String password, @RequestParam("type") Integer type){
+    public ResponseResult registerUser(String username ,
+                                       @RequestParam("password") String password,
+                                       @RequestParam("email") String email,
+                                       @RequestParam("phone") String phone,
+                                       @RequestParam("type") Integer type){
 
 //        String messageId = String.valueOf(UUID.randomUUID());
 //        String messageData = "message: lonelyDirectExchange test message";
@@ -147,6 +151,7 @@ public class UserController {
         if (user!=null){
             return ResponseResult.successResult(100002,"添加失败","用户已存在");
         }else {
+            String status ="1";
             User addUser = new User();
             addUser.setName(username);
             Map<String, String> result = SaltUtil.shiroSalt(password);
@@ -154,16 +159,25 @@ public class UserController {
             addUser.setPassword(result.get("password"));
             addUser.setBir(new Date());
             addUser.setAge(25);
-            addUser.setStatus("2");
+            addUser.setStatus(status);
             long l = System.currentTimeMillis();
             String userId = String.valueOf(l);
             addUser.setUserId(userId);
             log.info("id:"+userId);
+
             UserRoles userRoles = new UserRoles();
             userRoles.setUserId(userId);
             userRoles.setRoleId(type);
 
-            int i = userService.save(addUser,userRoles);
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserId(userId);
+            userInfo.setPhoneNumber(phone);
+            userInfo.setEmail(email);
+            userInfo.setStatus(status);
+            userInfo.setFullName(username);
+
+
+            int i = userService.save(addUser,userInfo,userRoles);
             if (i >0){
                 return ResponseResult.successResult(100000,"注册成功","用户已注册成功,请前往当前注册邮箱地址点击激活用户");
             }else {
@@ -209,7 +223,7 @@ public class UserController {
             String sha = SaltUtil.shiroSha(password ,user.getSalt());
             if (sha.equals(user.getPassword())){
                 String token = jwtUtil.createJWT(user.getId().toString(),
-                        user.getName(),user.getUserId(),user.getName(), user.getSalt());
+                        user.getName(),user.getUserId(),user.getName(),user.getEmail(),user.getPhoneNumber(), user.getSalt());
                 log.info(token);
                 //将登录的token存储到redis中
                 JSONObject jsonObject = new JSONObject();

@@ -3,6 +3,7 @@ package com.hz.blog.service;
 
 
 import com.hz.blog.entity.User;
+import com.hz.blog.entity.UserInfo;
 import com.hz.blog.entity.UserRoles;
 import com.hz.blog.entity.UserWithInfo;
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface UserService {
-    int save(User user, UserRoles userRoles);
+    int save(User user, UserInfo userInfo, UserRoles userRoles);
 
     int addUserRoles(UserRoles userRoles);
 

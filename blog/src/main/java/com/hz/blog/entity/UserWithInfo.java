@@ -15,4 +15,7 @@ public class UserWithInfo extends User implements Serializable {
 
     private static final long serialVersionUID = -717083638131665718L;
     private String fullName;
+    private String enterpriseId;
+    private String email;
+    private String phoneNumber;
 }

@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
@@ -54,17 +55,20 @@ public class PostController extends BaseController {
     @PostMapping("addPost")
     @ApiOperation(value ="添加博客",notes="添加博客")
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
-    public ResponseResult addPost(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) PostVo postVo){
+    public ResponseResult addPost(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) @Validated PostVo postVo){
 
 
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
-        //String userId = (String)claims.get("userId");
-        String userId = shiroUtils.getUserId();
+        String userId = (String)claims.get("userId");
+        String fullName = (String)claims.get("fullName");
+        // String userId = shiroUtils.getUserId();
         logger.info("userId:{}",userId);
 
         Post post = EntityConvertDtoAndVOUtils.convertBean(postVo, Post.class);
         post.setAuthorId(Long.valueOf(userId));
+        post.setAuthorName(fullName);
+
         int i = postService.addPost(post);
         if (i>0){
             return ResponseResult.successResult(100000,"插入成功",postVo);
@@ -72,6 +76,8 @@ public class PostController extends BaseController {
         return ResponseResult.successResult(100001,"插入失败",postVo);
     }
 
+
+    @LogOperator(value = "修改博客",type = LOG_POST)
     @PutMapping(value = "updatePost",consumes = "application/x-www-form-urlencoded")
     @ApiOperation(value ="修改博客",notes="修改博客")
     @ApiImplicitParams({
@@ -115,6 +121,7 @@ public class PostController extends BaseController {
 
     }
 
+    @LogOperator(value = "删除博客",type = LOG_POST)
     @DeleteMapping("deletePost")
     @ApiOperation(value ="删除博客",notes="删除博客")
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})

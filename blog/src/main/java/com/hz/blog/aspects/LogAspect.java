@@ -125,11 +125,16 @@ public class LogAspect {
 
             String userId="";
             String fullName="";
+
+            String email="";
+            String phone ="";
             String principal = (String) SecurityUtils.getSubject().getPrincipal();
             if (StringUtils.isNoneEmpty(principal)) {
                 Claims claims = jwtUtil.parseJWT(principal);
                 userId = (String)claims.get("userId");
                 fullName = (String)claims.get("fullName");
+                email=(String)claims.get("email");
+                phone =(String)claims.get("phone");
                 log.info("fullName:{}",fullName);
             }else {
                 if (jsonResult!=null && StringUtils.equals(syslog.type(),LOG_LOGIN)){
@@ -140,6 +145,8 @@ public class LogAspect {
                         Claims claims = jwtUtil.parseJWT(loginUserInfo.getToken());
                         userId = (String)claims.get("userId");
                         fullName = (String)claims.get("fullName");
+                        email=(String)claims.get("email");
+                        phone =(String)claims.get("phone");
                     }
                 }else {
                     String token = request.getHeader("token");
@@ -147,7 +154,12 @@ public class LogAspect {
                     Claims claims = jwtUtil.parseJWT(token);
                     userId = (String)claims.get("userId");
                     fullName = (String)claims.get("fullName");
+                    email=(String)claims.get("email");
+                    phone =(String)claims.get("phone");
                 }
+                log.info("email:{}",email);
+                log.info("phone:{}",phone);
+
 
 //                JSONObject loginInfo = config.getJsonObject().getJSONObject("loginInfo");
 //                userId =loginInfo.getString("userId");
@@ -178,7 +190,7 @@ public class LogAspect {
 
             Integer code = e==null ? 200:500;
 
-            LogEntity logEntity = new LogEntity(logId,userId,fullName,"","",Integer.valueOf(syslog.type()),IPUtils.getIpAddr(request),new Date(),syslog.value(),code);
+            LogEntity logEntity = new LogEntity(logId,userId,fullName,email,phone,Integer.valueOf(syslog.type()),IPUtils.getIpAddr(request),new Date(),syslog.value(),code);
 
             //保存系统日志 异步任务执行
             TaskParam taskParam = new TaskParam(LogListener.class);

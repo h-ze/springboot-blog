@@ -62,6 +62,8 @@ public class PostServiceImpl implements PostService {
         System.out.println("-----"+format);
         post.setCreated(new Date());
 
+        System.out.println("post111"+post);
+
         int i = postDao.addPost(post);
         PostTag postTag = new PostTag();
         postTag.setPostId(post.getPostId());

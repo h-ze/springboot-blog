@@ -6,6 +6,7 @@ import com.hz.blog.dao.EmailDao;
 import com.hz.blog.dao.UserDAO;
 import com.hz.blog.service.EmailService;
 import com.hz.blog.service.RedisService;
+import com.hz.blog.service.UserInfoService;
 import com.hz.blog.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -38,6 +39,9 @@ public class UserServiceImpl implements UserService {
     private EmailService emailService;
 
     @Autowired
+    private UserInfoService userInfoService;
+
+    @Autowired
     private RabbitTemplate rabbitTemplate;
 
     @Autowired
@@ -48,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     //@Async("asyncServiceExecutor")
-    public int save(User user, UserRoles userRoles) {
+    public int save(User user,UserInfo userInfo, UserRoles userRoles) {
         log.info("异步");
         //user.setId(UUID.randomUUID().toString().replace("-",""));
         user.setId(0);
@@ -61,6 +65,8 @@ public class UserServiceImpl implements UserService {
             email.setStatus(2);
             int i = emailService.addEmailMessage(email);
 
+
+            userInfoService.insertUserInfo(userInfo);
 
 /*            CorrelationData correlationData = new CorrelationData();
             correlationData.setId(String.valueOf(email.getEmailId()));
