@@ -20,4 +20,9 @@ public class LabelServiceImpl implements LabelService {
     public List<BlogLabel> getLabels(String label) {
         return labelDao.getLabel(label);
     }
+
+    @Override
+    public List<BlogLabel> getLabels() {
+        return labelDao.getLabels();
+    }
 }

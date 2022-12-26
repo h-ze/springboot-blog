@@ -7,19 +7,19 @@
     </insert>
 
     <update id="updateTag" parameterType="com.hz.blog.entity.Tag">
-        update blog_tag set name = #{name},introduction = #{introduction},image = #{image} where id=#{id}
+        update blog_tag set name = #{name},introduction = #{introduction},image = #{image} where tagid=#{tagId}
     </update>
 
-    <delete id="deleteTag" parameterType="Integer">
-        delete from blog_tag where id = #{id}
+    <delete id="deleteTag" parameterType="String">
+        delete from blog_tag where tagid = #{tagId}
     </delete>
 
     <select id="getTagByName" parameterType="String" resultType="com.hz.blog.entity.Tag">
         select id,name,introduction,image from blog_tag where name =#{name}
     </select>
 
-    <select id="getTagById" parameterType="Integer" resultType="com.hz.blog.entity.Tag">
-        select id,name,introduction,image from blog_tag where id =#{id}
+    <select id="getTagById" parameterType="String" resultType="com.hz.blog.entity.Tag">
+        select id,name,introduction,image,tagid from blog_tag where tagid = #{tagId}
     </select>
 
     <select id="getTags" parameterType="Integer" resultType="com.hz.blog.entity.Tag">

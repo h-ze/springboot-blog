@@ -3,13 +3,12 @@ package com.hz.blog.controller.blog;
 
 import com.hz.blog.controller.BaseController;
 import com.hz.blog.entity.ResponseResult;
+import com.hz.blog.entity.ResultList;
 import com.hz.blog.entity.Tag;
 import com.hz.blog.service.TagService;
 import com.hz.blog.utils.EntityConvertDtoAndVOUtils;
 import com.hz.blog.vo.TagVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.hz.blog.constant.Constant.TYPE_SUPERADMIN;
+import static com.hz.blog.utils.ConvertUtils.stringConvertString;
 
 
 @Api(tags = "标签接口")
@@ -41,13 +41,18 @@ public class TagController extends BaseController {
     @RequiresRoles(TYPE_SUPERADMIN)
     @ApiOperation(value ="删除指定标签",notes="删除指定标签")
     @DeleteMapping("deleteTag")
-    public ResponseResult deleteTag(Integer id){
-        Tag tagById = tagService.getTagById(id);
-        if (tagById ==null){
-            return ResponseResult.successResult(100004,"标签不存在",new Tag());
-        }
-        int i = tagService.deleteTag(id);
-        if (i>0){
+    public ResponseResult deleteTag(String tagId){
+
+        List<String> list = stringConvertString(tagId);
+
+//        String id = categoryids.get(0);
+//        logger.info("id:{}",id);
+//        Tag tagById = tagService.getTagById(id);
+//        if (tagById ==null){
+//            return ResponseResult.successResult(100004,"标签不存在",new Tag());
+//        }
+        ResultList<String> stringResultList = tagService.deleteTag(list);
+        if (stringResultList.getSuccessNum()>0){
             return ResponseResult.successResult(100000,"删除成功");
         }
         return ResponseResult.successResult(100001,"删除失败");
@@ -72,9 +77,24 @@ public class TagController extends BaseController {
 
     @RequiresRoles(TYPE_SUPERADMIN)
     @ApiOperation(value ="修改标签",notes="修改标签")
-    @PutMapping("updateTag")
-    public ResponseResult updateTag(Tag tag){
-        int i = tagService.updateTag(tag);
+    @PutMapping(value = "updateTag" ,consumes = "application/x-www-form-urlencoded")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name",dataType = "String",value = "标签名",required = true, paramType = "form"),
+            @ApiImplicitParam(name = "introduction",dataType = "String",value = "标签介绍", paramType = "form"),
+            @ApiImplicitParam(name = "image",dataType = "String",value = "图片地址",paramType = "form"),
+            @ApiImplicitParam(name = "tagId",dataType = "String",value = "tagId",required = true,paramType = "form")
+    })
+    public ResponseResult updateTag(String name,String introduction,String image,String tagId/*Tag tag*/){
+        logger.info("tagId:{}",tagId);
+        Tag tagById = tagService.getTagById(tagId);
+        logger.info("tag:{}",tagById);
+        if (tagById ==null){
+            return ResponseResult.successResult(100002,"文档不存在");
+        }
+        tagById.setName(name);
+        tagById.setImage(image);
+        tagById.setIntroduction(introduction);
+        int i = tagService.updateTag(tagById);
         if (i>0){
             return ResponseResult.successResult(100000,"成功");
         }

@@ -1,5 +1,6 @@
 package com.hz.blog.service;
 
+import com.hz.blog.entity.ResultList;
 import com.hz.blog.entity.Tag;
 import com.hz.blog.vo.TagVo;
 
@@ -11,11 +12,11 @@ public interface TagService {
 
     int updateTag(Tag tag);
 
-    int deleteTag(Integer id);
+    ResultList<String> deleteTag(List<String> id);
 
     Tag getTagByName(String name);
 
-    Tag getTagById(Integer id);
+    Tag getTagById(String id);
 
     List<Tag> getTags();
 }

@@ -141,12 +141,15 @@ public class LogAspect {
                     if (jsonResult instanceof ResponseResult) {
                         ResponseResult responseResult = (ResponseResult) jsonResult;
                         //String token = String.valueOf(responseResult.getData());
-                        LoginUserInfo loginUserInfo = (LoginUserInfo) responseResult.getData();
-                        Claims claims = jwtUtil.parseJWT(loginUserInfo.getToken());
-                        userId = (String)claims.get("userId");
-                        fullName = (String)claims.get("fullName");
-                        email=(String)claims.get("email");
-                        phone =(String)claims.get("phone");
+                        Object data = responseResult.getData();
+                        if (data instanceof LoginUserInfo){
+                            LoginUserInfo loginUserInfo = (LoginUserInfo) responseResult.getData();
+                            Claims claims = jwtUtil.parseJWT(loginUserInfo.getToken());
+                            userId = (String)claims.get("userId");
+                            fullName = (String)claims.get("fullName");
+                            email=(String)claims.get("email");
+                            phone =(String)claims.get("phone");
+                        }
                     }
                 }else {
                     String token = request.getHeader("token");

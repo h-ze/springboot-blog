@@ -22,6 +22,13 @@ public class LabelController {
     @Autowired
     private LabelService labelService;
 
+    @GetMapping("getLabels")
+    @ApiOperation(value ="获取对应的label列表",notes="获取所有的label列表")
+    @ApiImplicitParam(name = "label", value = "需要请求的label名",required = true, paramType="query")
+    public ResponseResult getLabels(){
+        List<BlogLabel> labels = labelService.getLabels();
+        return ResponseResult.successResult(100000,"success",labels);
+    }
 
     @GetMapping("getLabel")
     @ApiOperation(value ="获取对应的label列表",notes="根据需求获取label列表")

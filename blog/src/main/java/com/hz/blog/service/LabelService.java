@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface LabelService {
     List<BlogLabel> getLabels(String label);
+
+    List<BlogLabel> getLabels();
 }

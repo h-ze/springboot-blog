@@ -127,7 +127,7 @@ public class Constant {
     public static final String TYPE_USER = "user";
     public static final String TYPE_PRODUCT = "product";
     public static final String TYPE_ASSISTANT = "assistant";
-    public static final String TYPE_SUPERADMIN = "superadmin";
+    public static final String TYPE_SUPERADMIN = "superAdmin";
 
     public static final String LOG_LOGIN ="1";
     public static final String LOG_POST ="2";

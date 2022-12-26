@@ -114,6 +114,7 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.getUser(username);
         if (user !=null){
             User rolesByUsername = userDAO.findRolesByUsername(username);
+            log.info("roles:{}",rolesByUsername.getRoles());
             user.setRoles(rolesByUsername.getRoles());
         }
         return user;

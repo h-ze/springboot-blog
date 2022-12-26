@@ -60,6 +60,7 @@ public class ShiroCustomerRealm extends AuthorizingRealm {
         String subject = claims.getSubject();
         User rolesByUsername = userService.findRolesByUsername(subject);
         log.info("用户:"+rolesByUsername);
+        log.info("roles:{}",rolesByUsername.getRoles());
         //如果添加缓存之后在该方法下再次请求数据库将不会再向数据库发起请求
         boolean empty = rolesByUsername.getRoles().isEmpty();
         if (!empty/*ListUtils.isEmpty(rolesByUsername.getRoles())*/) {

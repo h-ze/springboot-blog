@@ -11,11 +11,11 @@ public interface TagDao {
 
     int updateTag(Tag tag);
 
-    int deleteTag(Integer id);
+    int deleteTag(String id);
 
     Tag getTagByName(String name);
 
-    Tag getTagById(Integer id);
+    Tag getTagById(String id);
 
     List<Tag> getTags();
 }

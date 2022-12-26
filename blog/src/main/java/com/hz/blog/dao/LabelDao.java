@@ -10,4 +10,6 @@ import java.util.List;
 public interface LabelDao {
 
     List<BlogLabel> getLabel(String label);
+
+    List<BlogLabel> getLabels();
 }

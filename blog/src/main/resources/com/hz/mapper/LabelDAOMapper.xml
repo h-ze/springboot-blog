@@ -6,6 +6,11 @@
         select label_id,label_name,label_value,label_type from blog_label where label_type =#{labelType}
     </select>
 
+    <select id="getLabels" resultType="com.hz.blog.entity.BlogLabel">
+        select label_id,label_name,label_value,label_type from blog_label
+    </select>
+
+
     <select id="getPostById" resultType="com.hz.blog.entity.Post">
         select id,post_id,author_id,author_name,channel_id,comments,created,favors,featured,status,summary,tags,
                thumbnail,title,views,weight from blog_post where id=#{id}

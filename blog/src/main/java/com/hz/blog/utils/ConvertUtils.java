@@ -25,4 +25,18 @@ public class ConvertUtils {
         log.info("list：{}",categoryids);
         return categoryids;
     }
+
+    public static List<String> stringConvertString(String string){
+        List<String> categoryids = new ArrayList<>();
+        String[] idsArr = StringUtils.split(string, ",");
+        try {
+            categoryids = Arrays.stream(idsArr)
+                    .map(String::trim).collect(Collectors.toList()) // 转换为 List<Integer>
+                    .stream().distinct().collect(Collectors.toList()); // 去重操作
+        } catch (Exception e) {
+            throw new RRException("参数格式错误");
+        }
+        log.info("list：{}",categoryids);
+        return categoryids;
+    }
 }
