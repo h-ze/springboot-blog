@@ -12,4 +12,10 @@ public interface LabelDao {
     List<BlogLabel> getLabel(String label);
 
     List<BlogLabel> getLabels();
+
+    int deleteLabel(String labelId);
+
+    int addLabel(BlogLabel label);
+
+    int updateLabel(BlogLabel label);
 }

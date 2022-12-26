@@ -53,27 +53,22 @@
         </where>
     </select>
 
-    <insert id="addPost" parameterType="com.hz.blog.entity.Post">
-        insert into blog_post values(null,#{postId},#{authorId},#{channelId},#{comments},#{created},#{favors},
-                                     #{featured},
-                                     #{status},#{summary},#{tags},
-                                     #{thumbnail},#{title},#{views},
-                                     #{weight},#{authorName})
+    <insert id="addLabel" parameterType="com.hz.blog.entity.BlogLabel">
+        insert into blog_label values(null,#{labelId},#{labelName},#{labelValue},#{labelType})
     </insert>
 
-    <update id="updatePost">
-        update blog_post set comments =#{comments}, favors=#{favors}, featured =#{featured},
-                             status=#{status},summary =#{summary},tags =#{tags},thumbnail =#{thumbnail},
-                             title =#{title}, views =#{views},weight =#{weight}
-        where id =#{id}
+    <update id="updateLabel" parameterType="com.hz.blog.entity.BlogLabel">
+        update blog_label set  label_name=#{labelName}, label_value =#{labelValue},
+                              label_type=#{labelType}}
+        where label_id =#{labelId}
     </update>
 
     <!--<delete id="deletePost" parameterType="BigInteger">
         delete from blog_post where post_id=#{postId}
     </delete>-->
 
-    <delete id="deletePost" parameterType="Long">
-        delete blog_post,post_tag from blog_post  left join post_tag  on blog_post.post_id = post_tag.post_id where blog_post.post_id=#{postId} and blog_post.author_id =#{authorId}
+    <delete id="deleteLabel" parameterType="String">
+        delete from blog_label  where label_id =#{labelId}
     </delete>
 
     <delete id="deletePosts">
