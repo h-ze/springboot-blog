@@ -39,7 +39,6 @@ public class LabelController {
         return ResponseResult.successResult(100000,"success",labels);
     }
 
-
     @PutMapping(value = "updateLabel",consumes = "application/x-www-form-urlencoded")
     @ApiOperation(value ="修改对应的label",notes="修改对应的label")
     @ApiImplicitParam(name = "label", value = "需要请求的label名",required = true, paramType="query")
@@ -62,8 +61,6 @@ public class LabelController {
         }
         return ResponseResult.successResult(100001,"fail");
     }
-
-
 
     @DeleteMapping(value = "deleteLabel")
     @ApiOperation(value ="修改对应的label",notes="修改对应的label")

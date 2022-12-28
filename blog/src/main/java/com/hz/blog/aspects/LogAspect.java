@@ -192,7 +192,6 @@ public class LogAspect {
             String logId = UUID.randomUUID().toString().replace("-", "");
 
             Integer code = e==null ? 200:500;
-
             LogEntity logEntity = new LogEntity(logId,userId,fullName,email,phone,Integer.valueOf(syslog.type()),IPUtils.getIpAddr(request),new Date(),syslog.value(),code);
 
             //保存系统日志 异步任务执行

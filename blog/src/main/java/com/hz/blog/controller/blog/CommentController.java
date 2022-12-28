@@ -8,6 +8,7 @@ import com.hz.blog.entity.Config;
 import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.service.CommentService;
+import com.hz.blog.utils.IPUtils;
 import com.hz.blog.utils.JWTUtil;
 import com.hz.blog.utils.SnowflakeManager;
 import io.jsonwebtoken.Claims;
@@ -30,7 +31,7 @@ import static com.hz.blog.constant.Constant.*;
 
 @Api(tags = "commentController接口")
 @RestController
-@RequestMapping("commentController")
+@RequestMapping("comment")
 @Slf4j
 public class CommentController extends BaseController {
 
@@ -53,20 +54,17 @@ public class CommentController extends BaseController {
             @ApiImplicitParam(name = "replyId",value = "回复的评论id",paramType = "query",dataType = "int",required = true),
             @ApiImplicitParam(name = "content",value = "回复内容",paramType = "query",dataType = "String",required = true)
     })
-    @RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
+    //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
     @ParamCheck
     public ResponseResult addComments(HttpServletRequest request, @ParamCheck BigInteger post_id, @ParamCheck BigInteger replyId,@ParamCheck String content){
-
-
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = String.valueOf(claims.get("userId"));
         String fullName = String.valueOf(claims.get("fullName"));
-        log.info("userId:{}",userId);
-        log.info("fullName:{}",fullName);
-        Object requestBody = request.getAttribute("requestBody");
-        log.info("requestBody:{}",requestBody);
+        String email = String.valueOf(claims.get("email"));
 
+
+        Object requestBody = request.getAttribute("requestBody");
         log.info("config-requestBody:{}",config.getJsonObject());
         BigInteger snowflake = null;
         try {
@@ -75,7 +73,7 @@ public class CommentController extends BaseController {
             e.printStackTrace();
         }
 
-        Comments comments = new Comments(0,snowflake , post_id, content, 0, new Date(), "1",replyId, "", "");
+        Comments comments = new Comments(0,snowflake , post_id, content, 0, new Date(), IPUtils.getIpAddr(request),replyId, fullName, email);
         int i = commentService.addComments(comments);
         if (i>0){
             return ResponseResult.successResult(100000,"评论成功",comments);
@@ -89,7 +87,7 @@ public class CommentController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "commentsId",value = "评论的id",paramType = "query",dataType = "Long",required = true)
     })
-    @RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
+    //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
     public ResponseResult deleteComments(Long commentsId){
 
         PageResult<Comments> commentsList = commentService.getComments(initPage(1, 1),null, commentsId);

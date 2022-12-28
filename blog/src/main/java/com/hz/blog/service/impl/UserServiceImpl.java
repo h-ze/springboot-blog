@@ -59,19 +59,18 @@ public class UserServiceImpl implements UserService {
         if (userRoles!=null){
             userRoles.setId(0);
             userDAO.addUserRoles(userRoles);
-            Email email = new Email();
-            email.setEmailId(0);
-            email.setEmail(user.getName());
-            email.setStatus(2);
-            int i = emailService.addEmailMessage(email);
+            Email email = new Email(0,user.getName(),2);
 
+//            email.setEmailId(0);
+//            email.setEmail(user.getName());
+//            email.setStatus(2);
 
-            userInfoService.insertUserInfo(userInfo);
+            emailService.addEmailMessage(email);
 
-/*            CorrelationData correlationData = new CorrelationData();
-            correlationData.setId(String.valueOf(email.getEmailId()));
-            Message message = new Message(email.toString().getBytes(),new MessageProperties());
-            correlationData.setReturnedMessage(message);*/
+//            CorrelationData correlationData = new CorrelationData();
+//            correlationData.setId(String.valueOf(email.getEmailId()));
+//            Message message = new Message(email.toString().getBytes(),new MessageProperties());
+//            correlationData.setReturnedMessage(message);
 
             rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME, MailConstants.MAIL_QUEUE_NAME,email, new CorrelationData(String.valueOf(email.getEmailId())));
 
@@ -79,13 +78,11 @@ public class UserServiceImpl implements UserService {
             //correlationData.setId(String.valueOf(email.getEmailId()));
             //correlationData.setReturnedMessage();
             //rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME, MailConstants.MAIL_QUEUE_NAME,email, new CorrelationData(String.valueOf(email.getEmailId())));
-
-
             //rabbitTemplate.convertAndSend("test.exchange", "test",email, new CorrelationData(String.valueOf(email.getEmailId())));
-
-
             //log.info("i: {}",i);
         }
+
+        userInfoService.insertUserInfo(userInfo);
 
         return userDAO.save(user);
     }

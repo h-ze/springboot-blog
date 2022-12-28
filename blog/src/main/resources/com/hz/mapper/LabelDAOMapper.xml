@@ -59,7 +59,7 @@
 
     <update id="updateLabel" parameterType="com.hz.blog.entity.BlogLabel">
         update blog_label set  label_name=#{labelName}, label_value =#{labelValue},
-                              label_type=#{labelType}}
+                              label_type=#{labelType}
         where label_id =#{labelId}
     </update>
 
