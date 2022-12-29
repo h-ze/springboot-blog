@@ -128,13 +128,10 @@ public class RabbitConfig {
         return BindingBuilder.bind(mailQueue()).to(mailExchange()).with(MailConstants.MAIL_QUEUE_NAME);
     }
 
+
     // 配置一个测试工作模型队列 无实际意义
     @Bean
-    Queue testQueue() {
-        // 支持持久化
-        return new Queue("test", true);
-
-    }
+    Queue testQueue() { return new Queue("test", true); }
 
     @Bean
     DirectExchange testExchange(){
@@ -146,13 +143,10 @@ public class RabbitConfig {
         return BindingBuilder.bind(testQueue()).to(testExchange()).with("test");
     }
 
-    // 配置一个测试工作模型队列 无实际意义
-    @Bean
-    Queue delayQueue() {
-        // 支持持久化
-        return new Queue("delay", true);
 
-    }
+
+    @Bean
+    Queue delayQueue() { return new Queue("delay", true); }
 
     @Bean
     DirectExchange delayExchange(){
@@ -165,13 +159,10 @@ public class RabbitConfig {
     }
 
 
+
     // 配置一个测试工作模型队列 无实际意义
     @Bean
-    Queue delayQueue1() {
-        // 支持持久化
-        return new Queue("delay1", true);
-
-    }
+    Queue delayQueue1() { return new Queue("delay1", true); }
 
     @Bean
     DirectExchange delayExchange1(){
@@ -183,15 +174,15 @@ public class RabbitConfig {
         return BindingBuilder.bind(delayQueue1()).to(delayExchange1()).with("delay1");
     }
 
+
+
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory){
         return new RabbitAdmin(connectionFactory);
     }
 
 
-
     //死信队列
-
     @Bean("deadLetterExchange")
     public Exchange deadLetterExchange() {
         return ExchangeBuilder.directExchange("DL_EXCHANGE").durable(true).build();
@@ -221,7 +212,6 @@ public class RabbitConfig {
     @Bean
     public Binding deadLetterBinding() {
         return new Binding("DL_QUEUE", Binding.DestinationType.QUEUE, "DL_EXCHANGE", "DL_KEY", null);
-
     }
 
 
@@ -234,6 +224,8 @@ public class RabbitConfig {
     public Binding redirectBinding() {
         return new Binding("REDIRECT_QUEUE", Binding.DestinationType.QUEUE, "DL_EXCHANGE", "KEY_R", null);
     }
+
+
 
 
 

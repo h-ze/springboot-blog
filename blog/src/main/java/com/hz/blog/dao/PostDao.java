@@ -4,6 +4,7 @@ import com.hz.blog.annotation.StartPage;
 import com.hz.blog.entity.Document;
 import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
+import com.hz.blog.entity.PostNum;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -36,4 +37,6 @@ public interface PostDao {
     @StartPage
     List<Post> getPostListByOther(PageResult pageResult, @Param("authorId") Long authorId, @Param("authorName") String authorName, @Param("postId") Long postId, @Param("status") Integer status, @Param("title")String title,
                                   @Param("startTime") Date startTime, @Param("endTime") Date endTime);
+
+    PostNum getStatusNum(@Param("authorId") String authorId);
 }

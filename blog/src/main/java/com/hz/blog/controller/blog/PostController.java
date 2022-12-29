@@ -4,10 +4,7 @@ package com.hz.blog.controller.blog;
 import com.hz.blog.annotation.LogOperator;
 import com.hz.blog.constant.Constant;
 import com.hz.blog.controller.BaseController;
-import com.hz.blog.entity.PageResult;
-import com.hz.blog.entity.Post;
-import com.hz.blog.entity.ResponseResult;
-import com.hz.blog.entity.ResultList;
+import com.hz.blog.entity.*;
 import com.hz.blog.exception.RRException;
 import com.hz.blog.service.PostService;
 import com.hz.blog.utils.EntityConvertDtoAndVOUtils;
@@ -207,6 +204,14 @@ public class PostController extends BaseController {
         //PageResult postsPage = getPageResult(pageList);
         return ResponseResult.successResult(100000,postListByOther);
 
+    }
+
+    @GetMapping("getPostNum")
+    @ApiOperation(value = "获取所有文档的状态",notes = "获取所有文档的状态")
+    public ResponseResult getPostNum(){
+        String userId = shiroUtils.getUserId();
+        PostNum postNum = postService.getPostNum(userId);
+        return ResponseResult.successResult(100000,postNum);
     }
 
 }

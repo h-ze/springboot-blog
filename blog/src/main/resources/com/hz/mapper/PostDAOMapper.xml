@@ -105,6 +105,15 @@
 
     </delete>
 
+    <select id="getStatusNum" parameterType="String" resultType="com.hz.blog.entity.PostNum">
+        select count(*) as totalCount,
+               count(case when status = 0 then 1 end) as type1,
+               count(case when status = 1 then 1 end) as type2,
+               count(case when status = 2 then 1 end) as type3,
+               count(case when status = 3 then 1 end) as type4
+        from blog_post where author_id =#{authorId}
+    </select>
+
 
 
 </mapper>

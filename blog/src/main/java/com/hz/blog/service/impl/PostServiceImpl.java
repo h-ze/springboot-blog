@@ -1,11 +1,8 @@
 package com.hz.blog.service.impl;
 
-import com.hz.blog.entity.PageResult;
-import com.hz.blog.entity.PostTag;
-import com.hz.blog.entity.ResultList;
+import com.hz.blog.entity.*;
 import com.hz.blog.service.PostService;
 import com.hz.blog.dao.PostDao;
-import com.hz.blog.entity.Post;
 import com.hz.blog.service.PostTagService;
 import com.hz.blog.utils.SnowflakeManager;
 import lombok.extern.slf4j.Slf4j;
@@ -162,5 +159,10 @@ public class PostServiceImpl implements PostService {
         log.info("post:{}",postListByOther);
         return pageResult.getPageFilter(pageResult,postListByOther);
 
+    }
+
+    @Override
+    public PostNum getPostNum(String authorId) {
+        return postDao.getStatusNum(authorId);
     }
 }

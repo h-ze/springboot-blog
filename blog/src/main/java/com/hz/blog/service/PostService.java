@@ -3,6 +3,7 @@ package com.hz.blog.service;
 import com.hz.blog.annotation.StartPage;
 import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
+import com.hz.blog.entity.PostNum;
 import com.hz.blog.entity.ResultList;
 import com.hz.blog.vo.PostVo;
 import org.apache.ibatis.annotations.Param;
@@ -31,4 +32,6 @@ public interface PostService {
 
 
     PageResult<Post> getPostListByOther(PageResult pageResult, Long authorId, String authorName, Long postId, Integer status, String title, String startTime, String endTime);
+
+    PostNum getPostNum(String authorId);
 }
