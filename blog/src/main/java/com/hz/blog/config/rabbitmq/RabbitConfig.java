@@ -1,6 +1,7 @@
 package com.hz.blog.config.rabbitmq;
 
 import com.hz.blog.entity.MailConstants;
+import com.hz.blog.entity.QueueEnum;
 import com.hz.blog.service.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.hz.blog.entity.QueueEnum.POST_MQ;
+import static com.hz.blog.entity.QueueEnum.POST_TTL_MQ;
 
 
 //本项目主要使用定时器的方式进行rabbitmq的调用
@@ -128,106 +132,74 @@ public class RabbitConfig {
         return BindingBuilder.bind(mailQueue()).to(mailExchange()).with(MailConstants.MAIL_QUEUE_NAME);
     }
 
-
-    // 配置一个测试工作模型队列 无实际意义
-    @Bean
-    Queue testQueue() { return new Queue("test", true); }
-
-    @Bean
-    DirectExchange testExchange(){
-        return new DirectExchange("test.exchange",true,false);
-    }
-
-    @Bean
-    Binding testBinding() {
-        return BindingBuilder.bind(testQueue()).to(testExchange()).with("test");
-    }
-
-
-
-    @Bean
-    Queue delayQueue() { return new Queue("delay", true); }
-
-    @Bean
-    DirectExchange delayExchange(){
-        return new DirectExchange("delay.exchange",true,false);
-    }
-
-    @Bean
-    Binding delayBinding() {
-        return BindingBuilder.bind(delayQueue()).to(delayExchange()).with("delay");
-    }
-
-
-
-    // 配置一个测试工作模型队列 无实际意义
-    @Bean
-    Queue delayQueue1() { return new Queue("delay1", true); }
-
-    @Bean
-    DirectExchange delayExchange1(){
-        return new DirectExchange("delay1.exchange",true,false);
-    }
-
-    @Bean
-    Binding delayBinding1() {
-        return BindingBuilder.bind(delayQueue1()).to(delayExchange1()).with("delay1");
-    }
-
-
-
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory){
         return new RabbitAdmin(connectionFactory);
     }
 
+//    public static final String DLX_QUEUE = "queue.postdlx";//死信队列
+//    public static final String DLX_EXCHANGE = "exchange.postdlx";//死信交换机
+//    public static final String DLX_ROUTING_KEY = "routingkey.postdlx";//死信队列与死信交换机绑定的routing-key
+//
+//    public static final String POST_QUEUE = "queue.post";//订单的延时队列
+//    public static final String POST_EXCHANGE = "exchange.post";//订单交换机
+//    public static final String POST_ROUTING_KEY = "routingkey.post";//延时队列与订单交换机绑定的routing-key
 
-    //死信队列
-    @Bean("deadLetterExchange")
-    public Exchange deadLetterExchange() {
-        return ExchangeBuilder.directExchange("DL_EXCHANGE").durable(true).build();
-    }
-
-
-    @Bean("deadLetterQueue")
-    public Queue deadLetterQueue() {
-        Map<String, Object> args = new HashMap<>(2);
-        //       x-dead-letter-exchange    声明  死信交换机
-        args.put("x-dead-letter-exchange", "DL_EXCHANGE");
-        //       x-dead-letter-routing-key    声明 死信路由键
-        args.put("x-dead-letter-routing-key", "KEY_R");
-        return QueueBuilder.durable("DL_QUEUE").withArguments(args).build();
-    }
-
-    @Bean("redirectQueue")
-    public Queue redirectQueue() {
-        return QueueBuilder.durable("REDIRECT_QUEUE").build();
+    /**
+     * 定义死信队列
+     **/
+    @Bean
+    public Queue dlxQueue(){
+        return new Queue(POST_TTL_MQ.getName(),true);
     }
 
     /**
-     * 死信路由通过 DL_KEY 绑定键绑定到死信队列上.
-     *
-     * @return the binding
-     */
+     * 定义死信交换机
+     **/
     @Bean
-    public Binding deadLetterBinding() {
-        return new Binding("DL_QUEUE", Binding.DestinationType.QUEUE, "DL_EXCHANGE", "DL_KEY", null);
+    public DirectExchange dlxExchange(){
+        return new DirectExchange(POST_TTL_MQ.getExchange(), true, false);
     }
 
 
     /**
-     * 死信路由通过 KEY_R 绑定键绑定到死信队列上.
-     *
-     * @return the binding
-     */
+     * 死信队列和死信交换机绑定
+     * 设置路由键：routingkey.dlx
+     **/
     @Bean
-    public Binding redirectBinding() {
-        return new Binding("REDIRECT_QUEUE", Binding.DestinationType.QUEUE, "DL_EXCHANGE", "KEY_R", null);
+    Binding bindingDLX(){
+        return BindingBuilder.bind(dlxQueue()).to(dlxExchange()).with(POST_TTL_MQ.getRouteKey());
     }
 
 
+    /**
+     * 订单延时队列
+     * 设置队列里的死信转发到的DLX名称
+     * 设置死信在转发时携带的 routing-key 名称
+     **/
+    @Bean
+    public Queue orderQueue() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("x-dead-letter-exchange", POST_TTL_MQ.getExchange());
+        params.put("x-dead-letter-routing-key", POST_TTL_MQ.getRouteKey());
+        return new Queue(POST_MQ.getName(), true, false, false, params);
+    }
 
+    /**
+     * 订单交换机
+     **/
+    @Bean
+    public DirectExchange orderExchange() {
+        return new DirectExchange(POST_MQ.getExchange(), true, false);
+    }
 
+    /**
+     * 把订单队列和订单交换机绑定在一起
+     **/
+    @Bean
+    public Binding orderBinding() {
+        return BindingBuilder.bind(orderQueue()).to(orderExchange()).with(POST_MQ.getRouteKey());
+    }
 
 
 }

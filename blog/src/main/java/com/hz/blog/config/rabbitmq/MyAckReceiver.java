@@ -15,6 +15,8 @@ import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+
+//不使用了
 //@Configuration
 @Slf4j
 public class MyAckReceiver implements ChannelAwareMessageListener {

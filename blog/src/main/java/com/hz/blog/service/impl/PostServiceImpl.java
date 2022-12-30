@@ -9,6 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessagePostProcessor;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static com.hz.blog.config.rabbitmq.RabbitConfig.*;
+import static com.hz.blog.entity.QueueEnum.POST_MQ;
 
 
 @Service
@@ -39,6 +47,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public int addPost(Post post) {
@@ -68,6 +79,28 @@ public class PostServiceImpl implements PostService {
         postTag.setWeight(Long.valueOf(0L));
         postTagService.addPostTag(postTag);
         return i;
+    }
+
+    @Override
+    public int addPostOnTiming(Post post,String delayTime) {
+        try {
+            post.setPostId(Long.valueOf(snowflakeManager.nextValue()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        log.info("postId:{}",post.getPostId());
+        //将消息携带路由键值
+        rabbitTemplate.convertAndSend(POST_MQ.getExchange(), POST_MQ.getRouteKey(),
+                post,message->{
+                    message.getMessageProperties().setExpiration(delayTime);
+                    return message;
+                },new CorrelationData(post.getPostId().toString()));
+
+        //rabbitTemplate.convertAndSend("DL_EXCHANGE", "DL_QUEUE","email", new CorrelationData());
+
+        //rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME, MailConstants.MAIL_QUEUE_NAME,"email", new CorrelationData(String.valueOf("1")));
+
+        return 0;
     }
 
     @Override

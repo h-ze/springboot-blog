@@ -73,6 +73,35 @@ public class PostController extends BaseController {
         return ResponseResult.successResult(100001,"插入失败",postVo);
     }
 
+    //@LogOperator(value = "定时发送博客",type = LOG_POST)
+    @PostMapping("addPostOnTiming")
+    @ApiOperation(value ="添加博客",notes="添加博客")
+    //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
+    public ResponseResult addPostOnTiming(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) @Validated PostVo postVo){
+
+
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        Claims claims = jwtUtil.parseJWT(principal);
+        String userId = (String)claims.get("userId");
+        String fullName = (String)claims.get("fullName");
+        // String userId = shiroUtils.getUserId();
+        logger.info("userId:{}",userId);
+
+        Post post = EntityConvertDtoAndVOUtils.convertBean(postVo, Post.class);
+        post.setAuthorId(Long.valueOf(userId));
+        post.setAuthorName(fullName);
+
+        String delayTime ="10000";
+        int i = postService.addPostOnTiming(post,delayTime);
+        if (i>0){
+            return ResponseResult.successResult(100000,"插入成功",postVo);
+        }
+        return ResponseResult.successResult(100001,"插入失败",postVo);
+    }
+
+
+
+
 
     @LogOperator(value = "修改博客",type = LOG_POST)
     @PutMapping(value = "updatePost",consumes = "application/x-www-form-urlencoded")

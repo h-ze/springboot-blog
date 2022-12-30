@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
+//不使用了
 //rabbitmq消费者回调 判断是否消费成功
 //@Configuration
 public class MessageListenerConfig {

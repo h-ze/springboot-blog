@@ -16,6 +16,8 @@ public interface PostService {
 
     int addPost(Post post);
 
+    int addPostOnTiming(Post post,String delayTime);
+
     int updatePost(Post post);
 
     int deletePost(Long id,Long authorId);
