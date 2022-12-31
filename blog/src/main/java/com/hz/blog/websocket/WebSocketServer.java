@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Slf4j
-@ServerEndpoint("/api/pushMessage/{userId}")
+@ServerEndpoint("/wsapi/pushMessage/{userId}")
 public class WebSocketServer {
 
     /**

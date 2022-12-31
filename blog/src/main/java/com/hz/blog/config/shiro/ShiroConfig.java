@@ -140,7 +140,7 @@ public class ShiroConfig {
 
         filterChainDefinitionMap.put("/commentController/**","anon");
 
-        filterChainDefinitionMap.put("/api/pushMessage/**","anon");
+        filterChainDefinitionMap.put("/wsapi/pushMessage/**","anon");
 
         filterChainDefinitionMap.put("/websocket/**","anon");
 

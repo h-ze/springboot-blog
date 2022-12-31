@@ -1,7 +1,6 @@
 package com.hz.blog.controller;
 
 import com.hz.blog.test.MyClient;
-import com.hz.blog.websocket.SystemWebSocketHandler;
 import com.hz.blog.websocket.WebSocketServer;
 import com.hz.blog.entity.ResponseResult;
 //import com.hz.blog.test.MyClient;
@@ -41,13 +40,13 @@ public class WebSocketController {
     @PostMapping("/sendMessage")
     public ResponseResult sendMessage(@RequestParam String message, @RequestParam String username, @RequestParam String token){
         try {
-            WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            MyClient client = new MyClient();
-            container.connectToServer(client, new URI("ws://localhost:"+serverPort+"/websocket/"+username+"?token="+token));
-            client.send("客户端发送消息:" + message);
+            //WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+            //MyClient client = new MyClient();
+            //container.connectToServer(client, new URI("ws://localhost:"+serverPort+"/websocket/"+username+"?token="+token));
+            //client.send("客户端发送消息:" + message);
 
             WebSocketServer.sendInfo(message,username);
-            SystemWebSocketHandler.sendMessageToUser("1",new TextMessage("123"));
+            //SystemWebSocketHandler.sendMessageToUser("1",new TextMessage("123"));
 
             return ResponseResult.successResult(100000,"测试websocket成功");
         }catch (Exception e){

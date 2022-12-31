@@ -1,6 +1,8 @@
 package com.hz.blog.dao;
 
 
+import com.hz.blog.annotation.StartPage;
+import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
 import com.hz.blog.entity.PostTiming;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,7 +19,8 @@ public interface PostTimingDao {
 
     int deletePostTiming(Long postId);
 
-    List<PostTiming> getPostTimingListByAuthor(Long authorId);
+    @StartPage
+    List<PostTiming> getPostTimingListByAuthor(PageResult pageResult,@Param("authorId") Long authorId);
 
     PostTiming getPostTimingById(Long postId);
 }

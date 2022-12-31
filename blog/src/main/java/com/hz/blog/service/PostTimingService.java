@@ -1,5 +1,6 @@
 package com.hz.blog.service;
 
+import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
 import com.hz.blog.entity.PostTiming;
 
@@ -15,7 +16,7 @@ public interface PostTimingService {
 
     int deletePostTiming(Long postId);
 
-    List<PostTiming> getPostTimingListByAuthor(Long authorId);
+    PageResult<PostTiming> getPostTimingListByAuthor(Long authorId,PageResult pageResult);
 
     PostTiming getPostTimingById(Long postId);
 

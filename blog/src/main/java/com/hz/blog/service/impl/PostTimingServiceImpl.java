@@ -1,6 +1,7 @@
 package com.hz.blog.service.impl;
 
 import com.hz.blog.dao.PostTimingDao;
+import com.hz.blog.entity.PageResult;
 import com.hz.blog.entity.Post;
 import com.hz.blog.entity.PostTiming;
 import com.hz.blog.service.PostTimingService;
@@ -34,8 +35,9 @@ public class PostTimingServiceImpl implements PostTimingService {
     }
 
     @Override
-    public List<PostTiming> getPostTimingListByAuthor(Long authorId) {
-        return postTimingDao.getPostTimingListByAuthor(authorId);
+    public PageResult<PostTiming> getPostTimingListByAuthor(Long authorId,PageResult pageResult) {
+        List<PostTiming> listByAuthor = postTimingDao.getPostTimingListByAuthor(pageResult,authorId);
+        return pageResult.getPageFilter(pageResult,listByAuthor);
     }
 
     @Override
