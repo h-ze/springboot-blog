@@ -132,4 +132,8 @@ public class Constant {
     public static final String LOG_LOGIN ="1";
     public static final String LOG_POST ="2";
 
+    public static final Integer POST_TIMING_WAITPOST =0;
+    public static final Integer POST_TIMING_FINISHPOST =1;
+    public static final Integer POST_TIMING_STOPPOST =2;
+
 }

@@ -140,6 +140,12 @@ public class ShiroConfig {
 
         filterChainDefinitionMap.put("/commentController/**","anon");
 
+        filterChainDefinitionMap.put("/api/pushMessage/**","anon");
+
+        filterChainDefinitionMap.put("/websocket/**","anon");
+
+
+
 
         //拦截器需要放在最后 否则以上的放行可能会不生效
 

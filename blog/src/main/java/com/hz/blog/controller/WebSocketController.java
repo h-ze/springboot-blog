@@ -1,13 +1,18 @@
 package com.hz.blog.controller;
 
-import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.test.MyClient;
+import com.hz.blog.websocket.SystemWebSocketHandler;
+import com.hz.blog.websocket.WebSocketServer;
+import com.hz.blog.entity.ResponseResult;
+//import com.hz.blog.test.MyClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.socket.TextMessage;
 
 import javax.websocket.ContainerProvider;
 import javax.websocket.WebSocketContainer;
@@ -23,6 +28,10 @@ import java.net.URI;
 @Slf4j
 public class WebSocketController {
 
+//    @Bean//这个注解会从Spring容器拿出Bean
+//    public SystemWebSocketHandler infoHandler() {
+//        return new SystemWebSocketHandler();
+//    }
     /*@Autowired
     SimpMessagingTemplate simpMessagingTemplate;*/
 
@@ -36,6 +45,10 @@ public class WebSocketController {
             MyClient client = new MyClient();
             container.connectToServer(client, new URI("ws://localhost:"+serverPort+"/websocket/"+username+"?token="+token));
             client.send("客户端发送消息:" + message);
+
+            WebSocketServer.sendInfo(message,username);
+            SystemWebSocketHandler.sendMessageToUser("1",new TextMessage("123"));
+
             return ResponseResult.successResult(100000,"测试websocket成功");
         }catch (Exception e){
             e.printStackTrace();

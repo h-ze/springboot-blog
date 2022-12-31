@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hz.blog.entity.Email;
 import com.hz.blog.entity.MailConstants;
 import com.hz.blog.entity.Post;
+import com.hz.blog.entity.PostTiming;
+import com.hz.blog.service.PostService;
+import com.hz.blog.service.PostTimingService;
 import com.hz.blog.task.MailReceiver;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +20,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import static com.hz.blog.constant.Constant.POST_TIMING_FINISHPOST;
+import static com.hz.blog.constant.Constant.POST_TIMING_WAITPOST;
+
 
 /**
  * 消费rabbitmq
@@ -27,6 +33,12 @@ public class ConsumerRabbit {
 
     @Autowired
     private MailReceiver mailReceiver;
+
+    @Autowired
+    private PostTimingService postTimingService;
+
+    @Autowired
+    private PostService postService;
 
     @RabbitListener(queues = MailConstants.MAIL_QUEUE_NAME
             /*bindings = @QueueBinding(
@@ -109,6 +121,16 @@ public class ConsumerRabbit {
         //System.out.println(1/0);
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
 
+
+        Long postId = post.getPostId();
+        log.info("postId:{}",postId);
+        PostTiming postTimingById = postTimingService.getPostTimingById(postId);
+        if (postTimingById!=null && POST_TIMING_WAITPOST.equals(postTimingById.getStatus())){
+            postTimingService.updatePostTiming(postId,POST_TIMING_FINISHPOST);
+            //postTimingService.updatePostTiming(new PostTiming(post.getPostId(),POST_TIMING_WAITPOST,post.getAuthorId()));
+            postService.addPost(post);
+        }
+
         try {
             channel.basicAck(deliveryTag, false);
         } catch (IOException e) {
@@ -116,6 +138,7 @@ public class ConsumerRabbit {
             // 4.拒绝签收，并且不重新入队
             channel.basicNack(deliveryTag, true, false);
         }
+
     }
 
     //@RabbitHandler

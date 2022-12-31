@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
@@ -17,6 +18,11 @@ public class BeanConfig {
     @Scope("prototype") //prototype 原型 singleton 单例
     public Calendar getCalendar(){
         return Calendar.getInstance();
+    }
+
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
     }
 
 //    /**

@@ -1,9 +1,11 @@
 package com.hz.blog.service.impl;
 
+import com.hz.blog.annotation.LogOperator;
 import com.hz.blog.entity.*;
 import com.hz.blog.service.PostService;
 import com.hz.blog.dao.PostDao;
 import com.hz.blog.service.PostTagService;
+import com.hz.blog.service.PostTimingService;
 import com.hz.blog.utils.SnowflakeManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.ExecutorType;
@@ -27,6 +29,8 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.hz.blog.config.rabbitmq.RabbitConfig.*;
+import static com.hz.blog.constant.Constant.LOG_POST;
+import static com.hz.blog.constant.Constant.POST_TIMING_WAITPOST;
 import static com.hz.blog.entity.QueueEnum.POST_MQ;
 
 
@@ -43,6 +47,9 @@ public class PostServiceImpl implements PostService {
     private PostTagService postTagService;
 
     @Autowired
+    PostTimingService postTimingService;
+
+    @Autowired
     private SnowflakeManager snowflakeManager;
 
     @Autowired
@@ -50,6 +57,7 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
 
     @Override
     public int addPost(Post post) {
@@ -64,18 +72,10 @@ public class PostServiceImpl implements PostService {
 
         //SimpleDateFormat outSdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.CHINA);
         //System.out.println(outSdf.format(new Date()));
-
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.CHINA);
-        String format = sf.format(new Date());
-        System.out.println("-----"+format);
         post.setCreated(new Date());
-
-        System.out.println("post111"+post);
-
         int i = postDao.addPost(post);
         PostTag postTag = new PostTag();
         postTag.setPostId(post.getPostId());
-        //postTag.setTagId(postVo.getTagId());
         postTag.setWeight(Long.valueOf(0L));
         postTagService.addPostTag(postTag);
         return i;
@@ -90,6 +90,7 @@ public class PostServiceImpl implements PostService {
         }
         log.info("postId:{}",post.getPostId());
         //将消息携带路由键值
+        postTimingService.addPostTiming(new PostTiming(null,post.getPostId(),POST_TIMING_WAITPOST,post.getAuthorId()));
         rabbitTemplate.convertAndSend(POST_MQ.getExchange(), POST_MQ.getRouteKey(),
                 post,message->{
                     message.getMessageProperties().setExpiration(delayTime);
