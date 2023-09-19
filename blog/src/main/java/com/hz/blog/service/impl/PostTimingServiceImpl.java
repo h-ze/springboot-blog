@@ -25,8 +25,8 @@ public class PostTimingServiceImpl implements PostTimingService {
     }
 
     @Override
-    public int updatePostTiming(Long postId,Integer status) {
-        return postTimingDao.updatePostTiming(postId,status);
+    public int updatePostTiming(PostTiming postTiming) {
+        return postTimingDao.updatePostTiming(postTiming);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.hz.blog.controller.blog;
 
 
 import com.hz.blog.controller.BaseController;
-import com.hz.blog.entity.ResponseResult;
+import com.hz.blog.response.ServerResponseEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,27 +17,27 @@ public class BookController extends BaseController {
 
     @ApiOperation(value ="获取book",notes="获取book")
     @GetMapping("getBook")
-    public ResponseResult getBook(){
-        return ResponseResult.successResult(100000,"成功");
+    public ServerResponseEntity<String> getBook(){
+        return ServerResponseEntity.success();
     }
 
 
     @ApiOperation(value ="获取book列表",notes="获取book列表")
     @GetMapping("getBookList")
-    public ResponseResult getBookList(){
-        return ResponseResult.successResult(100000,"成功");
+    public ServerResponseEntity<String> getBookList(){
+        return ServerResponseEntity.success();
     }
 
     @ApiOperation(value ="通过Id获取book",notes="通过Id获取book")
     @GetMapping("getBookById")
-    public ResponseResult getBookById(String id){
-        return ResponseResult.successResult(100000,"成功");
+    public ServerResponseEntity<String> getBookById(String id){
+        return ServerResponseEntity.success();
     }
 
     @ApiOperation(value ="通过Name获取book",notes="通过Name获取book")
     @GetMapping("getBookByName")
-    public ResponseResult getBookByName(String name){
-        return ResponseResult.successResult(100000,"成功");
+    public ServerResponseEntity<String> getBookByName(String name){
+        return ServerResponseEntity.success();
     }
 
 

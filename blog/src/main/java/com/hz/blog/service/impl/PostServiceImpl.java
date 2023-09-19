@@ -90,7 +90,7 @@ public class PostServiceImpl implements PostService {
         }
         log.info("postId:{}",post.getPostId());
         //将消息携带路由键值
-        postTimingService.addPostTiming(new PostTiming(null,post.getPostId(),POST_TIMING_WAITPOST,post.getAuthorId()));
+        int addPostTiming = postTimingService.addPostTiming(new PostTiming(null, post.getPostId(), POST_TIMING_WAITPOST, post.getAuthorId(), new Date(), new Date()));
         rabbitTemplate.convertAndSend(POST_MQ.getExchange(), POST_MQ.getRouteKey(),
                 post,message->{
                     message.getMessageProperties().setExpiration(delayTime);
@@ -101,7 +101,7 @@ public class PostServiceImpl implements PostService {
 
         //rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME, MailConstants.MAIL_QUEUE_NAME,"email", new CorrelationData(String.valueOf("1")));
 
-        return 0;
+        return addPostTiming;
     }
 
     @Override

@@ -14,4 +14,6 @@ public interface EmailService {
     Email getEmail(String email);
 
     int addEmailMessage(Email email);
+
+    int sendEmail(Email email);
 }

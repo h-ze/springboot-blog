@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * MQTT消息发送
  */
-@RestController
-@RequestMapping("/mqtt")
+//@RestController
+//@RequestMapping("/mqtt")
 public class MqttController {
 
 //    @Autowired
@@ -25,7 +25,7 @@ public class MqttController {
 //    }
 
     @Autowired
-    private MyMqttClient myMqttClient;
+    //private MyMqttClient myMqttClient;
 
 
 
@@ -40,7 +40,7 @@ public class MqttController {
     @PostMapping(value = "/publish")
     public ResponseEntity<String> sendMqtt(@RequestParam(value = "msg") String message) throws MqttException {
         String kdTopic = "topic1";
-        myMqttClient.publishMessage("topic/test1",message,2,false);
+        //myMqttClient.publishMessage("topic/test1",message,2,false);
 
         //MqttPushClient.getInstance().publish(kdTopic, "稍微来点鸡血");
         return new ResponseEntity<>("OK", HttpStatus.OK);

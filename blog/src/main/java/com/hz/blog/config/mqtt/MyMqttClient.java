@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 
-@Component
+//@Component
 public class MyMqttClient {
 
     public static MqttClient mqttClient = null;

@@ -42,8 +42,7 @@ public class TagServiceImpl implements TagService {
             e.printStackTrace();
         }
         Tag tag = EntityConvertDtoAndVOUtils.convertBean(tagvo, Tag.class);
-        int i = tagDao.addTag(tag);
-        return i;
+        return tagDao.addTag(tag);
     }
 
     @Override
@@ -95,19 +94,16 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag getTagByName(String name) {
-        Tag tag = tagDao.getTagByName(name);
-        return tag;
+        return tagDao.getTagByName(name);
     }
 
     @Override
     public Tag getTagById(String id) {
-        Tag tag = tagDao.getTagById(id);
-        return tag;
+        return tagDao.getTagById(id);
     }
 
     @Override
     public List<Tag> getTags() {
-        List<Tag> tags = tagDao.getTags();
-        return tags;
+        return tagDao.getTags();
     }
 }

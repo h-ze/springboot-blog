@@ -3,19 +3,19 @@
 <mapper namespace="com.hz.blog.dao.PostTimingDao">
 
     <select id="getPostTimingListByAuthor" resultType="com.hz.blog.entity.PostTiming">
-        select id,post_id,status,author_id from post_timing where author_id=#{authorId}
+        select id,post_id,status,author_id,create_date,end_date from post_timing where author_id=#{authorId}
     </select>
 
     <select id="getPostTimingById" resultType="com.hz.blog.entity.PostTiming">
-        select id,post_id,status,author_id from post_timing where post_id=#{postId}
+        select id,post_id,status,author_id,create_date,end_date from post_timing where post_id=#{postId}
     </select>
 
     <insert id="addPostTiming" parameterType="com.hz.blog.entity.PostTiming">
-        insert into post_timing values(null,#{postId},#{status},#{authorId})
+        insert into post_timing values(null,#{postId},#{status},#{authorId},#{createDate},#{endDate})
     </insert>
 
-    <update id="updatePostTiming">
-        update post_timing set status =#{status} where post_id=#{postId}
+    <update id="updatePostTiming" parameterType="com.hz.blog.entity.PostTiming">
+        update post_timing set status =#{status}, end_date =#{endDate} where post_id=#{postId}
     </update>
 
     <delete id="deletePostTiming" parameterType="BigInteger">

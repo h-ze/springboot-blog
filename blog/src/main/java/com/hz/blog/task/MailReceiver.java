@@ -11,6 +11,7 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -48,6 +49,27 @@ public class MailReceiver {
     @Autowired
     StringRedisTemplate redisTemplate;
 
+    @Value("${spring.mail.host}")
+    private String host;
+
+    @Value("${spring.mail.protocol}")
+    private String protocol;
+
+    @Value("${spring.mail.port}")
+    private String port;
+
+    @Value("${spring.mail.properties.mail.stmp.socketFactory.class}")
+    private String stmpClass;
+
+    @Value("${spring.mail.username}")
+    private String username;
+
+    @Value("${spring.mail.password}")
+    private String password;
+
+    @Value("${spring.mail.toemail}")
+    private String toEmail;
+
     /**
      * 发送邮件
      * @param email
@@ -58,11 +80,11 @@ public class MailReceiver {
         log.info("发送邮件");
         //构造SMTP邮件服务器的基本环境
         Properties properties = new Properties();
-        properties.setProperty("mail.host", "smtp.qq.com");
-        properties.setProperty("mail.transport.protocol", "smtp");
+        properties.setProperty("mail.host", host);
+        properties.setProperty("mail.transport.protocol",protocol);
         properties.setProperty("mail.smtp.auth", "true");
-        properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        properties.setProperty("mail.smtp.port", "587");
+        properties.setProperty("mail.smtp.socketFactory.class", stmpClass);
+        properties.setProperty("mail.smtp.port", port);
         Session session = Session.getDefaultInstance(properties);
         session.setDebug(true);
 
@@ -75,10 +97,21 @@ public class MailReceiver {
         //picList.add(new File("C:\\Users\\Admin\\Desktop\\捕获.PNG"));
         //picList.add(new File("C:\\Users\\Admin\\Desktop\\捕获.PNG"));
 
-        MimeMessage mimeMessage = saveMessage(session,"1102211390@qq.com","1554752374@qq.com",null,"邮件主题",email,fileList,picList);
+//        MimeMessage mimeMessage = saveMessage(session,"1102211390@qq.com","1554752374@qq.com",null,"邮件主题",email,fileList,picList);
+//        //发送邮件
+//        Transport transport = session.getTransport();
+//        transport.connect("smtp.qq.com", 25, "iskpdrftnlgohbih","kuwvhzyxkknujigi");
+//        transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());//发送邮件，第二个参数为收件人
+//        transport.close();
+
+        List<String> emailList = getEmailList(toEmail);
+
+        String subject ="邮件主题";
+
+        MimeMessage mimeMessage = saveMessage(session,username,emailList,null,subject,email,fileList,picList);
         //发送邮件
         Transport transport = session.getTransport();
-        transport.connect("smtp.qq.com", 25, "iskpdrftnlgohbih","kuwvhzyxkknujigi");
+        transport.connect(host, 25, username,password);
         transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());//发送邮件，第二个参数为收件人
         transport.close();
     }
@@ -117,12 +150,21 @@ public class MailReceiver {
      * @throws MessagingException
      * @throws UnsupportedEncodingException
      */
-    private MimeMessage saveMessage(Session session,String fromEmail, String toEmail, String ccEmail, String subject,Email email,List<File> files,List<File> headPic) throws MessagingException, UnsupportedEncodingException {
+    private MimeMessage saveMessage(Session session,String fromEmail, List<String> toEmail, String ccEmail, String subject,Email email,List<File> files,List<File> headPic) throws MessagingException, UnsupportedEncodingException {
         MimeMessage mimeMessage = new MimeMessage(session);
-        mimeMessage.addRecipients(javax.mail.Message.RecipientType.TO, toEmail);//设置收信人
+//        mimeMessage.addRecipients(javax.mail.Message.RecipientType.TO, toEmail);//设置收信人
+//        if (ccEmail!=null){
+//            mimeMessage.addRecipients(javax.mail.Message.RecipientType.CC, ccEmail);//抄送
+//        }
+
+        for (String currentEmail : toEmail) {
+            mimeMessage.addRecipients(javax.mail.Message.RecipientType.TO, currentEmail);//设置收信人
+        }
+
         if (ccEmail!=null){
             mimeMessage.addRecipients(javax.mail.Message.RecipientType.CC, ccEmail);//抄送
         }
+
         mimeMessage.setFrom(fromEmail);//邮件发送人
         mimeMessage.setSubject(subject);//邮件主题
 
@@ -169,6 +211,15 @@ public class MailReceiver {
         DataHandler dh2 = new DataHandler(fds2);
         attach2.setDataHandler(dh2);
         attach2.setFileName(MimeUtility.encodeText(file.getName()));//设置文件名时，如果有中文，可以通过MimeUtility类中的encodeText方法进行编码，避免乱码
+    }
+
+    private List<String> getEmailList(String emails) {
+        String[] email = emails.trim().split(",");
+        List<String> serverAddressList = new ArrayList<>(4);
+        for (String address : email) {
+            serverAddressList.add(address);
+        }
+        return serverAddressList;
     }
 
 }

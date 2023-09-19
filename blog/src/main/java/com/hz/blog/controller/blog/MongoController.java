@@ -1,9 +1,9 @@
 package com.hz.blog.controller.blog;
 
 
-import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.entity.MongoEntity;
 import com.hz.blog.mongo.MongoService;
+import com.hz.blog.response.ServerResponseEntity;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,16 +21,16 @@ public class MongoController {
     @GetMapping("list")
     @ApiOperation(notes = "获取mongo列表",value = "获取mongo列表")
     @ApiImplicitParam(name = "id",value = "集合名称",dataType = "Long",paramType = "query")
-    public ResponseResult getMongoList(@RequestParam("id")Long id){
+    public ServerResponseEntity getMongoList(@RequestParam("id")Long id){
         MongoEntity mongoEntity = (MongoEntity) mongoService.selectById(id, MongoEntity.class, "hz");
-        return ResponseResult.successResult(100000,mongoEntity);
+        return ServerResponseEntity.success(mongoEntity);
     }
 
     @PostMapping("addMongo")
     @ApiOperation(notes = "插入数据",value = "往mongo中指定的集合中插入一条数据")
-    public ResponseResult addMongo(@RequestBody @ApiParam(name = "body",value = "添加一条mongo信息",required = true) MongoEntity mongoEntity){
+    public ServerResponseEntity addMongo(@RequestBody @ApiParam(name = "body",value = "添加一条mongo信息",required = true) MongoEntity mongoEntity){
         mongoService.insert(mongoEntity,"hz");
-        return ResponseResult.successResult(100000,"插入成功");
+        return ServerResponseEntity.success("插入成功");
     }
 
     @DeleteMapping("deleteMongo")
@@ -39,9 +39,9 @@ public class MongoController {
             @ApiImplicitParam(name = "id",value = "id名称",dataType = "Long",paramType = "query")
 
     })
-    public ResponseResult deleteMongo(@RequestParam("id")Long id){
+    public ServerResponseEntity deleteMongo(@RequestParam("id")Long id){
         mongoService.deleteById(id,MongoEntity.class,"hz");
-        return ResponseResult.successResult(100000,"删除成功");
+        return ServerResponseEntity.success(100000,"删除成功");
     }
 
     @PutMapping("updateMongo")
@@ -50,9 +50,9 @@ public class MongoController {
             @ApiImplicitParam(name = "id",value = "id名称",dataType = "Long",paramType = "query")
 
     })
-    public ResponseResult updateMongo(@RequestParam("id")Long id,@RequestBody @ApiParam(name = "body",value = "添加一条mongo信息",required = true) MongoEntity mongoEntity){
+    public ServerResponseEntity updateMongo(@RequestParam("id")Long id,@RequestBody @ApiParam(name = "body",value = "添加一条mongo信息",required = true) MongoEntity mongoEntity){
         mongoService.updateById(id,"hz",mongoEntity);
-        return ResponseResult.successResult(100000,"更新成功");
+        return ServerResponseEntity.success(100000,"更新成功");
     }
 
 
@@ -63,9 +63,9 @@ public class MongoController {
             @ApiImplicitParam(name = "indexName",value = "索引名称",dataType = "String",paramType = "query")
 
     })
-    public ResponseResult insertIndex(@RequestParam("collectionName")String collectionName,@RequestParam("indexName")String indexName){
+    public ServerResponseEntity insertIndex(@RequestParam("collectionName")String collectionName,@RequestParam("indexName")String indexName){
         String docId = mongoService.createIndex(collectionName, indexName);
-        return ResponseResult.successResult(100000,"设置成功");
+        return ServerResponseEntity.success(100000,"设置成功");
     }
 
     @DeleteMapping("index")
@@ -74,9 +74,9 @@ public class MongoController {
             @ApiImplicitParam(name = "collectionName",value = "集合名",dataType = "String",paramType = "query"),
             @ApiImplicitParam(name = "indexName",value = "索引名称",dataType = "String",paramType = "query")
     })
-    public ResponseResult deleteIndex(@RequestParam("collectionName")String collectionName,@RequestParam("indexName")String indexName){
+    public ServerResponseEntity deleteIndex(@RequestParam("collectionName")String collectionName,@RequestParam("indexName")String indexName){
         String docId = mongoService.dropIndex(collectionName, indexName);
-        return ResponseResult.successResult(100000,"删除成功");
+        return ServerResponseEntity.success(100000,"删除成功");
     }
 
     @GetMapping("index")
@@ -85,9 +85,9 @@ public class MongoController {
             @ApiImplicitParam(name = "collectionName",value = "集合名",dataType = "String",paramType = "query")
 
     })
-    public ResponseResult getIndex(@RequestParam("collectionName")String collectionName){
+    public ServerResponseEntity getIndex(@RequestParam("collectionName")String collectionName){
         List allIndexes = mongoService.getAllIndexes(collectionName);
-        return ResponseResult.successResult(100000,allIndexes);
+        return ServerResponseEntity.success(100000,allIndexes);
     }
 
 }

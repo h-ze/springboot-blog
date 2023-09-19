@@ -1,3 +1,4 @@
+/*
 package com.hz.blog.entity;
 
 import lombok.Data;
@@ -33,10 +34,12 @@ public class ResponseResult<T> implements Serializable {
 //        this.nums = nums;
 //    }
 
-    /**
+    */
+/**
      * 成功的结果
      * @param data 返回结果
-     */
+     *//*
+
     public static ResponseResult successResult(Integer code,Object data) {
         return new ResponseResult(code,ResponseResult.SUCCESS, data);
     }
@@ -44,25 +47,32 @@ public class ResponseResult<T> implements Serializable {
     public static ResponseResult successResult(Integer code,String message,Object data) {
         return new ResponseResult(code,message, data);
     }
-    /**
+    */
+/**
      * 成功的结果
      * @param data    返回结果
-     */
+     *//*
+
     public static ResponseResult successResult(Integer code,Object data,Integer nums) {
         return new ResponseResult(code,ResponseResult.SUCCESS, data);
     }
 
-    /**
+    */
+/**
      * 失败的结果
-     */
+     *//*
+
     public static ResponseResult errorResult(Integer code,Object data) {
         return new ResponseResult(code,ResponseResult.FAIL,data);
     }
 
-    /**
+    */
+/**
      * 失败的结果
-     */
+     *//*
+
     public static ResponseResult errorResult(Integer code,Object data,Integer nums) {
         return new ResponseResult(code,ResponseResult.FAIL, null);
     }
 }
+*/

@@ -12,7 +12,7 @@ public interface PostTimingService {
 
     int addPostTiming(PostTiming postTiming);
 
-    int updatePostTiming(Long postId,Integer status);
+    int updatePostTiming(PostTiming postTiming);
 
     int deletePostTiming(Long postId);
 

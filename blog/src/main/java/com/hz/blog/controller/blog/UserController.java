@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hz.blog.annotation.LogOperator;
 import com.hz.blog.constant.CommonConstant;
 import com.hz.blog.entity.*;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.service.RedisService;
 import com.hz.blog.service.UserInfoService;
 import com.hz.blog.service.UserService;
@@ -33,8 +34,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.hz.blog.constant.Constant.LOG_LOGIN;
-import static com.hz.blog.constant.Constant.LOG_POST;
+import static com.hz.blog.constant.Constant.*;
 
 
 @Controller
@@ -130,58 +130,29 @@ public class UserController {
     })
     @PostMapping(value = "/user",consumes = "application/x-www-form-urlencoded")
     @ResponseBody
-    public ResponseResult registerUser(String username ,
-                                       @RequestParam("password") String password,
-                                       @RequestParam("email") String email,
-                                       @RequestParam("phone") String phone,
-                                       @RequestParam("type") Integer type){
-
-//        String messageId = String.valueOf(UUID.randomUUID());
-//        String messageData = "message: lonelyDirectExchange test message";
-//        String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("messageId", messageId);
-//        map.put("messageData", messageData);
-//        map.put("createTime", createTime);
-//        rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME, MailConstants.MAIL_QUEUE_NAME, map);
-
+    public ServerResponseEntity registerUser(String username ,
+                                             @RequestParam("password") String password,
+                                             @RequestParam("email") String email,
+                                             @RequestParam("phone") String phone,
+                                             @RequestParam("type") Integer type){
         log.info(username);
         log.info(password);
         User user = userService.getUser(username);
         if (user!=null){
-            return ResponseResult.successResult(100002,"添加失败","用户已存在");
+            return ServerResponseEntity.success(100002,"添加失败","用户已存在");
         }else {
-            String status ="1";
-            User addUser = new User();
-            addUser.setName(username);
             Map<String, String> result = SaltUtil.shiroSalt(password);
-            addUser.setSalt(result.get("salt"));
-            addUser.setPassword(result.get("password"));
-            addUser.setBir(new Date());
-            addUser.setAge(25);
-            addUser.setStatus(status);
-            long l = System.currentTimeMillis();
-            String userId = String.valueOf(l);
-            addUser.setUserId(userId);
-            log.info("id:"+userId);
 
-            UserRoles userRoles = new UserRoles();
-            userRoles.setUserId(userId);
-            userRoles.setRoleId(type);
-
-            UserInfo userInfo = new UserInfo();
-            userInfo.setUserId(userId);
-            userInfo.setPhoneNumber(phone);
-            userInfo.setEmail(email);
-            userInfo.setStatus(status);
-            userInfo.setFullName(username);
-
-
+            String status = USER_REGISTER;
+            String userId = String.valueOf(System.currentTimeMillis());
+            User addUser = new User(0,username,25,new Date(),result.get("password"),result.get("salt"),userId,status);
+            UserRoles userRoles = new UserRoles(0,userId,type);
+            UserInfo userInfo = new UserInfo(userId,email,phone,status,username);
             int i = userService.save(addUser,userInfo,userRoles);
             if (i >0){
-                return ResponseResult.successResult(100000,"注册成功","用户已注册成功,请前往当前注册邮箱地址点击激活用户");
+                return ServerResponseEntity.success("注册成功","用户已注册成功,请前往当前注册邮箱地址点击激活用户");
             }else {
-                return ResponseResult.successResult(100001,"注册失败","用户注册失败");
+                return ServerResponseEntity.success(100001,"注册失败","用户注册失败");
             }
         }
     }
@@ -196,17 +167,16 @@ public class UserController {
     /*multipart/form-data*/
     @LogOperator(value = "登录",type = LOG_LOGIN)
     @PostMapping(value = "/login",consumes = "application/x-www-form-urlencoded")
-    @ApiOperation(value ="用户登录",notes="获取用户的token",response = ResponseResult.class)
+    @ApiOperation(value ="用户登录",notes="获取用户的token",response = ServerResponseEntity.class)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username",dataType = "String",value = "用户名",required = true, paramType = "form"),
             @ApiImplicitParam(name = "password",dataType = "String",value = "用户密码", required = true, paramType = "form")
     })
     //@RequestPart
     @ResponseBody
-    public ResponseResult login(@RequestParam("username") String username , @RequestParam("password")String password){
+    public ServerResponseEntity login(@RequestParam("username") String username , @RequestParam("password")String password){
         log.info(username);
         log.info(password);
-        System.out.println("1");
         UserWithInfo user = userService.getUserWithInfo(null,username);
         log.info("user:{}",user);
         if (user!=null){
@@ -217,7 +187,7 @@ public class UserController {
                 boolean forbid = object.containsKey("forbid");
                 if (forbid && "yes".equals(object.getString("forbid"))){
                     long expire = redisUtils.getExpire(user.getUserId());
-                    return ResponseResult.successResult(100001,"登录失败,密码错误次数过多,请"+expire+"秒后再试");
+                    return ServerResponseEntity.success(100001,"登录失败,密码错误次数过多,请"+expire+"秒后再试");
                 }
             }
             String sha = SaltUtil.shiroSha(password ,user.getSalt());
@@ -236,7 +206,7 @@ public class UserController {
                 info.put("userId",user.getId());
                 info.put("fullName",username);
                 config.getJsonObject().put("loginInfo",info);
-                return ResponseResult.successResult(100000,new LoginUserInfo(token,user.getUserId()));
+                return ServerResponseEntity.success(new LoginUserInfo(token,user.getUserId()));
             }else {
                 int errorNum=1;
                 if (redisUtils.hasKey(user.getUserId())) {
@@ -251,7 +221,7 @@ public class UserController {
                 if (errorNum ==5){
                     jsonObject.put("forbid","yes");
                     redisUtils.set(user.getUserId(),jsonObject.toString(),30);
-                    return ResponseResult.successResult(100001,"登录失败,密码错误次数过多,请"+30+"秒后再试");
+                    return ServerResponseEntity.success(100001,"登录失败,密码错误次数过多,请"+30+"秒后再试");
                 }
                 jsonObject.put("errorNum",errorNum);
                 if (errorNum==0){
@@ -259,10 +229,10 @@ public class UserController {
                 }else {
                     redisUtils.set(user.getUserId(),jsonObject.toString(),redisUtils.getExpire(user.getUserId()));
                 }
-                return ResponseResult.successResult(100001,"登录失败,密码错误,请重新输入,错误次数:"+errorNum);
+                return ServerResponseEntity.success(100001,"登录失败,密码错误,请重新输入,错误次数:"+errorNum);
             }
         }else {
-            return ResponseResult.successResult(100002,"登录失败,用户不存在");
+            return ServerResponseEntity.success(100002,"登录失败,用户不存在");
         }
 
 
@@ -275,21 +245,18 @@ public class UserController {
     @ApiOperation(value ="退出登录",notes="使token过期")
     @PutMapping("/logout")
     @ResponseBody
-    public ResponseResult logout() {
+    public ServerResponseEntity logout() {
         Subject subject = SecurityUtils.getSubject();
         String subjectPrincipal = (String) subject.getPrincipal();
         log.info("退出登录前的token:"+subjectPrincipal);
         redisService.addExpireRedis();
-
         subject.logout();
-
         String kdTopic = "pos_message_all";
         //MqttPushClient.getInstance().publish(kdTopic, "稍微来点鸡血");
         //return new ResponseEntity<>("OK", HttpStatus.OK);
         String principal = (String)subject.getPrincipal();
         log.info("退出登录的token:"+principal);
-
-        return ResponseResult.successResult(100000,"退出登录成功");
+        return ServerResponseEntity.success("退出登录成功");
     }
 
     /**
@@ -303,24 +270,24 @@ public class UserController {
             @ApiImplicitParam(name = "password", value = "用户密码",required = true, paramType="form")
     })
     @ResponseBody
-    public ResponseResult deleteUser(String password){
+    public ServerResponseEntity deleteUser(String password){
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = (String)claims.get("userId");
         User user = userService.getUserByUserId(userId);
         if (user==null){
-            return ResponseResult.successResult(100001,"删除失败,用户不存在");
+            return ServerResponseEntity.success(100001,"删除失败,用户不存在");
         }
         String sha = SaltUtil.shiroSha(password ,user.getSalt());
         if (sha.equals(user.getPassword())){
             int i = userService.deleteUser(user.getUserId(), sha);
             if (i >0){
-                return ResponseResult.successResult(100000,"注销成功,如需帐号请重新注册");
+                return ServerResponseEntity.success("注销成功,如需帐号请重新注册");
             }else {
-                return ResponseResult.successResult(100002,"注销失败,请稍后重试");
+                return ServerResponseEntity.success(100002,"注销失败,请稍后重试");
             }
         }else {
-            return ResponseResult.successResult(100003,"注销失败,密码错误,请重新输入");
+            return ServerResponseEntity.success(100003,"注销失败,密码错误,请重新输入");
         }
     }
 
@@ -337,13 +304,13 @@ public class UserController {
             @ApiImplicitParam(name = "newPassword", dataType = "String",value = "新密码", paramType = "form",required = true)
     })
     @ResponseBody
-    public ResponseResult updateUserPassword(String password,String newPassword){
+    public ServerResponseEntity updateUserPassword(String password,String newPassword){
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = (String)claims.get("userId");
         User user = userService.getUserByUserId(userId);
         if (user==null){
-            return ResponseResult.successResult(100003,"修改密码失败,用户不存在");
+            return ServerResponseEntity.success(100003,"修改密码失败,用户不存在");
         }
         String sha = SaltUtil.shiroSha(password ,user.getSalt());
         log.info(sha);
@@ -356,12 +323,12 @@ public class UserController {
                 //将redis中的信息删除或设置一个密码被修改的标识
                 //boolean setRedisExpire = redisUtil.setRedisExpire(token, 600);
                 //logger.info("结果:",setRedisExpire);
-                return ResponseResult.successResult(100000,"密码修改成功,请重新登录");
+                return ServerResponseEntity.success("密码修改成功,请重新登录");
             }else {
-                return ResponseResult.successResult(100001,"修改密码失败,请稍后重试");
+                return ServerResponseEntity.success(100001,"修改密码失败,请稍后重试");
             }
         }else {
-            return ResponseResult.successResult(100002,"修改密码失败,请输入正确的密码");
+            return ServerResponseEntity.success(100002,"修改密码失败,请输入正确的密码");
         }
     }
 
@@ -373,8 +340,8 @@ public class UserController {
     @GetMapping(value = "testRoles")
     @RequiresRoles("admin")
     @ResponseBody
-    public ResponseResult testRoles(){
-        return ResponseResult.successResult(0,"测试权限","权限测试成功");
+    public ServerResponseEntity testRoles(){
+        return ServerResponseEntity.success("测试权限","权限测试成功");
     }
 
     /**
@@ -397,19 +364,16 @@ public class UserController {
     @ApiOperation(value ="编辑用户个人信息",notes="用来编辑用户个人信息")
     @PostMapping("/edit")
     @ResponseBody
-    public ResponseResult updateUserMessage(@RequestBody() @ApiParam(name = "body",value = "用户个人信息",required = true) @Validated UserInfo userInfo){
+    public ServerResponseEntity updateUserMessage(@RequestBody() @ApiParam(name = "body",value = "用户个人信息",required = true) @Validated UserInfo userInfo){
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = (String)claims.get("userId");
-
         userInfo.setUserId(userId);
-        log.info("用户信息: {}",userInfo);
         int i = userInfoService.updateUserInfo(userInfo);
         if (i>0){
-            return ResponseResult.successResult(100000,userInfo);
+            return ServerResponseEntity.success(userInfo);
         }else {
-            return ResponseResult.successResult(100001,userInfo);
-
+            return ServerResponseEntity.success(100001,userInfo);
         }
     }
 
@@ -420,13 +384,13 @@ public class UserController {
     @ApiOperation(value ="获取用户个人信息",notes="用来获取用户个人信息")
     @GetMapping("/edit")
     @ResponseBody
-    public ResponseResult getUserMessage(){
+    public ServerResponseEntity getUserMessage(){
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         log.info("info:{}",principal);
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = (String)claims.get("userId");
         UserInfo userInfo = userInfoService.getUserInfo(userId);
-        return ResponseResult.successResult(100000,userInfo);
+        return ServerResponseEntity.success(100000,userInfo);
     }
 
     /**
@@ -439,10 +403,10 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "email",value = "用户邮箱",paramType = "query",dataType = "String",required = true)
     })
-    public ResponseResult resetPassword(String email){
+    public ServerResponseEntity resetPassword(String email){
         log.info("用户邮箱:"+email);
         //发送邮件到指定邮箱验证
-        return ResponseResult.successResult(0,"重置成功","密码已重置,请前往邮箱点击重置链接生效重置操作");
+        return ServerResponseEntity.success("重置成功","密码已重置,请前往邮箱点击重置链接生效重置操作");
     }
 
     /**
@@ -456,7 +420,7 @@ public class UserController {
             @ApiImplicitParam(name = "type",value = "qq or wechat",paramType = "query",dataType = "string",allowableValues = "qq,wechat", required = true)
     })
     @ResponseBody
-    public ResponseResult unbind(@RequestParam String type){
+    public ServerResponseEntity unbind(@RequestParam String type){
         log.info("type:"+type);
         boolean qq = "qq".equals(type);
         if (qq){
@@ -464,7 +428,7 @@ public class UserController {
         }else {
             log.info("解绑wechat");
         }
-        return ResponseResult.successResult(100000,"解绑成功,用户已解绑");
+        return ServerResponseEntity.success("解绑成功,用户已解绑");
     }
 
     /**
@@ -479,12 +443,12 @@ public class UserController {
             //@ApiImplicitParam(name = "phone_number",value = "手机号",paramType = "query",dataType = "String",required = true)
     })
     @ResponseBody
-    public ResponseResult<String> exists(@RequestParam("email") String email/*,@RequestParam("phone_number") String phone_number*/){
+    public ServerResponseEntity exists(@RequestParam("email") String email/*,@RequestParam("phone_number") String phone_number*/){
         log.info("email:"+email);
         //log.info("phone_number:"+phone_number);
         User user = userService.getUser(email);
         log.info("用户为: {}"+user);
-        return ResponseResult.successResult(100000,user);
+        return ServerResponseEntity.success(user);
     }
 
     /**
@@ -497,12 +461,12 @@ public class UserController {
 //            @ApiImplicitParam(name = "id",value = "用户id",paramType = "query",dataType = "String",required = true),
 //    })
     @ResponseBody
-    public ResponseResult<String> getUserWithInfo(/*@RequestParam("id") String id*/){
+    public ServerResponseEntity getUserWithInfo(/*@RequestParam("id") String id*/){
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = String.valueOf(claims.get("userId"));
         UserWithInfo user = userService.getUserWithInfo(userId,null);
-        return ResponseResult.successResult(100000,user);
+        return ServerResponseEntity.success(user);
     }
 
 
@@ -513,16 +477,16 @@ public class UserController {
     })
     @ResponseBody
     @RequiresRoles("superAdmin")
-    public ResponseResult changeSuperAdmin(String username){
+    public ServerResponseEntity changeSuperAdmin(String username){
         User user = userService.getUser(username);
         if (user ==null){
-            return ResponseResult.successResult(100001,"当前用户为空");
+            return ServerResponseEntity.success(100001,"当前用户为空");
         }else {
             int i = userService.changeUserRoles(user);
             if (i>0){
-                return ResponseResult.successResult(100000,"修改成功");
+                return ServerResponseEntity.success("修改成功");
             }else {
-                return ResponseResult.successResult(100003,"修改失败");
+                return ServerResponseEntity.success(100003,"修改失败");
             }
         }
     }

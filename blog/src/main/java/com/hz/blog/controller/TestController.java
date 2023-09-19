@@ -1,6 +1,6 @@
 package com.hz.blog.controller;
 
-import com.hz.blog.entity.ResponseResult;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.service.AsyncService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
@@ -33,7 +33,7 @@ public class TestController {
     //@RequiresPermissions("upms:log:read")
     @RequiresRoles("admin")
     @GetMapping("test")
-    public ResponseResult test(
+    public ServerResponseEntity test(
             @RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
             @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
             @RequestParam(required = false, defaultValue = "", value = "search") String search,
@@ -49,14 +49,14 @@ public class TestController {
         //asyncService.test2();
         asyncService.test3();
 
-        return ResponseResult.successResult(100000,"测试成功");
+        return ServerResponseEntity.success("测试成功");
     }
 
     @ApiOperation("测试")
     //@RequiresPermissions("upms:log:read")
     @RequiresRoles("admin")
     @GetMapping("test1")
-    public ResponseResult test(){
+    public ServerResponseEntity test(){
         logger.debug("测试");
         logger.error("测试");
         logger.info("测试");
@@ -92,6 +92,6 @@ public class TestController {
 
         //asyncService.test2();
 
-        return ResponseResult.successResult(100000,"测试成功");
+        return ServerResponseEntity.success("测试成功");
     }
 }

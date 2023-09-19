@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Date;
 
 import static com.hz.blog.constant.Constant.POST_TIMING_FINISHPOST;
 import static com.hz.blog.constant.Constant.POST_TIMING_WAITPOST;
@@ -126,7 +127,9 @@ public class ConsumerRabbit {
         log.info("postId:{}",postId);
         PostTiming postTimingById = postTimingService.getPostTimingById(postId);
         if (postTimingById!=null && POST_TIMING_WAITPOST.equals(postTimingById.getStatus())){
-            postTimingService.updatePostTiming(postId,POST_TIMING_FINISHPOST);
+            postTimingById.setStatus(POST_TIMING_FINISHPOST);
+            postTimingById.setEndDate(new Date());
+            postTimingService.updatePostTiming(postTimingById);
             //postTimingService.updatePostTiming(new PostTiming(post.getPostId(),POST_TIMING_WAITPOST,post.getAuthorId()));
             postService.addPost(post);
         }

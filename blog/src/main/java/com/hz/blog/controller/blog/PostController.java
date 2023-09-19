@@ -6,6 +6,7 @@ import com.hz.blog.constant.Constant;
 import com.hz.blog.controller.BaseController;
 import com.hz.blog.entity.*;
 import com.hz.blog.exception.RRException;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.service.PostService;
 import com.hz.blog.utils.EntityConvertDtoAndVOUtils;
 import com.hz.blog.utils.JWTUtil;
@@ -52,7 +53,7 @@ public class PostController extends BaseController {
     @PostMapping("addPost")
     @ApiOperation(value ="添加博客",notes="添加博客")
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
-    public ResponseResult addPost(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) @Validated PostVo postVo){
+    public ServerResponseEntity addPost(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) @Validated PostVo postVo){
 
 
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
@@ -68,16 +69,16 @@ public class PostController extends BaseController {
 
         int i = postService.addPost(post);
         if (i>0){
-            return ResponseResult.successResult(100000,"插入成功",postVo);
+            return ServerResponseEntity.success("插入成功",postVo);
         }
-        return ResponseResult.successResult(100001,"插入失败",postVo);
+        return ServerResponseEntity.success(100001,"插入失败",postVo);
     }
 
     //@LogOperator(value = "定时发送博客",type = LOG_POST)
     @PostMapping("addPostOnTiming")
     @ApiOperation(value ="添加博客",notes="添加博客")
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
-    public ResponseResult addPostOnTiming(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) @Validated PostVo postVo){
+    public ServerResponseEntity addPostOnTiming(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) @Validated PostVo postVo){
 
 
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
@@ -93,10 +94,11 @@ public class PostController extends BaseController {
 
         String delayTime ="10000";
         int i = postService.addPostOnTiming(post,delayTime);
+        logger.info("定时发布结果:{}",i);
         if (i>0){
-            return ResponseResult.successResult(100000,"插入成功",postVo);
+            return ServerResponseEntity.success("插入成功",postVo);
         }
-        return ResponseResult.successResult(100001,"插入失败",postVo);
+        return ServerResponseEntity.success(100001,"插入失败",postVo);
     }
 
 
@@ -115,10 +117,10 @@ public class PostController extends BaseController {
 
     })
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
-    public ResponseResult updatePost(Long postId,String title,String tags,String summary,Integer status){
+    public ServerResponseEntity updatePost(Long postId,String title,String tags,String summary,Integer status){
         PageResult<Post> postListByOther = postService.getPostListByOther(initPage(1, 1), null,null, postId, null, null,null,null);
         if (postListByOther.getTotalSize() ==0 ){
-            return ResponseResult.successResult(100003,"当前内容不存在",postId);
+            return ServerResponseEntity.success(100003,"当前内容不存在",postId);
         }
         Post post = postListByOther.getData().get(0);
         logger.info("post1:{}",post);
@@ -138,11 +140,11 @@ public class PostController extends BaseController {
             post.setSummary(summary);
             int i = postService.updatePost(post);
             if (i>0){
-                return ResponseResult.successResult(100000,"修改成功",post);
+                return ServerResponseEntity.success("修改成功",post);
             }
-            return ResponseResult.successResult(100001,"修改失败",post);
+            return ServerResponseEntity.success(100001,"修改失败",post);
         }else {
-            return ResponseResult.successResult(100002,"修改失败，您不是当前博客的作者",post);
+            return ServerResponseEntity.success(100002,"修改失败，您不是当前博客的作者",post);
         }
 
     }
@@ -151,7 +153,7 @@ public class PostController extends BaseController {
     @DeleteMapping("deletePost")
     @ApiOperation(value ="删除博客",notes="删除博客")
     //@RequiresRoles(value = {TYPE_ADMIN,TYPE_USER,TYPE_PRODUCT,TYPE_ASSISTANT,TYPE_SUPERADMIN})
-    public ResponseResult deletePost(String ids){
+    public ServerResponseEntity deletePost(String ids){
         System.out.println("delete");
         List<Long> categoryids = convertString(ids);
         Long id = categoryids.get(0);
@@ -167,9 +169,9 @@ public class PostController extends BaseController {
 
         ResultList<Long> longResultList = postService.deletePost(categoryids, Long.parseLong(userId));
         if (longResultList.getSuccessNum()>0){
-            return ResponseResult.successResult(100000,"删除成功",longResultList/*,postListByOther.getData().get(0)*/);
+            return ServerResponseEntity.success("删除成功",longResultList/*,postListByOther.getData().get(0)*/);
         }
-        return ResponseResult.successResult(100001,"删除失败",longResultList/*,postListByOther.getData().get(0)*/);
+        return ServerResponseEntity.success(100001,"删除失败",longResultList/*,postListByOther.getData().get(0)*/);
     }
 
     @GetMapping("getPosts")
@@ -178,10 +180,10 @@ public class PostController extends BaseController {
             @ApiImplicitParam(name = "page",value = "页数",paramType = "query",dataType = "int",required = true),
             @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
     })
-    public ResponseResult getPosts(@RequestParam("per_page")Integer per_page,
+    public ServerResponseEntity getPosts(@RequestParam("per_page")Integer per_page,
                                         @RequestParam("page")Integer page) {
         PageResult pageResult = postService.getPost(initPage(page,per_page));
-        return ResponseResult.successResult(100000,pageResult);
+        return ServerResponseEntity.success(pageResult);
 
     }
 
@@ -191,7 +193,7 @@ public class PostController extends BaseController {
             @ApiImplicitParam(name = "page",value = "页数",paramType = "query",dataType = "int",required = true),
             @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
     })
-    public ResponseResult getPostListByOther(@RequestParam("per_page")Integer per_page,
+    public ServerResponseEntity getPostListByOther(@RequestParam("per_page")Integer per_page,
                                              @RequestParam("page")Integer page/*, Long authorId*/, String authorName, Long postId, Integer status, String title, String startTime, String endTime) throws ParseException {
         //startPage(page,per_page);
         //String principal = (String) SecurityUtils.getSubject().getPrincipal();
@@ -199,14 +201,14 @@ public class PostController extends BaseController {
         //String userId =(String)claims.get("userId");
         String userId = shiroUtils.getUserId();
         if (userId==null /*&& !StringUtils.equals(userId,String.valueOf(authorId))*/){
-            return ResponseResult.successResult(100000,initPage(page, per_page).getPageFilter(initPage(page, per_page),new ArrayList()));
+            return ServerResponseEntity.success(initPage(page, per_page).getPageFilter(initPage(page, per_page),new ArrayList()));
         }
 
         PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), Long.parseLong(userId), authorName,postId, status, title,startTime,endTime);
         logger.info("postList：{}",postListByOther);
         //PageInfo<?> pageList = getPageList(post);
         //PageResult postsPage = getPageResult(pageList);
-        return ResponseResult.successResult(100000,postListByOther);
+        return ServerResponseEntity.success(postListByOther);
 
     }
 
@@ -217,7 +219,7 @@ public class PostController extends BaseController {
             @ApiImplicitParam(name = "page",value = "页数",paramType = "query",dataType = "int",required = true),
             @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
     })
-    public ResponseResult getPublicPostListByOther(@RequestParam("per_page")Integer per_page,
+    public ServerResponseEntity getPublicPostListByOther(@RequestParam("per_page")Integer per_page,
                                              @RequestParam("page")Integer page, Long authorId,String authorName, Long postId, Integer status, String title, String startTime, String endTime) {
         //startPage(page,per_page);
         //String principal = (String) SecurityUtils.getSubject().getPrincipal();
@@ -225,22 +227,22 @@ public class PostController extends BaseController {
         //String userId =(String)claims.get("userId");
         String userId = shiroUtils.getUserId();
         if (authorId!=null && StringUtils.equals(userId,String.valueOf(authorId))){
-            return ResponseResult.successResult(100000,initPage(page, per_page).getPageFilter(initPage(page, per_page),new ArrayList()));
+            return ServerResponseEntity.success(initPage(page, per_page).getPageFilter(initPage(page, per_page),new ArrayList()));
         }
         PageResult<Post> postListByOther = postService.getPostListByOther(initPage(page, per_page), authorId, authorName,postId, status, title,startTime,endTime);
         logger.info("postList：{}",postListByOther);
         //PageInfo<?> pageList = getPageList(post);
         //PageResult postsPage = getPageResult(pageList);
-        return ResponseResult.successResult(100000,postListByOther);
+        return ServerResponseEntity.success(postListByOther);
 
     }
 
     @GetMapping("getPostNum")
     @ApiOperation(value = "获取所有文档的状态",notes = "获取所有文档的状态")
-    public ResponseResult getPostNum(){
+    public ServerResponseEntity getPostNum(){
         String userId = shiroUtils.getUserId();
         PostNum postNum = postService.getPostNum(userId);
-        return ResponseResult.successResult(100000,postNum);
+        return ServerResponseEntity.success(postNum);
     }
 
 }

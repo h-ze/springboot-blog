@@ -61,4 +61,12 @@ public class UserInfo implements Serializable {
 
     @ApiModelProperty(value = "关于我")
     private String aboutMe;
+
+    public UserInfo(@NotNull(message = "userId不能为空") @NotBlank(message = "userId不能为空字符") String userId, @NotNull(message = "email不能为空") @NotBlank(message = "email不能为空字符") String email, String phoneNumber, String status, String fullName) {
+        this.userId = userId;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.status = status;
+        this.fullName = fullName;
+    }
 }

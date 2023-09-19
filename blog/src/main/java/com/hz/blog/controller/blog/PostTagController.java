@@ -1,11 +1,8 @@
 package com.hz.blog.controller.blog;
 
-import com.hz.blog.entity.ResponseResult;
-import com.hz.blog.service.PostTagService;
+import com.hz.blog.response.ServerResponseEntity;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostTagController {
 
     @GetMapping("getPostTag")
-    public ResponseResult getPostTag(){
-        return ResponseResult.successResult(100000,"postTag");
+    public ServerResponseEntity getPostTag(){
+        return ServerResponseEntity.success("postTag");
     }
 
 }

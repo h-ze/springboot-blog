@@ -15,8 +15,8 @@ import java.util.Date;
 @AllArgsConstructor                //有参构造
 public class Comments {
     private Integer id;
-    private BigInteger commentsId;
-    private BigInteger postId;
+    private Long commentsId;
+    private Long postId;
     private String content;
     private Integer status;
 
@@ -24,7 +24,7 @@ public class Comments {
     private Date created;
 
     private String ip;
-    private BigInteger replyId;
+    private Long replyId;
     private String name;
     private String email;
 }

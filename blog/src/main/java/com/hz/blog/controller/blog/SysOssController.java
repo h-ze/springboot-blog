@@ -1,9 +1,9 @@
 package com.hz.blog.controller.blog;
 
-import com.hz.blog.constant.ConfigConstant;
-import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.cloud.CloudStorageConfig;
+import com.hz.blog.constant.ConfigConstant;
 import com.hz.blog.entity.SysOss;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.service.SysConfigService;
 import com.hz.blog.utils.JWTUtil;
 import io.jsonwebtoken.Claims;
@@ -37,10 +37,10 @@ public class SysOssController {
 	 */
 	@GetMapping("/list")
 	@RequiresRoles("superAdmin")
-	@ApiOperation(value ="获取配置列表",notes="超级管理员获取配置列表",response = ResponseResult.class)
-	public ResponseResult list(){
+	@ApiOperation(value ="获取配置列表",notes="超级管理员获取配置列表",response = ServerResponseEntity.class)
+	public ServerResponseEntity list(){
 		List<SysOss> sysOssList = sysConfigService.getSysOssList();
-		return ResponseResult.successResult(100000,sysOssList);
+		return ServerResponseEntity.success(sysOssList);
 	}
 
 
@@ -50,12 +50,12 @@ public class SysOssController {
 	@GetMapping("/config")
 	//@RequiresPermissions("sys:oss:all")
 	@RequiresRoles("superAdmin")
-	@ApiOperation(value ="获取配置",notes="超级管理员获取配置",response = ResponseResult.class)
+	@ApiOperation(value ="获取配置",notes="超级管理员获取配置",response = ServerResponseEntity.class)
 	@ApiImplicitParam(name = "sysName",value = "服务名称",dataType = "String",paramType = "query",required = true)
-	public ResponseResult config(@RequestParam("sysName") String sysName){
+	public ServerResponseEntity config(@RequestParam("sysName") String sysName){
 		CloudStorageConfig config = sysConfigService.getConfigObject(sysName/*, CloudStorageConfig.class*/);
 
-		return ResponseResult.successResult(100000,config);
+		return ServerResponseEntity.success(100000,config);
 	}
 
 
@@ -65,7 +65,7 @@ public class SysOssController {
 	@PostMapping("/config")
 	//@RequiresPermissions("sys:oss:all")
 	@RequiresRoles("superAdmin")
-	@ApiOperation(value ="创建配置",notes="超级管理员创建配置",response = ResponseResult.class)
+	@ApiOperation(value ="创建配置",notes="超级管理员创建配置",response = ServerResponseEntity.class)
 	//@ApiImplicitParam(name = "sysName",value = "服务名称",dataType = "com.hz.entity.SysOss",paramType = "body")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name ="endpoint",value = "用户的endpoint",dataType = "String",paramType = "form",required = true),
@@ -73,7 +73,7 @@ public class SysOssController {
 			@ApiImplicitParam(name ="accessKeySecret",value = "用户的accessKeySecret",dataType = "String",paramType = "form",required = true),
 			@ApiImplicitParam(name ="bucketName",value = "用户的bucketName",dataType = "String",paramType = "form",required = true)
 	})
-	public ResponseResult saveConfig(@RequestParam("endpoint") String endpoint,
+	public ServerResponseEntity saveConfig(@RequestParam("endpoint") String endpoint,
 									 @RequestParam("accessKeyId")String accessKeyId,
 									 @RequestParam("accessKeySecret")String accessKeySecret,
 									 @RequestParam("bucketName")String bucketName){
@@ -92,7 +92,7 @@ public class SysOssController {
 				"aliyun",
 				"aliyun");
 		sysConfigService.saveConfig(sysOss);
-		return ResponseResult.successResult(100000,"保存成功");
+		return ServerResponseEntity.success(100000,"保存成功");
 		//校验类型
 		/*ValidatorUtils.validateEntity(config);
 
@@ -113,21 +113,21 @@ public class SysOssController {
 	}
 
 	@DeleteMapping("config")
-	@ApiOperation(value ="删除配置",notes="超级管理员删除配置",response = ResponseResult.class)
+	@ApiOperation(value ="删除配置",notes="超级管理员删除配置",response = ServerResponseEntity.class)
 	@RequiresRoles("superAdmin")
 	@ApiImplicitParam(name = "sysName",value = "服务名称",dataType = "String",paramType = "query")
-	public ResponseResult deleteConfig(@RequestParam("sysName")String sysName){
+	public ServerResponseEntity deleteConfig(@RequestParam("sysName")String sysName){
 		sysConfigService.deleteBatch(sysName);
-		return ResponseResult.successResult(100000,"删除成功");
+		return ServerResponseEntity.success(100000,"删除成功");
 
 	}
 
 	@PutMapping("config")
-	@ApiOperation(value ="修改配置",notes="超级管理员修改配置",response = ResponseResult.class)
+	@ApiOperation(value ="修改配置",notes="超级管理员修改配置",response = ServerResponseEntity.class)
 	@RequiresRoles("superAdmin")
-	public ResponseResult updateConfig(@RequestBody @ApiParam(value = "服务对象",required = true) SysOss sysOss){
+	public ServerResponseEntity updateConfig(@RequestBody @ApiParam(value = "服务对象",required = true) SysOss sysOss){
 		sysConfigService.update(sysOss);
-		return ResponseResult.successResult(100000,"更新成功");
+		return ServerResponseEntity.success(100000,"更新成功");
 
 	}
 
@@ -136,8 +136,8 @@ public class SysOssController {
 	 */
 	@RequestMapping("/upload")
 	@RequiresPermissions("sys:oss:all")
-	public ResponseResult upload(@RequestParam("file") MultipartFile file){
-		return ResponseResult.successResult(100000,"保存成功");
+	public ServerResponseEntity upload(@RequestParam("file") MultipartFile file){
+		return ServerResponseEntity.success(100000,"保存成功");
 
 		/*if (file.isEmpty()) {
 			throw new RRException("上传文件不能为空");
@@ -162,8 +162,8 @@ public class SysOssController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:oss:all")
-	public ResponseResult delete(@RequestBody Long[] ids){
-		return ResponseResult.successResult(100000,"保存成功");
+	public ServerResponseEntity delete(@RequestBody Long[] ids){
+		return ServerResponseEntity.success(100000,"保存成功");
 
 		/*sysOssService.removeByIds(Arrays.asList(ids));
 

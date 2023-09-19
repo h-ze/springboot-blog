@@ -4,6 +4,7 @@ package com.hz.blog.controller;
 import com.hz.blog.annotation.SysLog;
 import com.hz.blog.entity.*;
 import com.hz.blog.exception.RRException;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.service.AsyncService;
 import com.hz.blog.service.DocService;
 import com.hz.blog.utils.JWTUtil;
@@ -49,7 +50,7 @@ public class DocController extends BaseController {
             @ApiImplicitParam(name = "encryptConfig",value = "加密策略",paramType = "query",dataType = "String"),
             @ApiImplicitParam(name = "docName",value = "文档名称",paramType = "query",dataType = "String")
     })
-    public ResponseResult updateDocument(@RequestParam("docId") String docId,
+    public ServerResponseEntity updateDocument(@RequestParam("docId") String docId,
                                          @RequestParam("encryptConfig")String encryptConfig,
                                          @RequestParam("docName")String docName){
         Document docServiceDocument = docService.getDocument(docId);
@@ -58,10 +59,10 @@ public class DocController extends BaseController {
 
         int i = docService.updateDocument(docServiceDocument);
         if (i>0){
-            return ResponseResult.successResult(100000,docServiceDocument);
+            return ServerResponseEntity.success(docServiceDocument);
 
         }else {
-            return ResponseResult.errorResult(999999,"更新失败");
+            return ServerResponseEntity.fail("更新失败");
         }
     }
 
@@ -76,8 +77,8 @@ public class DocController extends BaseController {
             @ApiImplicitParam(name = "page",value = "页数",paramType = "query",dataType = "int",required = true),
             @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
     })
-    public ResponseResult getDocList(@RequestParam("per_page")Integer per_page,
-                                     @RequestParam("page")Integer page){
+    public ServerResponseEntity getDocList(@RequestParam("per_page")Integer per_page,
+                                           @RequestParam("page")Integer page){
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = (String)claims.get("userId");
@@ -86,7 +87,7 @@ public class DocController extends BaseController {
         pageRequest.setPageSize(per_page);
 
         PageResult docsPage = docService.getDocsPage(pageRequest,userId);
-        return ResponseResult.successResult(100000,docsPage);
+        return ServerResponseEntity.success(docsPage);
     }
 
 
@@ -121,9 +122,9 @@ public class DocController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "docId",value = "文档id",paramType = "query",dataType = "String",required = true)
     })
-    public ResponseResult getDocumentById(@RequestParam("docId")String docId){
+    public ServerResponseEntity getDocumentById(@RequestParam("docId")String docId){
         Document document = docService.getDocument(docId);
-        return ResponseResult.successResult(100000,document);
+        return ServerResponseEntity.success(document);
     }
 
     @ApiOperation(value = "删除文档信息",notes = "删除文档信息")
@@ -131,13 +132,13 @@ public class DocController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "docId",value = "文档id",paramType = "path",dataType = "String",required = true)
     })
-    public ResponseResult deleteDocuments(@PathVariable("docId") String docId){
+    public ServerResponseEntity deleteDocuments(@PathVariable("docId") String docId){
 
         int i = docService.deleteDocument(docId);
         if (i>0){
-            return ResponseResult.successResult(100000,"删除文档成功");
+            return ServerResponseEntity.success("删除文档成功");
         }
-        return ResponseResult.errorResult(999999,"删除文档失败");
+        return ServerResponseEntity.fail("删除文档失败");
     }
 
     @ApiOperation(value = "新增文档信息",notes = "新增文档信息")
@@ -147,7 +148,7 @@ public class DocController extends BaseController {
             @ApiImplicitParam(name = "docId",value = "文档id",paramType = "query",dataType = "String",required = true)
     })
     @PostMapping("/addDocument")
-    public ResponseResult addDocument(@RequestParam("docName") String docName,
+    public ServerResponseEntity addDocument(@RequestParam("docName") String docName,
                                       @RequestParam("encryptConfig") String encryptConfig,
                                       @RequestParam("docId") String docId){
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
@@ -163,9 +164,9 @@ public class DocController extends BaseController {
         document.setDocId(docId);
         int create = docService.createDocument(document);
         if (create>0){
-            return ResponseResult.successResult(100000,document);
+            return ServerResponseEntity.success(document);
         }
-        return ResponseResult.errorResult(999999,new Document());
+        return ServerResponseEntity.fail(new Document());
     }
 
     /**
@@ -180,7 +181,7 @@ public class DocController extends BaseController {
             @ApiImplicitParam(name ="file",value = "文件",paramType = "form",dataType = "__file",required = true)
     })
     @PostMapping("uploadFile")
-    public ResponseResult upload(@RequestParam("file") MultipartFile file) throws Exception {
+    public ServerResponseEntity upload(@RequestParam("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             throw new RRException("上传文件不能为空");
         }
@@ -226,7 +227,7 @@ public class DocController extends BaseController {
 
         //存储的信息需要入库
         //if (i>0){
-            return ResponseResult.successResult(100000,uploadDoc);
+            return ServerResponseEntity.success(uploadDoc);
         //}
         //return ResponseResult.errorResult(999999,new Document());
         //return ResponseResult.successResult(100000,url);
@@ -235,31 +236,31 @@ public class DocController extends BaseController {
 
     @PostMapping("convert")
     @ApiOperation("转换文档")
-    public ResponseResult convertMethod(){
+    public ServerResponseEntity convertMethod(){
         String convertDoc = docService.convertDoc();
-        return ResponseResult.successResult(100000,convertDoc);
+        return ServerResponseEntity.success(convertDoc);
     }
 
     @PostMapping("convertTask")
     @ApiOperation("转换文档Task")
-    public ResponseResult convertTaskMethod(){
+    public ServerResponseEntity convertTaskMethod(){
         String convertDoc = docService.convertTaskDoc();
-        return ResponseResult.successResult(100000,convertDoc);
+        return ServerResponseEntity.success(convertDoc);
     }
 
 
     @GetMapping("queryTask")
     @ApiOperation("查询文档转换任务")
     @ApiImplicitParam(name ="taskId",value = "任务id",paramType = "query",dataType = "String",required = true)
-    public ResponseResult queryTask(@RequestParam("taskId")String taskId){
+    public ServerResponseEntity<DocTask> queryTask(@RequestParam("taskId")String taskId){
         DocTask task = asyncService.getTask(taskId);
-        return ResponseResult.successResult(100000,task);
+        return ServerResponseEntity.success(task);
     }
 
     @PostMapping("addDocuments")
     @ApiOperation("批量插入文件")
     @ApiImplicitParam(name = "num",value = "批量插入数",paramType = "query",dataType = "int",required = true)
-    public ResponseResult addDocuments(int num){
+    public ServerResponseEntity addDocuments(int num){
         long startTime = System.currentTimeMillis();
         log.info("开始时间------>{}",startTime);
         List<Document> documentList =new ArrayList<>();
@@ -284,12 +285,12 @@ public class DocController extends BaseController {
         log.info("结束时间------>{}",endTime);
 
         log.info("总用时为----->{}",endTime-startTime);
-        return ResponseResult.successResult(100000,"插入成功");
+        return ServerResponseEntity.success("插入成功");
     }
 
     @PostMapping("addDocumentsSeparator")
     @ApiOperation("拼接批量插入文件")
-    public ResponseResult addDocumentsSeparator(){
+    public ServerResponseEntity addDocumentsSeparator(){
         long startTime = System.currentTimeMillis();
         log.info("开始时间------>{}",startTime);
         List<Document> documentList =new ArrayList<>();
@@ -314,6 +315,6 @@ public class DocController extends BaseController {
         log.info("结束时间------>{}",endTime);
 
         log.info("总用时为----->{}",endTime-startTime);
-        return ResponseResult.successResult(100000,"插入成功");
+        return ServerResponseEntity.success("插入成功");
     }
 }

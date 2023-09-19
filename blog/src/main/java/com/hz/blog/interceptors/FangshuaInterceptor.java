@@ -1,8 +1,8 @@
 package com.hz.blog.interceptors;
 
 import com.alibaba.fastjson.JSON;
-import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.annotation.AccessLimit;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +79,7 @@ public class FangshuaInterceptor implements HandlerInterceptor {
     private void render(HttpServletResponse response)throws Exception {
         response.setContentType("application/json;charset=UTF-8");
         OutputStream out = response.getOutputStream();
-        String str  = JSON.toJSONString(ResponseResult.errorResult(999999,"防止刷端口"));
+        String str  = JSON.toJSONString(ServerResponseEntity.fail("防止刷端口"));
         out.write(str.getBytes("UTF-8"));
         out.flush();
         out.close();

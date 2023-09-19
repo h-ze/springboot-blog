@@ -1,6 +1,6 @@
 package com.hz.blog.controller;
 
-import com.hz.blog.entity.ResponseResult;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.service.ILoginQrcodeService;
 import com.hz.blog.vo.LoginQrcodeVO;
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +34,7 @@ public class QrcodeLoginController {
      */
     @PostMapping("create")
     @ResponseBody
-    public ResponseResult<LoginQrcodeVO>/*Response<LoginQrcodeVO>*/ createLoginQrcode() throws IOException {
+    public ServerResponseEntity<LoginQrcodeVO>/*Response<LoginQrcodeVO>*/ createLoginQrcode() throws IOException {
         return loginQrcodeService.createLoginQrcode();
     }
 
@@ -47,9 +47,9 @@ public class QrcodeLoginController {
      */
     @PostMapping("login")
     @ResponseBody
-    public ResponseResult<Boolean>/*Response<Boolean>*/ qrcodeLogin(String qrcodeId, String userId) {
+    public ServerResponseEntity<Boolean>/*Response<Boolean>*/ qrcodeLogin(String qrcodeId, String userId) {
         logger.info("扫码登录方法");
-        ResponseResult<Boolean> booleanResponseResult = loginQrcodeService.qrcodeLogin(qrcodeId, userId);
+        ServerResponseEntity<Boolean> booleanResponseResult = loginQrcodeService.qrcodeLogin(qrcodeId, userId);
         return booleanResponseResult;
 //        if (StringUtils.isBlank(qrcodeId)) {
 //            logger.error("qrcodeId参数不能为空");
@@ -69,11 +69,11 @@ public class QrcodeLoginController {
      */
     @PostMapping("isLogined")
     @ResponseBody
-    public ResponseResult/*Response<AccessToken>*/ checkQrcodeIsLogined(String qrcodeId) {
+    public ServerResponseEntity/*Response<AccessToken>*/ checkQrcodeIsLogined(String qrcodeId) {
         logger.info("验证登录");
         if (StringUtils.isBlank(qrcodeId)) {
             logger.error("qrcodeId参数不能为空");
-            return ResponseResult.errorResult(999999,"二维码Id不能为空");
+            return ServerResponseEntity.fail("二维码Id不能为空");
         }
         return loginQrcodeService.getLoginQrcodeStatus(qrcodeId);
     }

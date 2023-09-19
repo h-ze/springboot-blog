@@ -1,9 +1,11 @@
 package com.hz.blog.dao;
 
 import com.hz.blog.entity.SysOss;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+@Mapper
 public interface SysConfigDao {
     int createSysConfig(SysOss sysOss);
 

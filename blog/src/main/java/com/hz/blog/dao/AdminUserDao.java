@@ -1,10 +1,12 @@
 package com.hz.blog.dao;
 
 import com.hz.blog.entity.VisiableUser;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface AdminUserDao {
 
     List<VisiableUser> getUserList(@Param("status") String status,@Param("name") String name);

@@ -1,8 +1,8 @@
 package com.hz.blog.controller;
 
-import com.hz.blog.annotation.RepeatSubmit;
-import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.annotation.AccessLimit;
+import com.hz.blog.annotation.RepeatSubmit;
+import com.hz.blog.response.ServerResponseEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -20,20 +20,20 @@ public class FangshuaController {
     @ApiOperation(value ="防刷测试",notes="测试防刷")
     @AccessLimit(seconds = 5, maxCount = 5, needLogin = true)
     @GetMapping("/fangshua")
-    public ResponseResult fangshua() {
+    public ServerResponseEntity fangshua() {
 
         //ResponseResult<Object> objectResponseResult = new ResponseResult<>();
         //return new ResponseResult<>(100000, "请求成功", "请求成功");
-        return ResponseResult.successResult(100000,"请求成功");
+        return ServerResponseEntity.success("请求成功");
     }
 
 
     @ApiOperation(value ="不防刷",notes="测试不防刷")
     @AccessLimit(seconds = 5, maxCount = 5, needLogin = false)
     @GetMapping("/dontfangshua")
-    public ResponseResult dontfangshua() {
+    public ServerResponseEntity dontfangshua() {
         //return new ResponseResult<>(100000, "请求成功", "请求成功");
-        return ResponseResult.successResult(100000,"请求成功");
+        return ServerResponseEntity.success("请求成功");
 
     }
 
@@ -46,11 +46,11 @@ public class FangshuaController {
             @ApiImplicitParam(name = "encryptConfig",value = "加密策略",paramType = "query",dataType = "String"),
             @ApiImplicitParam(name = "docName",value = "文档名称",paramType = "query",dataType = "String")
     })
-    public ResponseResult paramSame(@RequestParam("docId") String docId,
+    public ServerResponseEntity paramSame(@RequestParam("docId") String docId,
                                     @RequestParam("encryptConfig")String encryptConfig,
                                     @RequestParam("docName")String docName) {
         //return new ResponseResult<>(100000, "请求成功", "请求成功");
-        return ResponseResult.successResult(100000,"请求成功");
+        return ServerResponseEntity.success("请求成功");
 
     }
 }

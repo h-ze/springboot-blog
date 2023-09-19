@@ -533,7 +533,7 @@
             <id>dev</id>
             <properties>
                 <profile.active>dev</profile.active>
-                <service.nacos.host>121.4.54.189</service.nacos.host>
+                <service.nacos.host>43.138.219.118</service.nacos.host>
                 <service.nacos.port>8848</service.nacos.port>
                 <!--<service.nacos.host>8.142.46.67</service.nacos.host>
                 <service.nacos.port>3333</service.nacos.port>-->
@@ -574,7 +574,7 @@
             <id>fat</id>
             <properties>
                 <profile.active>fat</profile.active>
-                <service.nacos.host>121.4.54.189</service.nacos.host>
+                <service.nacos.host>43.138.219.118</service.nacos.host>
                 <service.nacos.port>8848</service.nacos.port>
                 <service.nacos.username>nacos</service.nacos.username>
                 <service.nacos.password>nacos</service.nacos.password>

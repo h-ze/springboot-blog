@@ -2,14 +2,13 @@ package com.hz.blog.controller;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.extra.qrcode.QrCodeUtil;
-
-import com.hz.blog.entity.ResponseResult;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,7 +49,7 @@ public class CodeController {
     //@AccessLimit(seconds = 5, maxCount = 5, needLogin = false)
     @GetMapping(value = "/getLoginQr")
     @ApiOperation("生成二维码")
-    public ResponseResult createCodeImg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ServerResponseEntity createCodeImg(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setHeader("Pragma","No-cache");
         response.setHeader("Cache-Controller","no-cache");
 
@@ -68,13 +67,13 @@ public class CodeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return ResponseResult.successResult(100000,uuid);
+        return ServerResponseEntity.success(uuid);
 
     }
 
     @GetMapping("query")
-    public ResponseResult query(){
-        return ResponseResult.successResult(100000,"success");
+    public ServerResponseEntity query(){
+        return ServerResponseEntity.success("success");
     }
 
     public String createQrCode(String content, int width, int height) throws IOException {

@@ -2,7 +2,6 @@ package com.hz.blog.service.impl;
 
 import cn.hutool.core.codec.Base64;
 import com.alibaba.fastjson.JSONObject;
-import com.hz.blog.entity.ResponseResult;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -10,6 +9,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.hz.blog.constant.Constant;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.service.ILoginQrcodeService;
 import com.hz.blog.service.RedisService;
 import com.hz.blog.vo.LoginQrcodeVO;
@@ -45,7 +45,7 @@ public class LoginQrcodeServiceImpl implements ILoginQrcodeService {
 
 
     @Override
-    public ResponseResult<LoginQrcodeVO>  createLoginQrcode() {
+    public ServerResponseEntity createLoginQrcode() {
         String qrcodeId = UUID.randomUUID().toString().replace("-","");
         String resultImage = "";
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -69,11 +69,11 @@ public class LoginQrcodeServiceImpl implements ILoginQrcodeService {
             LoginQrcodeVO loginQrcode = new LoginQrcodeVO();
             loginQrcode.setQrcodeId(qrcodeId);
             loginQrcode.setQrcodeImgUrl(resultImage);
-            return ResponseResult.successResult(100000,loginQrcode);
+            return ServerResponseEntity.success(loginQrcode);
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseResult.successResult(100001,"生成二维码失败");
+            return ServerResponseEntity.success(100001,"生成二维码失败");
         }
 
         /*try {
@@ -101,13 +101,13 @@ public class LoginQrcodeServiceImpl implements ILoginQrcodeService {
     }
 
     @Override
-    public ResponseResult<Boolean> qrcodeLogin(String qrcodeId, String userId) {
+    public ServerResponseEntity<Boolean> qrcodeLogin(String qrcodeId, String userId) {
         boolean b = redisService.addLoginRedis(qrcodeId, userId);
         if (b){
-            return ResponseResult.successResult(100000, true);
+            return ServerResponseEntity.success( true);
 
         }
-        return ResponseResult.successResult(100001, false);
+        return ServerResponseEntity.success(100001, false);
 
 
 //        String loginRedis = redisService.getLoginRedis(qrcodeId);
@@ -138,19 +138,19 @@ public class LoginQrcodeServiceImpl implements ILoginQrcodeService {
     }
 
     @Override
-    public ResponseResult getLoginQrcodeStatus(String qrcodeId) {
+    public ServerResponseEntity getLoginQrcodeStatus(String qrcodeId) {
         String loginRedis = redisService.getLoginRedis(qrcodeId);
         logger.info("redis:{}",loginRedis);
         if (!StringUtils.isEmpty(loginRedis)){
             JSONObject jsonObject = JSONObject.parseObject(loginRedis);
             if (!StringUtils.isEmpty(jsonObject.getString(Constant.APP_TOKEN))){
-                return ResponseResult.successResult(100000,jsonObject.getString(Constant.APP_TOKEN));
+                return ServerResponseEntity.success(jsonObject.getString(Constant.APP_TOKEN));
             }else {
-                return ResponseResult.successResult(100001,"二维码未登录");
+                return ServerResponseEntity.success(100001,"二维码未登录");
 
             }
         }
-        return ResponseResult.successResult(100001,"二维码未登录");
+        return ServerResponseEntity.success(100001,"二维码未登录");
         /*String loginQrcodeKey = RedisKeyBuilder.getLoginqrcodeKey(qrcodeId);
         String userId = redisService.getValue(loginQrcodeKey);
         if (StringUtils.isBlank(userId)) {

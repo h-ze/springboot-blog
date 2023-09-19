@@ -1,6 +1,6 @@
 package com.hz.blog.controller;
 
-import com.hz.blog.entity.ResponseResult;
+import com.hz.blog.response.ServerResponseEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
@@ -38,10 +38,10 @@ public class OrderController {
 //    @ApiImplicitParams({
 //            @ApiImplicitParam(name = "id",value = "订单id",paramType = "query",dataType = "String",required = true)
 //    })
-    public ResponseResult getOrder(@RequestParam("id")String id){
+    public ServerResponseEntity getOrder(@RequestParam("id")String id){
         Subject subject = SecurityUtils.getSubject();
         boolean admin = subject.hasRole("admin");
-        return ResponseResult.successResult(100000,admin);
+        return ServerResponseEntity.success(admin);
     }
 
     @GetMapping("/get/{id}")
@@ -49,15 +49,15 @@ public class OrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "订单id",paramType = "path",dataType = "String",required = true)
     })*/
-    public ResponseResult get(@PathVariable String id) {
+    public ServerResponseEntity get(@PathVariable String id) {
         String forObject = restTemplate.getForObject("http://customer:8762/get/" + id, String.class);
-        return new ResponseResult<>(100000, "查找订单信息成功", forObject);
+        return ServerResponseEntity.success("查找订单信息成功", forObject);
     }
 
     @PostMapping("order")
     @ApiOperation(value = "下单",notes = "下单")
 
-    public ResponseResult order(){
+    public ServerResponseEntity order(){
 
         String msg ="hello world";
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
@@ -78,7 +78,7 @@ public class OrderController {
 
         //rabbitTemplate.convertAndSend("delay","delay",message);
         rabbitTemplate.convertAndSend("DL_EXCHANGE", "DL_KEY",message);*/
-        return ResponseResult.successResult(100000,"发送成功");
+        return ServerResponseEntity.success("发送成功");
 
     }
 }

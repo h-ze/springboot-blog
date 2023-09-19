@@ -2,6 +2,8 @@ package com.hz.blog.controller;
 
 
 import com.hz.blog.entity.*;
+import com.hz.blog.exception.BlogBindException;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.service.AdminUserService;
 import com.hz.blog.service.UserService;
 import com.hz.blog.service.EnterpriseService;
@@ -50,36 +52,37 @@ public class AdminUserController {
      * @return ConvertResult对象
      */
     @PostMapping(value = "/addUser")
-    @ApiOperation(value ="添加用户",notes="管理员添加用户",response = ResponseResult.class)
+    @ApiOperation(value ="添加用户",notes="管理员添加用户",response = ServerResponseEntity.class)
     @ApiImplicitParam(name = "username",value = "用户名",dataType = "String",paramType = "query")
-    public ResponseResult addUser(@RequestParam("username") String username){
+    public ServerResponseEntity addUser(@RequestParam("username") String username){
         logger.info(username);
         System.out.println("===");
         User user = userService.getUser(username);
         if (user!=null){
-            return ResponseResult.successResult(100001,"添加失败,用户已存在");
+            throw new BlogBindException("100001","添加失败,用户已存在");
+        }
+
+
+        User addUser = new User();
+        addUser.setName(username);
+        String password="123456";
+        Map<String, String> result = SaltUtil.shiroSalt(password);
+        addUser.setSalt(result.get("salt"));
+        addUser.setPassword(result.get("password"));
+        addUser.setBir(new Date());
+        addUser.setAge(25);
+        addUser.setStatus("1");
+        String userId = String.valueOf(System.currentTimeMillis());
+        addUser.setUserId(userId);
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(userId);
+
+        int i = userService.save(addUser,userInfo,null);
+        if (i >0){
+            return ServerResponseEntity.success("添加成功,用户已添加");
         }else {
-            User addUser = new User();
-            addUser.setName(username);
-            String password="123456";
-            Map<String, String> result = SaltUtil.shiroSalt(password);
-            addUser.setSalt(result.get("salt"));
-            addUser.setPassword(result.get("password"));
-            addUser.setBir(new Date());
-            addUser.setAge(25);
-            addUser.setStatus("1");
-            String userId = String.valueOf(System.currentTimeMillis());
-            addUser.setUserId(userId);
-
-            UserInfo userInfo = new UserInfo();
-            userInfo.setUserId(userId);
-
-            int i = userService.save(addUser,userInfo,null);
-            if (i >0){
-                return ResponseResult.successResult(100000,"添加成功,用户已添加");
-            }else {
-                return ResponseResult.errorResult(999999,"添加失败,用户添加失败");
-            }
+            return ServerResponseEntity.success(100001,"添加失败,用户添加失败");
         }
     }
 
@@ -92,12 +95,12 @@ public class AdminUserController {
     @ApiOperation(value ="删除用户",notes="管理员删除用户")
     @DeleteMapping("/user")
     @RequiresRoles("admin")
-    public ResponseResult deleteUser(String userId){
+    public ServerResponseEntity<String> deleteUser(String userId){
         int i = userService.deleteUser(userId);
         if (i >0){
-            return ResponseResult.successResult(100000,"删除成功,用户已删除");
+            return ServerResponseEntity.success("删除成功,用户已删除");
         }else {
-            return ResponseResult.successResult(1000003,"删除失败,用户删除失败");
+            return ServerResponseEntity.success(1000001,"删除失败,用户删除失败");
         }
     }
 
@@ -110,25 +113,25 @@ public class AdminUserController {
     @ApiOperation(value ="改变普通用户状态",notes="管理员改变普通用户状态，使用中或被冻结或被拒绝")
     @PutMapping("/freezeUser")
     @RequiresRoles("admin")
-    public ResponseResult freezeUser(@RequestParam("userId") String userId,@RequestParam("type") String type){
+    public ServerResponseEntity<String> freezeUser(@RequestParam("userId") String userId,@RequestParam("type") String type){
 
         int i = adminUserService.changeUserTypeByUserId(type,userId);
         if (i >0){
-            return ResponseResult.successResult(0,"修改成功");
+            return ServerResponseEntity.success("修改成功");
         }else {
-            return ResponseResult.successResult(0,"修改失败,请重试");
+            return ServerResponseEntity.success(100001,"修改失败,请重试");
         }
     }
 
     @ApiOperation(value ="通过用户名改变普通用户状态",notes="管理员改变普通用户状态，使用中或被冻结或被拒绝")
     @PutMapping("/freezeUserByName")
     @RequiresRoles("admin")
-    public ResponseResult freezeUserByName(@RequestParam("name") String name,@RequestParam("type") String type){
+    public ServerResponseEntity freezeUserByName(@RequestParam("name") String name,@RequestParam("type") String type){
         int i = adminUserService.changeUserTypeByName(type, name);
         if (i >0){
-            return ResponseResult.successResult(0,"修改成功");
+            return ServerResponseEntity.success("修改成功");
         }else {
-            return ResponseResult.successResult(0,"修改失败,请重试");
+            return ServerResponseEntity.success(100001,"修改失败,请重试");
         }
     }
 
@@ -142,12 +145,12 @@ public class AdminUserController {
     @ApiOperation(value ="转让管理员给其他用户",notes="管理员转移管理员权限给他人，被转的账号必须存在且必须是当前企业下的账号")
     @PutMapping("/transferAdmin")
     @RequiresRoles("admin")
-    public ResponseResult transferAdmin(String username){
+    public ServerResponseEntity<String> transferAdmin(String username){
         int i = adminUserService.transferAdmin(username);
         if (i >0){
-            return ResponseResult.successResult(0,"变更成功");
+            return ServerResponseEntity.success("变更成功");
         }else {
-            return ResponseResult.successResult(0,"变更失败,请重试");
+            return ServerResponseEntity.success(100001,"变更失败,请重试");
         }
     }
 
@@ -169,16 +172,14 @@ public class AdminUserController {
             @ApiImplicitParam(name = "page",dataType = "int",value = "页码", paramType = "query"),
             @ApiImplicitParam(name = "per_page",dataType = "int",value = "每页数据量", paramType = "query")
     })
-    public ResponseResult getAccount(String type, String keyword, Integer page, Integer per_page){
+    public ServerResponseEntity<PageResult> getAccount(String type, String keyword, Integer page, Integer per_page){
         logger.info("page :{}",page);
-
         PageRequest pageRequest = new PageRequest();
         pageRequest.setPageSize(per_page==null ? 0 : per_page);
         pageRequest.setPageNum(page==null ? 0 : page);
-
         PageResult userList = adminUserService.getUserList(pageRequest, type,keyword);
-
-        return ResponseResult.successResult(100000,userList);
+        return ServerResponseEntity.success(userList);
+//        return ResponseResult.successResult(100000,userList);
     }
 
 
@@ -191,13 +192,13 @@ public class AdminUserController {
     @ApiOperation(value ="激活成员邮箱",notes="自助激活成员邮箱，成员无需再次激活")
     @ApiImplicitParam(name = "cas_id",value = "用户id",dataType = "String",paramType = "query")
     @PostMapping("/active")
-    public ResponseResult activeUser(String cas_id){
+    public ServerResponseEntity<String> activeUser(String cas_id){
 
         int i = adminUserService.changeUserTypeByUserId("1",cas_id);
         if (i>0){
-            return ResponseResult.successResult(100000,"激活成功");
+            return ServerResponseEntity.success("激活成功");
         }
-        return ResponseResult.successResult(1000001,"激活失败");
+        return ServerResponseEntity.success(1000001,"激活失败");
 
     }
 
@@ -206,7 +207,7 @@ public class AdminUserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "verifyType",value = "0 或其他双因子验证 1 单因子验证 2 双因子验证 建议双因子验证",paramType = "query",dataType = "String",allowableValues = "0,1,2", required = true)
     })
-    public ResponseResult verifyCas(@RequestParam("verifyType") String verifyType){
+    public ServerResponseEntity verifyCas(@RequestParam("verifyType") String verifyType){
         logger.info("verifyType :{}",verifyType);
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
@@ -216,21 +217,23 @@ public class AdminUserController {
         enterpriseInfo.setOddEvenFactor(verifyType);
         int i = enterpriseService.updateEnterpriseInfo(enterpriseInfo);
         if (i>0){
-            return ResponseResult.successResult(100000,enterpriseInfo);
+            return ServerResponseEntity.success(enterpriseInfo);
         }
-        return ResponseResult.successResult(1000001,enterpriseInfo);
+        return ServerResponseEntity.success(1000001,enterpriseInfo);
     }
 
     @ApiOperation(value = "判断当前用户是否为管理员",notes = "判断当前用户是否为管理员")
     @PostMapping("/isManager")
-    public ResponseResult isManager(){
+    public ServerResponseEntity<String> isManager(){
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         Claims claims = jwtUtil.parseJWT(principal);
         String userId = (String)claims.get("userId");
         logger.info("当前登录用户的userId: {}",userId);
         Subject subject = SecurityUtils.getSubject();
         boolean admin = subject.hasRole("admin");
-        return ResponseResult.successResult(100000,admin);
+        String isManager = admin? "是管理员":"不是管理员";
+//        return ResponseResult.successResult(100000,admin);
+        return ServerResponseEntity.success(isManager);
     }
 
     @ApiOperation(value = "转换个人用户身份为企业用户",notes = "转换个人用户身份为企业用户,需要企业管理员权限")
@@ -238,13 +241,12 @@ public class AdminUserController {
             @ApiImplicitParam(name = "cas_id",value = "需要转换的用户id,当前登录用户必须为企业管理员,必填",paramType = "query",dataType = "String",required = true)
     })
     @PutMapping("/switchUser")
-    public ResponseResult switchUser(@RequestParam("cas_id") String cas_id){
+    public ServerResponseEntity<String> switchUser(@RequestParam("cas_id") String cas_id){
         int i = adminUserService.switchUserType(cas_id);
         if (i>0){
-            return ResponseResult.successResult(100000,"转换成功");
-
+            return ServerResponseEntity.success("转换成功");
         }else {
-            return ResponseResult.successResult(100001,"转换失败");
+            return ServerResponseEntity.success(100001,"转换失败");
 
         }
     }

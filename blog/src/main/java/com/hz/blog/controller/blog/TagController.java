@@ -2,9 +2,9 @@ package com.hz.blog.controller.blog;
 
 
 import com.hz.blog.controller.BaseController;
-import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.entity.ResultList;
 import com.hz.blog.entity.Tag;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.service.TagService;
 import com.hz.blog.utils.EntityConvertDtoAndVOUtils;
 import com.hz.blog.vo.TagVo;
@@ -31,17 +31,17 @@ public class TagController extends BaseController {
 
     @ApiOperation(value ="获取所有的标签",notes="获取所有的标签")
     @GetMapping("getTags")
-    public ResponseResult getTags(){
+    public ServerResponseEntity getTags(){
         List<Tag> tags = tagService.getTags();
         List<TagVo> tagVos = EntityConvertDtoAndVOUtils.convertList(tags, TagVo.class);
-        return ResponseResult.successResult(100000,tagVos);
+        return ServerResponseEntity.success(tagVos);
     }
 
 
     @RequiresRoles(TYPE_SUPERADMIN)
     @ApiOperation(value ="删除指定标签",notes="删除指定标签")
     @DeleteMapping("deleteTag")
-    public ResponseResult deleteTag(String tagId){
+    public ServerResponseEntity deleteTag(String tagId){
 
         List<String> list = stringConvertString(tagId);
 
@@ -53,26 +53,26 @@ public class TagController extends BaseController {
 //        }
         ResultList<String> stringResultList = tagService.deleteTag(list);
         if (stringResultList.getSuccessNum()>0){
-            return ResponseResult.successResult(100000,"删除成功");
+            return ServerResponseEntity.success("删除成功");
         }
-        return ResponseResult.successResult(100001,"删除失败");
+        return ServerResponseEntity.success(100001,"删除失败");
 
     }
 
     @RequiresRoles(TYPE_SUPERADMIN)
     @ApiOperation(value ="插入标签",notes="插入标签")
     @PostMapping("addTag")
-    public ResponseResult addTag(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) @Validated TagVo tagVo){
+    public ServerResponseEntity addTag(@RequestBody() @ApiParam(name = "body",value = "标签信息",required = true) @Validated TagVo tagVo){
         String name = tagVo.getName();
         Tag tagByName = tagService.getTagByName(name);
         if (tagByName!=null){
-            return ResponseResult.successResult(100003,"标签已存在");
+            return ServerResponseEntity.success(100003,"标签已存在");
         }
         int i = tagService.addTag(tagVo);
         if (i>0){
-            return ResponseResult.successResult(100000,"插入成功",tagVo);
+            return ServerResponseEntity.success("插入成功",tagVo);
         }
-        return ResponseResult.successResult(100001,"插入失败",tagVo);
+        return ServerResponseEntity.success(100001,"插入失败",tagVo);
     }
 
     @RequiresRoles(TYPE_SUPERADMIN)
@@ -84,21 +84,21 @@ public class TagController extends BaseController {
             @ApiImplicitParam(name = "image",dataType = "String",value = "图片地址",paramType = "form"),
             @ApiImplicitParam(name = "tagId",dataType = "String",value = "tagId",required = true,paramType = "form")
     })
-    public ResponseResult updateTag(String name,String introduction,String image,String tagId/*Tag tag*/){
+    public ServerResponseEntity updateTag(String name,String introduction,String image,String tagId/*Tag tag*/){
         logger.info("tagId:{}",tagId);
         Tag tagById = tagService.getTagById(tagId);
         logger.info("tag:{}",tagById);
         if (tagById ==null){
-            return ResponseResult.successResult(100002,"文档不存在");
+            return ServerResponseEntity.success(100002,"文档不存在");
         }
         tagById.setName(name);
         tagById.setImage(image);
         tagById.setIntroduction(introduction);
         int i = tagService.updateTag(tagById);
         if (i>0){
-            return ResponseResult.successResult(100000,"成功");
+            return ServerResponseEntity.success("成功");
         }
-        return ResponseResult.successResult(100001,"修改失败");
+        return ServerResponseEntity.success(100001,"修改失败");
     }
 
 }

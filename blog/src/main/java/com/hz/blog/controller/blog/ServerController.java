@@ -1,7 +1,7 @@
 package com.hz.blog.controller.blog;
 
 
-import com.hz.blog.entity.ResponseResult;
+import com.hz.blog.response.ServerResponseEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,23 +32,23 @@ public class ServerController {
 
     @GetMapping("/server")
     @ApiOperation(value ="当前服务器时间",notes="获取当前服务器时间")
-    public ResponseResult getServerTime(){
+    public ServerResponseEntity getServerTime(){
         Date date=new Date();
         DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         logger.info(format.format(date));
         //rabbitTemplate.convertAndSend("test.exchange", "test","1", new CorrelationData(String.valueOf(1)));
 
-        return ResponseResult.successResult(100000,format.format(date));
+        return ServerResponseEntity.success(format.format(date));
     }
 
-    @PostMapping("/server")
-    @ApiOperation(value ="当前服务器时间",notes="获取当前服务器时间")
-    public ResponseResult getServerTime1(){
-        Date date=new Date();
-        DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        logger.info(format.format(date));
-        //rabbitTemplate.convertAndSend("test.exchange", "test","1", new CorrelationData(String.valueOf(1)));
-
-        return ResponseResult.successResult(100000,format.format(date));
-    }
+//    @PostMapping("/server")
+//    @ApiOperation(value ="当前服务器时间",notes="获取当前服务器时间")
+//    public ResponseResult getServerTime1(){
+//        Date date=new Date();
+//        DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        logger.info(format.format(date));
+//        //rabbitTemplate.convertAndSend("test.exchange", "test","1", new CorrelationData(String.valueOf(1)));
+//
+//        return ResponseResult.successResult(100000,format.format(date));
+//    }
 }

@@ -3,9 +3,9 @@ package com.hz.blog.controller.blog;
 
 import com.aliyun.oss.model.Bucket;
 import com.aliyun.oss.model.BucketInfo;
-import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.cloud.OSSFactory;
 import com.hz.blog.exception.RRException;
+import com.hz.blog.response.ServerResponseEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -34,7 +34,7 @@ public class OssController {
             @ApiImplicitParam(name ="file",value = "文件",paramType = "form",dataType = "__file",required = true)
     })
     @PostMapping("uploadFile")
-    public ResponseResult upload(@RequestParam("file") MultipartFile file) throws Exception {
+    public ServerResponseEntity upload(@RequestParam("file") MultipartFile file) throws Exception {
 		if (file.isEmpty()) {
 			throw new RRException("上传文件不能为空");
 		}
@@ -51,7 +51,7 @@ public class OssController {
 
 		//存储的信息需要入库
 
-        return ResponseResult.successResult(100000,url);
+        return ServerResponseEntity.success(url);
 
     }
 
@@ -63,32 +63,32 @@ public class OssController {
             @ApiImplicitParam(name ="fileName",value = "bucket名称",paramType = "query",dataType = "String",required = true)
 
     })
-    public ResponseResult deleteFile(@RequestParam("bucketName")String bucketName,@RequestParam("fileName")String fileName) throws Exception {
+    public ServerResponseEntity deleteFile(@RequestParam("bucketName")String bucketName,@RequestParam("fileName")String fileName) throws Exception {
         //存储的信息需要入库
         String deleteFile = OSSFactory.build().deleteFile(bucketName,"", fileName);
-        return ResponseResult.successResult(100000,deleteFile);
+        return ServerResponseEntity.success(deleteFile);
     }
 
     @ApiOperation(value = "查询文件",notes = "查询文件")
     @GetMapping("fileList")
     @ApiImplicitParam(name ="bucketName",value = "bucket名称",paramType = "query",dataType = "String",required = true)
-    public ResponseResult selectFile(@RequestParam("bucketName") String bucketName){
+    public ServerResponseEntity selectFile(@RequestParam("bucketName") String bucketName){
         List fileList = OSSFactory.build().getFileList(bucketName);
-        return ResponseResult.successResult(100000,fileList);
+        return ServerResponseEntity.success(fileList);
     }
 
     @GetMapping("bucketList")
     @ApiOperation(value = "获取bucket列表",notes = "获取bucket列表")
-    public ResponseResult getBucketList(){
+    public ServerResponseEntity getBucketList(){
         List<Bucket> allBucketList = OSSFactory.build().getAllBucketList();
-        return ResponseResult.successResult(100000,allBucketList);
+        return ServerResponseEntity.success(allBucketList);
     }
 
     @GetMapping("bucketInfo")
     @ApiOperation(value = "获取bucket信息",notes = "获取bucket信息")
-    public ResponseResult getBucketInfo(@RequestParam("bucketName")String bucketName){
+    public ServerResponseEntity getBucketInfo(@RequestParam("bucketName")String bucketName){
         BucketInfo bucketInfo = OSSFactory.build().getBucketInfo(bucketName);
-        return ResponseResult.successResult(100000,bucketInfo);
+        return ServerResponseEntity.success(bucketInfo);
     }
 
 
@@ -99,10 +99,9 @@ public class OssController {
             @ApiImplicitParam(name ="key",value = "关键字",paramType = "query",dataType = "String",required = true)
 
     })
-    public ResponseResult getFileURL(@RequestParam("bucketName")String bucketName,@RequestParam("key")String key){
+    public ServerResponseEntity getFileURL(@RequestParam("bucketName")String bucketName,@RequestParam("key")String key){
         URL downloadPath = OSSFactory.build().getDownloadPath(bucketName, key);
-
-        return ResponseResult.successResult(100000,downloadPath);
+        return ServerResponseEntity.success(downloadPath);
     }
 
 

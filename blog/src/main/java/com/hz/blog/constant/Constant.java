@@ -136,4 +136,6 @@ public class Constant {
     public static final Integer POST_TIMING_FINISHPOST =1;
     public static final Integer POST_TIMING_STOPPOST =2;
 
+    public static final String USER_REGISTER ="1";
+
 }

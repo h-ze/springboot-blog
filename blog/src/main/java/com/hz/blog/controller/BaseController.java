@@ -21,7 +21,6 @@ public class BaseController<T> {
 
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder){
-
         // Date 类型转换
         webDataBinder.registerCustomEditor(Data.class,
                 new PropertyEditorSupport()
@@ -35,8 +34,6 @@ public class BaseController<T> {
         webDataBinder.registerCustomEditor(String.class,
                 new StringTrimmerEditor(true));
     }
-
-
 
     protected PageResult initPage(int page,int per_page){
         PageResult<Class> pageResult = new PageResult();
@@ -56,7 +53,6 @@ public class BaseController<T> {
     }
 
     /**
-     *
      * @param pageInfo
      * @return
      */

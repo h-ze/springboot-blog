@@ -59,6 +59,17 @@ public class User implements Serializable{
         this.bir = bir;
     }
 
+    public User(Integer id, String name, Integer age, Date bir, String password, String salt, String userId, String status) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.bir = bir;
+        this.password = password;
+        this.salt = salt;
+        this.userId = userId;
+        this.status = status;
+    }
+
     public Date getBir() {
         return bir;
     }

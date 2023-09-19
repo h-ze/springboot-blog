@@ -1,9 +1,8 @@
 package com.hz.blog.controller.blog;
 
 import com.hz.blog.controller.BaseController;
-import com.hz.blog.entity.LogEntity;
 import com.hz.blog.entity.PageResult;
-import com.hz.blog.entity.ResponseResult;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.service.LogService;
 import com.hz.blog.utils.JWTUtil;
 import io.jsonwebtoken.Claims;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 import static com.hz.blog.constant.Constant.LOG_LOGIN;
 import static com.hz.blog.constant.Constant.LOG_POST;
@@ -41,7 +38,7 @@ public class LogController extends BaseController {
             @ApiImplicitParam(name = "page",value = "页数",paramType = "query",dataType = "int",required = true),
             @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
     })
-    public ResponseResult getLoginLogs(@RequestParam("per_page")Integer per_page,
+    public ServerResponseEntity getLoginLogs(@RequestParam("per_page")Integer per_page,
                                    @RequestParam("page")Integer page) {
 
         String userId="";
@@ -52,7 +49,7 @@ public class LogController extends BaseController {
         }
 
         PageResult pageResult = logService.getLogListByOther(initPage(page,per_page),"","","","",null,"",userId,Integer.valueOf(LOG_LOGIN));
-        return ResponseResult.successResult(100000,pageResult);
+        return ServerResponseEntity.success( pageResult);
 
     }
 
@@ -63,7 +60,7 @@ public class LogController extends BaseController {
             @ApiImplicitParam(name = "page",value = "页数",paramType = "query",dataType = "int",required = true),
             @ApiImplicitParam(name = "per_page",value = "每页数量",paramType = "query",dataType = "int",required = true)
     })
-    public ResponseResult getPostLogs(@RequestParam("per_page")Integer per_page,
+    public ServerResponseEntity getPostLogs(@RequestParam("per_page")Integer per_page,
                                    @RequestParam("page")Integer page) {
 
         String userId="";
@@ -74,7 +71,7 @@ public class LogController extends BaseController {
         }
 
         PageResult pageResult = logService.getLogListByOther(initPage(page,per_page),"","","","",null,"",userId,Integer.valueOf(LOG_POST));
-        return ResponseResult.successResult(100000,pageResult);
+        return ServerResponseEntity.success(pageResult);
 
     }
 

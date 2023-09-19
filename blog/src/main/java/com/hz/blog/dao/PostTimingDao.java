@@ -15,7 +15,7 @@ public interface PostTimingDao {
 
     int addPostTiming(PostTiming postTiming);
 
-    int updatePostTiming(@Param("postId") Long postId, @Param("status") Integer status);
+    int updatePostTiming(PostTiming postTiming);
 
     int deletePostTiming(Long postId);
 

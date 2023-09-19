@@ -2,7 +2,6 @@ package com.hz.blog.config.shiro;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hz.blog.constant.Constant;
-import com.hz.blog.entity.ResponseResult;
 import com.hz.blog.utils.JWTUtil;
 import com.hz.blog.utils.RedisUtils;
 import com.hz.blog.utils.SpringContextUtils;

@@ -1,22 +1,17 @@
 package com.hz.blog.controller;
 
-import com.hz.blog.test.MyClient;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.websocket.WebSocketServer;
-import com.hz.blog.entity.ResponseResult;
-//import com.hz.blog.test.MyClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.socket.TextMessage;
 
-import javax.websocket.ContainerProvider;
-import javax.websocket.WebSocketContainer;
 import java.io.IOException;
-import java.net.URI;
+
+//import com.hz.blog.test.MyClient;
 
 
 /**
@@ -38,8 +33,7 @@ public class WebSocketController {
     private String serverPort;
 
     @PostMapping("/sendMessage")
-    public ResponseResult sendMessage(@RequestParam String message, @RequestParam String username, @RequestParam String token){
-        try {
+    public ServerResponseEntity sendMessage(@RequestParam String message, @RequestParam String username, @RequestParam String token){
             //WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             //MyClient client = new MyClient();
             //container.connectToServer(client, new URI("ws://localhost:"+serverPort+"/websocket/"+username+"?token="+token));
@@ -47,12 +41,7 @@ public class WebSocketController {
 
             WebSocketServer.sendInfo(message,username);
             //SystemWebSocketHandler.sendMessageToUser("1",new TextMessage("123"));
-
-            return ResponseResult.successResult(100000,"测试websocket成功");
-        }catch (Exception e){
-            e.printStackTrace();
-            return ResponseResult.errorResult(999999,"测试websocket失败");
-        }
+            return ServerResponseEntity.success("测试websocket成功");
     }
 
     /**

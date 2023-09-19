@@ -1,7 +1,7 @@
 package com.hz.blog.service;
 
 
-import com.hz.blog.entity.ResponseResult;
+import com.hz.blog.response.ServerResponseEntity;
 import com.hz.blog.vo.LoginQrcodeVO;
 
 /**
@@ -18,7 +18,7 @@ public interface ILoginQrcodeService {
      *
      * @return
      */
-    public ResponseResult<LoginQrcodeVO> /*Response<LoginQrcodeVO>*/ createLoginQrcode();
+    public ServerResponseEntity<LoginQrcodeVO> /*Response<LoginQrcodeVO>*/ createLoginQrcode();
 
     /**
      * 扫描二维码登录
@@ -27,7 +27,7 @@ public interface ILoginQrcodeService {
      * @param userId
      * @return
      */
-    public ResponseResult<Boolean> qrcodeLogin(String qrcodeId, String userId);
+    public ServerResponseEntity<Boolean> qrcodeLogin(String qrcodeId, String userId);
 
 
     /**
@@ -37,7 +37,7 @@ public interface ILoginQrcodeService {
      * @return
      */
 
-    public ResponseResult getLoginQrcodeStatus(String qrcodeId);
+    public ServerResponseEntity getLoginQrcodeStatus(String qrcodeId);
 
 
 }

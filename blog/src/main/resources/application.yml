@@ -96,13 +96,13 @@ spring:
   redis:
     #spring boot初始化redisTemplate需要用到nodes这个字段，初始化RedisSentineManager需要用到host这个字段
     sentinel:
-      master: mymaster
-      nodes: 124.223.191.89:26379,8.142.46.67:26379,114.55.119.114:26379
-      host: 124.223.191.89:26379,8.142.46.67:26379,114.55.119.114:26379
+      master: myredis
+      nodes: 43.138.219.118:26379,8.142.46.67:26379,114.55.119.114:26379
+      host: 43.138.219.118:26379,8.142.46.67:26379,114.55.119.114:26379
       password: hz15858
 
     #cluster:
-    #  nodes: 124.223.191.89:6379,8.142.46.67:6379,114.55.119.114:6379
+    #  nodes: 43.138.219.118:6379,8.142.46.67:6379,114.55.119.114:6379
     #  max-redirects: 3
     #    cluster:
 #      nodes:
@@ -139,6 +139,7 @@ spring:
     default-encoding: UTF-8
     password: kuwvhzyxkknujigi
     username: 1102211390@qq.com
+    toemail : hz15858@163.com
     port: 587
     properties:
       mail:
@@ -263,16 +264,16 @@ mongodb:
 #img.server.url = http://localhost:80
 #qrcode.store.root.path=F:\\qrcode
 
-mqtt:
-  host: tcp://114.55.119.114:1883
-  #clientId: client_${random.value}
-  clientId: client_test1
-  topic: topic/test1
-  qoslevel: 1
-  username: mosquitto
-  password: mosquitto
-  timeout: 10000
-  keepalive: 20
+#mqtt:
+#  host: tcp://114.55.119.114:1883
+#  #clientId: client_${random.value}
+#  clientId: client_test1
+#  topic: topic/test1
+#  qoslevel: 1
+#  username: mosquitto
+#  password: mosquitto
+#  timeout: 10000
+#  keepalive: 20
 
 
 swagger:
